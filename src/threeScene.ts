@@ -5,6 +5,7 @@ import {
   AssetManager,
   ModelPlacer,
   buildingsCollection,
+  massResidentialCollection,
   type SkyboxOptions,
 } from "./models/index.js";
 
@@ -79,20 +80,40 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   scene.add(pointLight);
 
   try {
-    // Place all models from the optimized collection
+    // Test both regular and instanced collections
+    console.log("=== Testing Regular Models ===");
     const placedModels = await modelPlacer.placeModelCollection(
       buildingsCollection,
       scene
     );
-    console.log(`Successfully placed ${placedModels.length} models`);
+    console.log(`Successfully placed ${placedModels.length} regular models`);
 
-    // Log model stats
-    const stats = modelPlacer.getModelStats();
-    console.log("Model placement stats:", stats);
+    console.log("=== Testing Instanced Models ===");
+    const instancedModels = await modelPlacer.placeInstancedCollection(
+      massResidentialCollection,
+      scene
+    );
+    console.log(
+      `Successfully created ${instancedModels.length} instanced model groups`
+    );
 
-    // Log asset manager cache stats
+    // Log comprehensive stats
+    const regularStats = modelPlacer.getModelStats();
+    const instanceStats = modelPlacer.getInstanceStats();
     const cacheStats = assetManager.getCacheStats();
-    console.log("Asset cache stats:", cacheStats);
+
+    console.log("=== Performance Comparison ===");
+    console.log("Regular models:", regularStats);
+    console.log("Instanced models:", instanceStats);
+    console.log("Asset cache:", cacheStats);
+    console.log(
+      `Total objects in scene: ${
+        regularStats.totalModels + instanceStats.totalInstances
+      }`
+    );
+    console.log(
+      `Memory efficiency: ${instanceStats.totalGroups} draw calls for ${instanceStats.totalInstances} instances`
+    );
   } catch (error) {
     console.error("Failed to load models:", error);
     // Fallback to basic geometry

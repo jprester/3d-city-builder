@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { AssetManager } from "./AssetManager.js";
 import { ModelDefinitionRegistry, ModelType } from "./definitions/ModelDefinitions.js";
+import { InstancedModelPlacer, InstancedCollection, type PlacedInstancedModel } from "./InstancedModelPlacer.js";
 
 export interface ModelPosition {
   x: number;
@@ -56,9 +57,11 @@ export interface PlacedModel {
 export class ModelPlacer {
   private assetManager: AssetManager;
   private placedModels: Map<string, PlacedModel> = new Map();
+  private instancedPlacer: InstancedModelPlacer;
 
   constructor(assetManager: AssetManager) {
     this.assetManager = assetManager;
+    this.instancedPlacer = new InstancedModelPlacer(assetManager);
   }
 
   async placeModelInstance(instance: ModelInstance, scene: THREE.Scene): Promise<PlacedModel> {
@@ -312,7 +315,43 @@ export class ModelPlacer {
     };
   }
 
+  // Instanced model methods
+  async placeInstancedCollection(collection: InstancedCollection, scene: THREE.Scene): Promise<PlacedInstancedModel[]> {
+    return this.instancedPlacer.placeInstancedCollection(collection, scene);
+  }
+
+  getInstancedModel(modelType: string): PlacedInstancedModel | undefined {
+    return this.instancedPlacer.getInstancedModel(modelType);
+  }
+
+  getAllInstancedModels(): PlacedInstancedModel[] {
+    return this.instancedPlacer.getAllInstancedModels();
+  }
+
+  getInstanceStats(): {
+    totalGroups: number;
+    totalInstances: number;
+    groupsByType: Record<string, number>;
+  } {
+    return this.instancedPlacer.getInstanceStats();
+  }
+
+  updateInstance(
+    modelType: string,
+    instanceIndex: number,
+    position?: THREE.Vector3,
+    rotation?: THREE.Euler,
+    scale?: THREE.Vector3
+  ): boolean {
+    return this.instancedPlacer.updateInstance(modelType, instanceIndex, position, rotation, scale);
+  }
+
+  removeInstancedModel(modelType: string, scene: THREE.Scene): boolean {
+    return this.instancedPlacer.removeInstancedModel(modelType, scene);
+  }
+
   dispose(): void {
     this.placedModels.clear();
+    this.instancedPlacer.dispose();
   }
 }
