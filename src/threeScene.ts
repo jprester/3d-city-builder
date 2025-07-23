@@ -1,7 +1,12 @@
 import * as THREE from "three";
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { AssetManager } from "./AssetManager.js";
+import {
+  AssetManager,
+  ModelPlacer,
+  buildingsCollection,
+  type SkyboxOptions,
+} from "./models/index.js";
 
 export function logMemoryUsage(renderer: THREE.WebGLRenderer) {
   const info = renderer.info;
@@ -33,38 +38,61 @@ export const initThreeScene = async (container: HTMLDivElement) => {
 
   const controls = new OrbitControls(camera, renderer.domElement);
 
-  // Add lighting for proper material rendering
-  const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+  // Initialize AssetManager and ModelPlacer
+  const assetManager = new AssetManager();
+  const modelPlacer = new ModelPlacer(assetManager);
+
+  // Add skybox first with darker settings
+  try {
+    const skyboxOptions: SkyboxOptions = {
+      darkness: 0.4, // Darken to 40% of original brightness
+      opacity: 0.3, // Set opacity to 30%
+      transparent: true, // Enable transparency blending
+    };
+
+    const skybox = await assetManager.createSkybox(
+      "/assets/sky_night.jpg",
+      skyboxOptions
+    );
+    scene.add(skybox);
+    console.log("Darkened night sky added to scene");
+  } catch (error) {
+    console.warn(
+      "Failed to load sky texture, using default background:",
+      error
+    );
+    scene.background = new THREE.Color(0x000814); // Dark blue fallback
+  }
+
+  // Add lighting for proper material rendering (adjusted for night scene)
+  const ambientLight = new THREE.AmbientLight(0x304080, 0.1); // Cooler, dimmer ambient
   scene.add(ambientLight);
 
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(5, 5, 5);
-  scene.add(directionalLight);
+  const directionalLight = new THREE.DirectionalLight(0x8080ff, 0.1); // Moon-like light
+  directionalLight.position.set(10, 20, 10);
+  directionalLight.castShadow = true;
+  // scene.add(directionalLight);
 
-  // Initialize AssetManager and load a test model
-  const assetManager = new AssetManager();
+  // Add some warm artificial lighting
+  const pointLight = new THREE.PointLight(0xffaa44, 0.8, 10);
+  pointLight.position.set(0, 8, 0);
+  scene.add(pointLight);
 
   try {
-    // Load the existing GLB model
-    const glbModel = await assetManager.loadModel(
-      "/assets/models/high-rise-building.glb"
+    // Place all models from the optimized collection
+    const placedModels = await modelPlacer.placeModelCollection(
+      buildingsCollection,
+      scene
     );
-    glbModel.model.position.set(50, 0, 0);
-    scene.add(glbModel.model);
+    console.log(`Successfully placed ${placedModels.length} models`);
 
-    // Load OBJ model with textures
-    const objModel = await assetManager.loadModel(
-      "/assets/models/s_01_01.obj",
-      {
-        base: "/assets/textures/building_01.jpg",
-        specular: "/assets/textures/building_01_spec.jpg",
-        roughness: "/assets/textures/building_01_rough.jpg",
-        emissive: "/assets/textures/building_01_em.jpg",
-      }
-    );
-    objModel.model.position.set(2, 0, 0);
-    objModel.model.scale.set(0.5, 0.5, 0.5);
-    scene.add(objModel.model);
+    // Log model stats
+    const stats = modelPlacer.getModelStats();
+    console.log("Model placement stats:", stats);
+
+    // Log asset manager cache stats
+    const cacheStats = assetManager.getCacheStats();
+    console.log("Asset cache stats:", cacheStats);
   } catch (error) {
     console.error("Failed to load models:", error);
     // Fallback to basic geometry
@@ -87,11 +115,13 @@ export const initThreeScene = async (container: HTMLDivElement) => {
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
+      modelPlacer.dispose();
       assetManager.dispose();
       renderer.dispose();
       controls.dispose();
     },
     renderer,
     assetManager,
+    modelPlacer,
   };
 };
