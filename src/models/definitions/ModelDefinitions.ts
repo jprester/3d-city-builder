@@ -33,6 +33,22 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     category: "commercial",
     description: "A tall commercial high-rise building",
   },
+  SKYSCRAPER_01: {
+    id: "SKYSCRAPER_01",
+    name: "Skyscraper",
+    filePath: "/assets/models/skyscraper_new.glb",
+    defaultScale: { x: 2.3, y: 2.3, z: 2.3 },
+    category: "commercial",
+    description: "A tall commercial skyscraper",
+  },
+  SKYSCRAPER_02: {
+    id: "SKYSCRAPER_02",
+    name: "Skyscraper",
+    filePath: "/assets/models/skyscraper_dark.glb",
+    defaultScale: { x: 1.8, y: 1.8, z: 1.8 },
+    category: "commercial",
+    description: "A tall commercial skyscraper",
+  },
 
   // Residential Series 1 (Small Houses)
   RESIDENTIAL_01_A: {
@@ -394,6 +410,8 @@ export class ModelDefinitionRegistry {
 export const MODEL_TYPES = {
   GLASS_CUBE: "GLASS_CUBE" as const,
   HIGH_RISE: "HIGH_RISE" as const,
+  SKYSCRAPER_01: "SKYSCRAPER_01" as const,
+  SKYSCRAPER_02: "SKYSCRAPER_02" as const,
 
   // Residential buildings
   RESIDENTIAL_01_A: "RESIDENTIAL_01_A" as const,

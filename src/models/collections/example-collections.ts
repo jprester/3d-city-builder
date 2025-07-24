@@ -62,8 +62,8 @@ export const buildingsCollection: ModelCollection = {
       // rotation: { x: 0, y: Math.PI / 6, z: 0 },
     },
     {
-      instanceId: "residential-1",
-      modelType: MODEL_TYPES.RESIDENTIAL_02_A,
+      instanceId: "skyscraper-1",
+      modelType: MODEL_TYPES.SKYSCRAPER_01,
       position: { x: 240, y: 0, z: 50 },
       // Uses default scale from definition
     },
