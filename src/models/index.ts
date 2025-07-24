@@ -29,6 +29,21 @@ export {
   allInstancedCollections
 } from "./collections/instanced-collections.js";
 export {
+  downtownFinancialDistrict,
+  corporateOfficeDistrict,
+  mixedUseUrbanDistrict,
+  residentialNeighborhoods,
+  industrialZone,
+  waterfrontDistrict,
+  entertainmentDistrict,
+  completeCityDesign,
+  allCityDistricts
+} from "./collections/city-design.js";
+export {
+  compactCityBlocks,
+  compactCityCollections
+} from "./collections/compact-city.js";
+export {
   type ModelPosition,
   type ModelScale,
   type ModelRotation,

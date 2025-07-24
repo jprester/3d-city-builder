@@ -5,24 +5,60 @@ import { MODEL_TYPES } from "../definitions/ModelDefinitions.js";
 export const buildingsCollection: ModelCollection = {
   name: "city-buildings",
   models: [
-    {
-      instanceId: "tower-1",
-      modelType: MODEL_TYPES.HIGH_RISE,
-      position: { x: -80, y: 0, z: -2 },
-      scale: { x: 1.2, y: 2, z: 1.2 },
-    },
+    // First row of residential buildings
     {
       instanceId: "residential-1",
-      modelType: MODEL_TYPES.RESIDENTIAL_01,
-      position: { x: 2, y: 0, z: 1 },
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
+      position: { x: 0, y: 0, z: 1 },
       // Uses default scale from definition
     },
     {
       instanceId: "residential-2",
-      modelType: MODEL_TYPES.RESIDENTIAL_02,
-      position: { x: 100, y: 0, z: 3 },
+      modelType: MODEL_TYPES.RESIDENTIAL_01_B,
+      position: { x: 60, y: 0, z: 3 },
       scale: { x: 0.8, y: 0.9, z: 0.8 },
-      rotation: { x: 0, y: Math.PI / 6, z: 0 },
+      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
+    },
+    {
+      instanceId: "residential-3",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_C,
+      position: { x: 120, y: 0, z: 3 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
+    },
+    {
+      instanceId: "residential-2",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_C,
+      position: { x: 180, y: 0, z: 3 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
+    },
+    // Second row of residential buildings --------------------------
+    {
+      instanceId: "residential-4",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_B,
+      position: { x: 0, y: 0, z: 80 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
+    },
+    {
+      instanceId: "residential-1",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
+      position: { x: 60, y: 0, z: 80 },
+      // Uses default scale from definition
+    },
+    {
+      instanceId: "residential-5",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_C,
+      position: { x: 120, y: 0, z: 80 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
+    },
+    {
+      instanceId: "residential-1",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_A,
+      position: { x: 180, y: 0, z: 80 },
+      // Uses default scale from definition
     },
   ],
 };
@@ -59,24 +95,24 @@ export const residentialCollection: ModelCollection = {
   models: [
     {
       instanceId: "house-1",
-      modelType: MODEL_TYPES.RESIDENTIAL_01,
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
       position: { x: -8, y: 0, z: -8 },
     },
     {
       instanceId: "house-2",
-      modelType: MODEL_TYPES.RESIDENTIAL_02,
+      modelType: MODEL_TYPES.RESIDENTIAL_01_B,
       position: { x: -5, y: 0, z: -8 },
       rotation: { x: 0, y: Math.PI / 2, z: 0 },
     },
     {
       instanceId: "house-3",
-      modelType: MODEL_TYPES.RESIDENTIAL_01,
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
       position: { x: -8, y: 0, z: -5 },
       scale: { x: 1.1, y: 1.1, z: 1.1 },
     },
     {
       instanceId: "house-4",
-      modelType: MODEL_TYPES.RESIDENTIAL_02,
+      modelType: MODEL_TYPES.RESIDENTIAL_01_B,
       position: { x: -5, y: 0, z: -5 },
       rotation: { x: 0, y: Math.PI, z: 0 },
     },
@@ -93,8 +129,8 @@ export const gridLayoutCollection: ModelCollection = {
     // Cycle through different building types
     const modelTypes = [
       MODEL_TYPES.GLASS_CUBE,
-      MODEL_TYPES.RESIDENTIAL_01,
-      MODEL_TYPES.RESIDENTIAL_02,
+      MODEL_TYPES.RESIDENTIAL_01_A,
+      MODEL_TYPES.RESIDENTIAL_01_B,
       MODEL_TYPES.HIGH_RISE,
     ];
     const modelType = modelTypes[i % modelTypes.length];

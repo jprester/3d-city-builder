@@ -15,9 +15,9 @@ export interface LoadedModel {
 }
 
 export interface SkyboxOptions {
-  opacity?: number;        // 0.0 to 1.0, controls transparency
-  darkness?: number;       // 0.0 to 1.0, multiplies color to darken (0 = black, 1 = original)
-  transparent?: boolean;   // Enable transparency blending
+  opacity?: number; // 0.0 to 1.0, controls transparency
+  darkness?: number; // 0.0 to 1.0, multiplies color to darken (0 = black, 1 = original)
+  transparent?: boolean; // Enable transparency blending
 }
 
 export class AssetManager {
@@ -178,21 +178,46 @@ export class AssetManager {
 
             object.traverse((child) => {
               if (child instanceof THREE.Mesh) {
-                const material = new THREE.MeshStandardMaterial();
+                const material = new THREE.MeshPhongMaterial();
 
                 if (loadedTextures.base) {
                   material.map = loadedTextures.base;
+                  material.map.wrapS = THREE.RepeatWrapping;
+                  material.map.wrapT = THREE.RepeatWrapping;
+                  material.map.anisotropy = 8; // Improve texture quality
                 }
+
                 if (loadedTextures.specular) {
-                  material.metalnessMap = loadedTextures.specular;
+                  material.specular = new THREE.Color(0xffffff); // Default specular color
+                  material.specularMap = loadedTextures.specular;
+                  material.specularMap.wrapS = THREE.RepeatWrapping;
+                  material.specularMap.wrapT = THREE.RepeatWrapping;
+                  material.specularMap.anisotropy = 8; // Improve texture quality
                 }
-                if (loadedTextures.roughness) {
+
+                if (
+                  loadedTextures.roughness &&
+                  material instanceof THREE.MeshStandardMaterial
+                ) {
                   material.roughnessMap = loadedTextures.roughness;
+                  material.roughnessMap.wrapS = THREE.RepeatWrapping;
+                  material.roughnessMap.wrapT = THREE.RepeatWrapping;
+                  material.roughnessMap.anisotropy = 8; // Improve texture quality
                 }
+
                 if (loadedTextures.emissive) {
+                  material.emissive = new THREE.Color(
+                    "hsl(" + Math.random() * 360 + ", 100%, 95%)"
+                  );
                   material.emissiveMap = loadedTextures.emissive;
-                  material.emissive = new THREE.Color(0x404040);
+                  material.emissiveMap.wrapS = THREE.RepeatWrapping;
+                  material.emissiveMap.wrapT = THREE.RepeatWrapping;
+                  material.emissiveMap.anisotropy = 8; // Improve texture quality
+                  material.emissiveIntensity = 1.5; // Adjust as needed
                 }
+
+                material.bumpMap = loadedTextures.base ?? null; // Use base texture as bump map
+                material.bumpScale = 5; // Adjust bump scale as needed
 
                 material.needsUpdate = true;
                 child.material = material;
@@ -331,7 +356,10 @@ export class AssetManager {
     return texture;
   }
 
-  async createSkybox(skyTexturePath: string, options: SkyboxOptions = {}): Promise<THREE.Mesh> {
+  async createSkybox(
+    skyTexturePath: string,
+    options: SkyboxOptions = {}
+  ): Promise<THREE.Mesh> {
     try {
       const skyTexture = await this.loadSkyTexture(skyTexturePath);
 
@@ -341,20 +369,22 @@ export class AssetManager {
         skyTexture.offset.set(0, 0);
         skyTexture.repeat.set(1, 1);
         // Create a darker version by modifying the texture's color
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
         if (ctx && skyTexture.image) {
           canvas.width = skyTexture.image.width || 512;
           canvas.height = skyTexture.image.height || 512;
-          
+
           // Draw the original image
           ctx.drawImage(skyTexture.image, 0, 0);
-          
+
           // Apply darkness overlay
-          ctx.globalCompositeOperation = 'multiply';
-          ctx.fillStyle = `rgb(${Math.floor(darkenValue * 255)}, ${Math.floor(darkenValue * 255)}, ${Math.floor(darkenValue * 255)})`;
+          ctx.globalCompositeOperation = "multiply";
+          ctx.fillStyle = `rgb(${Math.floor(darkenValue * 255)}, ${Math.floor(
+            darkenValue * 255
+          )}, ${Math.floor(darkenValue * 255)})`;
           ctx.fillRect(0, 0, canvas.width, canvas.height);
-          
+
           // Update texture with darkened image
           const newTexture = new THREE.CanvasTexture(canvas);
           newTexture.mapping = skyTexture.mapping;

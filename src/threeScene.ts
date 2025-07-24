@@ -5,7 +5,6 @@ import {
   AssetManager,
   ModelPlacer,
   buildingsCollection,
-  massResidentialCollection,
   type SkyboxOptions,
 } from "./models/index.js";
 
@@ -66,13 +65,13 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   }
 
   // Add lighting for proper material rendering (adjusted for night scene)
-  const ambientLight = new THREE.AmbientLight(0x304080, 0.1); // Cooler, dimmer ambient
+  const ambientLight = new THREE.AmbientLight(0x304080, 0.2); // Cooler, dimmer ambient
   scene.add(ambientLight);
 
-  const directionalLight = new THREE.DirectionalLight(0x8080ff, 0.1); // Moon-like light
+  const directionalLight = new THREE.DirectionalLight(0x8080ff, 0.2); // Moon-like light
   directionalLight.position.set(10, 20, 10);
   directionalLight.castShadow = true;
-  // scene.add(directionalLight);
+  scene.add(directionalLight);
 
   // Add some warm artificial lighting
   const pointLight = new THREE.PointLight(0xffaa44, 0.8, 10);
@@ -88,14 +87,14 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     );
     console.log(`Successfully placed ${placedModels.length} regular models`);
 
-    console.log("=== Testing Instanced Models ===");
-    const instancedModels = await modelPlacer.placeInstancedCollection(
-      massResidentialCollection,
-      scene
-    );
-    console.log(
-      `Successfully created ${instancedModels.length} instanced model groups`
-    );
+    // console.log("=== Testing Instanced Models ===");
+    // const instancedModels = await modelPlacer.placeInstancedCollection(
+    //   massResidentialCollection,
+    //   scene
+    // );
+    // console.log(
+    //   `Successfully created ${instancedModels.length} instanced model groups`
+    // );
 
     // Log comprehensive stats
     const regularStats = modelPlacer.getModelStats();

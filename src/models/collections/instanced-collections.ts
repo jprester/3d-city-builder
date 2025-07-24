@@ -10,9 +10,9 @@ export const massResidentialCollection: InstancedCollection = {
   name: "mass-residential",
   groups: [
     {
-      modelType: MODEL_TYPES.RESIDENTIAL_01,
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
       instances: InstancedModelPlacer.createInstancesFromPositions(
-        MODEL_TYPES.RESIDENTIAL_01,
+        MODEL_TYPES.RESIDENTIAL_01_A,
         // Create a 10x10 grid of houses
         Array.from({ length: 100 }, (_, i) => ({
           x: (i % 10) * 8 - 36, // 10 columns, spaced 8 units apart
@@ -27,9 +27,9 @@ export const massResidentialCollection: InstancedCollection = {
       maxInstances: 100,
     },
     {
-      modelType: MODEL_TYPES.RESIDENTIAL_02,
+      modelType: MODEL_TYPES.RESIDENTIAL_01_B,
       instances: InstancedModelPlacer.createInstancesFromPositions(
-        MODEL_TYPES.RESIDENTIAL_02,
+        MODEL_TYPES.RESIDENTIAL_01_B,
         // Create another 8x8 grid with different positioning
         Array.from({ length: 64 }, (_, i) => ({
           x: (i % 8) * 100 + 50, // 8 columns, offset to the right
@@ -92,9 +92,9 @@ export const megaCityCollection: InstancedCollection = {
   name: "mega-city",
   groups: [
     {
-      modelType: MODEL_TYPES.RESIDENTIAL_01,
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
       instances: InstancedModelPlacer.createInstancesFromPositions(
-        MODEL_TYPES.RESIDENTIAL_01,
+        MODEL_TYPES.RESIDENTIAL_01_A,
         // Suburban area - 20x20 grid
         Array.from({ length: 400 }, (_, i) => ({
           x: (i % 20) * 6 - 57, // 20 columns
@@ -109,9 +109,9 @@ export const megaCityCollection: InstancedCollection = {
       maxInstances: 500, // Allow for growth
     },
     {
-      modelType: MODEL_TYPES.RESIDENTIAL_02,
+      modelType: MODEL_TYPES.RESIDENTIAL_01_B,
       instances: InstancedModelPlacer.createInstancesFromPositions(
-        MODEL_TYPES.RESIDENTIAL_02,
+        MODEL_TYPES.RESIDENTIAL_01_B,
         // Mid-density housing - 15x15 grid
         Array.from({ length: 225 }, (_, i) => ({
           x: (i % 15) * 8 + 80, // Offset to different area

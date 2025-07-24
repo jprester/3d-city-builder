@@ -22,47 +22,326 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     filePath: "/assets/models/glassyCube.glb",
     defaultScale: { x: 1, y: 1, z: 1 },
     category: "modern",
-    description: "A modern glass cube building"
+    description: "A modern glass cube building",
   },
-  
+
   HIGH_RISE: {
     id: "HIGH_RISE",
     name: "High Rise Building",
     filePath: "/assets/models/high-rise-building.glb",
     defaultScale: { x: 1, y: 1, z: 1 },
     category: "commercial",
-    description: "A tall commercial high-rise building"
+    description: "A tall commercial high-rise building",
   },
 
-  RESIDENTIAL_01: {
-    id: "RESIDENTIAL_01",
-    name: "Residential Building Type 1",
+  // Residential Series 1 (Small Houses)
+  RESIDENTIAL_01_A: {
+    id: "RESIDENTIAL_01_A",
+    name: "Small House Type A",
     filePath: "/assets/models/s_01_01.obj",
     textures: {
       base: "/assets/textures/building_01.jpg",
       specular: "/assets/textures/building_01_spec.jpg",
       roughness: "/assets/textures/building_01_rough.jpg",
-      emissive: "/assets/textures/building_01_em.jpg"
+      emissive: "/assets/textures/building_01_em.jpg",
     },
     defaultScale: { x: 0.8, y: 0.8, z: 0.8 },
     category: "residential",
-    description: "A residential building with detailed textures"
+    description: "Small residential house with warm textures",
   },
 
-  RESIDENTIAL_02: {
-    id: "RESIDENTIAL_02",
-    name: "Residential Building Type 2",
+  RESIDENTIAL_01_B: {
+    id: "RESIDENTIAL_01_B",
+    name: "Small House Type B",
     filePath: "/assets/models/s_01_02.obj",
     textures: {
-      base: "/assets/textures/building_02.jpg",
-      specular: "/assets/textures/building_02_spec.jpg",
-      roughness: "/assets/textures/building_02_rough.jpg",
-      emissive: "/assets/textures/building_02_em.jpg"
+      base: "/assets/textures/building_01.jpg",
+      specular: "/assets/textures/building_01_spec.jpg",
+      roughness: "/assets/textures/building_01_rough.jpg",
+      emissive: "/assets/textures/building_01_em.jpg",
     },
-    defaultScale: { x: 0.6, y: 0.6, z: 0.6 },
+    defaultScale: { x: 0.8, y: 0.8, z: 0.8 },
     category: "residential",
-    description: "Another residential building variant with different textures"
-  }
+    description: "Small residential house variant",
+  },
+
+  RESIDENTIAL_01_C: {
+    id: "RESIDENTIAL_01_C",
+    name: "Small House Type C",
+    filePath: "/assets/models/s_01_03.obj",
+    textures: {
+      base: "/assets/textures/building_01.jpg",
+      specular: "/assets/textures/building_01_spec.jpg",
+      roughness: "/assets/textures/building_01_rough.jpg",
+      emissive: "/assets/textures/building_01_em.jpg",
+    },
+    defaultScale: { x: 0.8, y: 0.8, z: 0.8 },
+    category: "residential",
+    description: "Small residential house variant",
+  },
+
+  // Residential Series 2 (Mid-size Buildings)
+  RESIDENTIAL_02_A: {
+    id: "RESIDENTIAL_02_A",
+    name: "Mid-size Residential A",
+    filePath: "/assets/models/s_02_01.obj",
+    textures: {
+      base: "/assets/textures/building_03.jpg",
+      specular: "/assets/textures/building_03_spec.jpg",
+      roughness: "/assets/textures/building_03_rough.jpg",
+      emissive: "/assets/textures/building_03_em.jpg",
+    },
+    defaultScale: { x: 1.0, y: 1.0, z: 1.0 },
+    category: "residential",
+    description: "Mid-size residential building",
+  },
+
+  RESIDENTIAL_02_B: {
+    id: "RESIDENTIAL_02_B",
+    name: "Mid-size Residential B",
+    filePath: "/assets/models/s_02_02.obj",
+    textures: {
+      base: "/assets/textures/building_04.jpg",
+      specular: "/assets/textures/building_04_spec.jpg",
+      roughness: "/assets/textures/building_04_rough.jpg",
+      emissive: "/assets/textures/building_04_em.jpg",
+    },
+    defaultScale: { x: 1.0, y: 1.0, z: 1.0 },
+    category: "residential",
+    description: "Mid-size residential building variant",
+  },
+
+  RESIDENTIAL_02_C: {
+    id: "RESIDENTIAL_02_C",
+    name: "Mid-size Residential C",
+    filePath: "/assets/models/s_02_03.obj",
+    textures: {
+      base: "/assets/textures/building_05.jpg",
+      specular: "/assets/textures/building_05_spec.jpg",
+      roughness: "/assets/textures/building_05_rough.jpg",
+      emissive: "/assets/textures/building_05_em.jpg",
+    },
+    defaultScale: { x: 1.0, y: 1.0, z: 1.0 },
+    category: "residential",
+    description: "Mid-size residential building third variant",
+  },
+
+  // Commercial Series 3 (Office Buildings)
+  COMMERCIAL_03_A: {
+    id: "COMMERCIAL_03_A",
+    name: "Office Building A",
+    filePath: "/assets/models/s_03_01.obj",
+    textures: {
+      base: "/assets/textures/building_06.jpg",
+      specular: "/assets/textures/building_06_spec.jpg",
+      roughness: "/assets/textures/building_06_rough.jpg",
+      emissive: "/assets/textures/building_06_em.jpg",
+    },
+    defaultScale: { x: 1.2, y: 1.2, z: 1.2 },
+    category: "commercial",
+    description: "Commercial office building",
+  },
+
+  COMMERCIAL_03_B: {
+    id: "COMMERCIAL_03_B",
+    name: "Office Building B",
+    filePath: "/assets/models/s_03_02.obj",
+    textures: {
+      base: "/assets/textures/building_07.jpg",
+      specular: "/assets/textures/building_07_spec.jpg",
+      roughness: "/assets/textures/building_07_rough.jpg",
+      emissive: "/assets/textures/building_07_em.jpg",
+    },
+    defaultScale: { x: 1.2, y: 1.2, z: 1.2 },
+    category: "commercial",
+    description: "Commercial office building variant",
+  },
+
+  COMMERCIAL_03_C: {
+    id: "COMMERCIAL_03_C",
+    name: "Office Building C",
+    filePath: "/assets/models/s_03_03.obj",
+    textures: {
+      base: "/assets/textures/building_08.jpg",
+      specular: "/assets/textures/building_08_spec.jpg",
+      roughness: "/assets/textures/building_08_rough.jpg",
+      emissive: "/assets/textures/building_08_em.jpg",
+    },
+    defaultScale: { x: 1.2, y: 1.2, z: 1.2 },
+    category: "commercial",
+    description: "Commercial office building third variant",
+  },
+
+  // Industrial Series 4 (Large Buildings)
+  INDUSTRIAL_04_A: {
+    id: "INDUSTRIAL_04_A",
+    name: "Industrial Building A",
+    filePath: "/assets/models/s_04_01.obj",
+    textures: {
+      base: "/assets/textures/building_09.jpg",
+      specular: "/assets/textures/building_09_spec.jpg",
+      roughness: "/assets/textures/building_09_rough.jpg",
+      emissive: "/assets/textures/building_09_em.jpg",
+    },
+    defaultScale: { x: 1.5, y: 1.5, z: 1.5 },
+    category: "industrial",
+    description: "Large industrial building",
+  },
+
+  INDUSTRIAL_04_B: {
+    id: "INDUSTRIAL_04_B",
+    name: "Industrial Building B",
+    filePath: "/assets/models/s_04_02.obj",
+    textures: {
+      base: "/assets/textures/building_10.jpg",
+      specular: "/assets/textures/building_10_spec.jpg",
+      roughness: "/assets/textures/building_10_rough.jpg",
+      emissive: "/assets/textures/building_10_em.jpg",
+    },
+    defaultScale: { x: 1.5, y: 1.5, z: 1.5 },
+    category: "industrial",
+    description: "Large industrial building variant",
+  },
+
+  INDUSTRIAL_04_C: {
+    id: "INDUSTRIAL_04_C",
+    name: "Industrial Building C",
+    filePath: "/assets/models/s_04_03.obj",
+    textures: {
+      base: "/assets/textures/building.jpg", // Fallback texture
+      specular: "/assets/textures/building_01_spec.jpg",
+      roughness: "/assets/textures/building_01_rough.jpg",
+      emissive: "/assets/textures/building_01_em.jpg",
+    },
+    defaultScale: { x: 1.5, y: 1.5, z: 1.5 },
+    category: "industrial",
+    description: "Large industrial building third variant",
+  },
+
+  // Mixed-use Series 5 (Modern Buildings)
+  MIXED_USE_05_A: {
+    id: "MIXED_USE_05_A",
+    name: "Modern Mixed-use A",
+    filePath: "/assets/models/s_05_01.obj",
+    textures: {
+      base: "/assets/textures/building_03.jpg",
+      specular: "/assets/textures/building_03_spec.jpg",
+      roughness: "/assets/textures/building_03_rough.jpg",
+      emissive: "/assets/textures/building_03_em.jpg",
+    },
+    defaultScale: { x: 1.3, y: 1.3, z: 1.3 },
+    category: "mixed-use",
+    description: "Modern mixed-use building",
+  },
+
+  MIXED_USE_05_B: {
+    id: "MIXED_USE_05_B",
+    name: "Modern Mixed-use B",
+    filePath: "/assets/models/s_05_02.obj",
+    textures: {
+      base: "/assets/textures/building_05.jpg",
+      specular: "/assets/textures/building_05_spec.jpg",
+      roughness: "/assets/textures/building_05_rough.jpg",
+      emissive: "/assets/textures/building_05_em.jpg",
+    },
+    defaultScale: { x: 1.3, y: 1.3, z: 1.3 },
+    category: "mixed-use",
+    description: "Modern mixed-use building variant",
+  },
+
+  MIXED_USE_05_C: {
+    id: "MIXED_USE_05_C",
+    name: "Modern Mixed-use C",
+    filePath: "/assets/models/s_05_03.obj",
+    textures: {
+      base: "/assets/textures/building_07.jpg",
+      specular: "/assets/textures/building_07_spec.jpg",
+      roughness: "/assets/textures/building_07_rough.jpg",
+      emissive: "/assets/textures/building_07_em.jpg",
+    },
+    defaultScale: { x: 1.3, y: 1.3, z: 1.3 },
+    category: "mixed-use",
+    description: "Modern mixed-use building third variant",
+  },
+
+  // Mega Buildings (Skyscrapers)
+  MEGA_TOWER_01: {
+    id: "MEGA_TOWER_01",
+    name: "Mega Tower 1",
+    filePath: "/assets/models/mega_01.obj",
+    textures: {
+      base: "/assets/textures/mega_building_01.jpg",
+      emissive: "/assets/textures/mega_building_01_em.jpg",
+    },
+    defaultScale: { x: 2.0, y: 2.0, z: 2.0 },
+    category: "skyscraper",
+    description: "Massive skyscraper tower",
+  },
+
+  MEGA_TOWER_02: {
+    id: "MEGA_TOWER_02",
+    name: "Mega Tower 2",
+    filePath: "/assets/models/mega_02.obj",
+    textures: {
+      base: "/assets/textures/mega_building_01.jpg",
+      emissive: "/assets/textures/mega_building_01_em.jpg",
+    },
+    defaultScale: { x: 2.0, y: 2.0, z: 2.0 },
+    category: "skyscraper",
+    description: "Massive skyscraper tower variant",
+  },
+
+  MEGA_TOWER_03: {
+    id: "MEGA_TOWER_03",
+    name: "Mega Tower 3",
+    filePath: "/assets/models/mega_03.obj",
+    textures: {
+      base: "/assets/textures/mega_building_01.jpg",
+      emissive: "/assets/textures/mega_building_01_em.jpg",
+    },
+    defaultScale: { x: 2.0, y: 2.0, z: 2.0 },
+    category: "skyscraper",
+    description: "Massive skyscraper tower third variant",
+  },
+
+  MEGA_TOWER_04: {
+    id: "MEGA_TOWER_04",
+    name: "Mega Tower 4",
+    filePath: "/assets/models/mega_04.obj",
+    textures: {
+      base: "/assets/textures/mega_building_01.jpg",
+      emissive: "/assets/textures/mega_building_01_em.jpg",
+    },
+    defaultScale: { x: 2.0, y: 2.0, z: 2.0 },
+    category: "skyscraper",
+    description: "Massive skyscraper tower fourth variant",
+  },
+
+  MEGA_TOWER_05: {
+    id: "MEGA_TOWER_05",
+    name: "Mega Tower 5",
+    filePath: "/assets/models/mega_05.obj",
+    textures: {
+      base: "/assets/textures/mega_building_01.jpg",
+      emissive: "/assets/textures/mega_building_01_em.jpg",
+    },
+    defaultScale: { x: 2.0, y: 2.0, z: 2.0 },
+    category: "skyscraper",
+    description: "Massive skyscraper tower fifth variant",
+  },
+
+  MEGA_TOWER_06: {
+    id: "MEGA_TOWER_06",
+    name: "Mega Tower 6",
+    filePath: "/assets/models/mega_06.obj",
+    textures: {
+      base: "/assets/textures/mega_building_01.jpg",
+      emissive: "/assets/textures/mega_building_01_em.jpg",
+    },
+    defaultScale: { x: 2.0, y: 2.0, z: 2.0 },
+    category: "skyscraper",
+    description: "Massive skyscraper tower sixth variant",
+  },
 };
 
 // Helper functions for working with model definitions
@@ -78,7 +357,9 @@ export class ModelDefinitionRegistry {
   }
 
   static getDefinitionsByCategory(category: string): ModelDefinition[] {
-    return Object.values(this.definitions).filter(def => def.category === category);
+    return Object.values(this.definitions).filter(
+      (def) => def.category === category
+    );
   }
 
   static addDefinition(definition: ModelDefinition): void {
@@ -95,12 +376,12 @@ export class ModelDefinitionRegistry {
       console.error(`Model definition not found: ${modelType}`);
       return false;
     }
-    
+
     if (!definition.filePath) {
       console.error(`Model definition missing filePath: ${modelType}`);
       return false;
     }
-    
+
     return true;
   }
 
@@ -113,8 +394,37 @@ export class ModelDefinitionRegistry {
 export const MODEL_TYPES = {
   GLASS_CUBE: "GLASS_CUBE" as const,
   HIGH_RISE: "HIGH_RISE" as const,
-  RESIDENTIAL_01: "RESIDENTIAL_01" as const,
-  RESIDENTIAL_02: "RESIDENTIAL_02" as const,
+
+  // Residential buildings
+  RESIDENTIAL_01_A: "RESIDENTIAL_01_A" as const,
+  RESIDENTIAL_01_B: "RESIDENTIAL_01_B" as const,
+  RESIDENTIAL_01_C: "RESIDENTIAL_01_C" as const,
+  RESIDENTIAL_02_A: "RESIDENTIAL_02_A" as const,
+  RESIDENTIAL_02_B: "RESIDENTIAL_02_B" as const,
+  RESIDENTIAL_02_C: "RESIDENTIAL_02_C" as const,
+
+  // Commercial buildings
+  COMMERCIAL_03_A: "COMMERCIAL_03_A" as const,
+  COMMERCIAL_03_B: "COMMERCIAL_03_B" as const,
+  COMMERCIAL_03_C: "COMMERCIAL_03_C" as const,
+
+  // Industrial buildings
+  INDUSTRIAL_04_A: "INDUSTRIAL_04_A" as const,
+  INDUSTRIAL_04_B: "INDUSTRIAL_04_B" as const,
+  INDUSTRIAL_04_C: "INDUSTRIAL_04_C" as const,
+
+  // Mixed-use buildings
+  MIXED_USE_05_A: "MIXED_USE_05_A" as const,
+  MIXED_USE_05_B: "MIXED_USE_05_B" as const,
+  MIXED_USE_05_C: "MIXED_USE_05_C" as const,
+
+  // Mega towers
+  MEGA_TOWER_01: "MEGA_TOWER_01" as const,
+  MEGA_TOWER_02: "MEGA_TOWER_02" as const,
+  MEGA_TOWER_03: "MEGA_TOWER_03" as const,
+  MEGA_TOWER_04: "MEGA_TOWER_04" as const,
+  MEGA_TOWER_05: "MEGA_TOWER_05" as const,
+  MEGA_TOWER_06: "MEGA_TOWER_06" as const,
 } as const;
 
-export type ModelType = typeof MODEL_TYPES[keyof typeof MODEL_TYPES];
+export type ModelType = (typeof MODEL_TYPES)[keyof typeof MODEL_TYPES];
