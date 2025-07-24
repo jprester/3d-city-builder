@@ -5,7 +5,7 @@ import {
   AssetManager,
   ModelPlacer,
   buildingsCollection,
-  type SkyboxOptions,
+  type SkyTextureOptions,
 } from "./models/index.js";
 
 export function logMemoryUsage(renderer: THREE.WebGLRenderer) {
@@ -42,20 +42,18 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   const assetManager = new AssetManager();
   const modelPlacer = new ModelPlacer(assetManager);
 
-  // Add skybox first with darker settings
+  // Set sky texture as scene background
   try {
-    const skyboxOptions: SkyboxOptions = {
-      darkness: 0.4, // Darken to 40% of original brightness
-      opacity: 0.3, // Set opacity to 30%
-      transparent: true, // Enable transparency blending
+    const skyTextureOptions: SkyTextureOptions = {
+      darkness: 0.05, // Darken to 40% of original brightness
     };
 
-    const skybox = await assetManager.createSkybox(
+    const skyTexture = await assetManager.createSkyBackground(
       "/assets/sky_night.jpg",
-      skyboxOptions
+      skyTextureOptions
     );
-    scene.add(skybox);
-    console.log("Darkened night sky added to scene");
+    scene.background = skyTexture;
+    console.log("Sky texture set as scene background");
   } catch (error) {
     console.warn(
       "Failed to load sky texture, using default background:",
@@ -77,6 +75,57 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   const pointLight = new THREE.PointLight(0xffaa44, 0.8, 10);
   pointLight.position.set(0, 8, 0);
   scene.add(pointLight);
+
+  // Add ground plane
+  try {
+    const groundTextures = await assetManager.loadTextures({
+      base: "/assets/textures/ground.jpg",
+      emissive: "/assets/textures/ground_em.jpg",
+    });
+
+    const groundGeometry = new THREE.PlaneGeometry(100, 100);
+    const groundMaterial = new THREE.MeshStandardMaterial({
+      map: groundTextures.base,
+      emissiveMap: groundTextures.emissive,
+      emissive: new THREE.Color(0x202020),
+      emissiveIntensity: 1.1,
+    });
+
+    if (groundTextures.base) {
+      groundTextures.base.wrapS = THREE.RepeatWrapping;
+      groundTextures.base.wrapT = THREE.RepeatWrapping;
+      groundTextures.base.repeat.set(10, 10);
+    }
+
+    if (groundTextures.emissive) {
+      groundTextures.emissive.wrapS = THREE.RepeatWrapping;
+      groundTextures.emissive.wrapT = THREE.RepeatWrapping;
+      groundTextures.emissive.repeat.set(10, 10);
+    }
+
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2; // Rotate to be horizontal
+    ground.position.y = -0.5; // Position slightly below origin
+    ground.receiveShadow = true;
+    ground.scale.set(30, 30, 30); // Scale to fit scene
+    ground.name = "GroundPlane"; // Set name for easier identification
+    scene.add(ground);
+
+    console.log("Ground plane added to scene");
+  } catch (error) {
+    console.warn("Failed to load ground textures:", error);
+    // Fallback ground without textures
+    const groundGeometry = new THREE.PlaneGeometry(100, 100);
+    const groundMaterial = new THREE.MeshStandardMaterial({
+      color: 0x333333,
+    });
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -0.5;
+    ground.receiveShadow = true;
+    scene.add(ground);
+    console.log("Fallback ground plane added to scene");
+  }
 
   try {
     // Test both regular and instanced collections

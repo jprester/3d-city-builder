@@ -5,31 +5,38 @@ import { MODEL_TYPES } from "../definitions/ModelDefinitions.js";
 export const buildingsCollection: ModelCollection = {
   name: "city-buildings",
   models: [
-    // First row of residential buildings
+    // First row of residential buildings --------------------------
     {
       instanceId: "residential-1",
       modelType: MODEL_TYPES.RESIDENTIAL_01_A,
-      position: { x: 0, y: 0, z: 1 },
+      position: { x: 40, y: 0, z: -50 },
       // Uses default scale from definition
     },
     {
       instanceId: "residential-2",
-      modelType: MODEL_TYPES.RESIDENTIAL_01_B,
-      position: { x: 60, y: 0, z: 3 },
+      modelType: MODEL_TYPES.RESIDENTIAL_02_B,
+      position: { x: 100, y: 0, z: -50 },
       scale: { x: 0.8, y: 0.9, z: 0.8 },
       // rotation: { x: 0, y: Math.PI / 6, z: 0 },
     },
     {
       instanceId: "residential-3",
       modelType: MODEL_TYPES.RESIDENTIAL_01_C,
-      position: { x: 120, y: 0, z: 3 },
+      position: { x: 150, y: 0, z: -50 },
       scale: { x: 0.8, y: 0.9, z: 0.8 },
       // rotation: { x: 0, y: Math.PI / 6, z: 0 },
     },
     {
       instanceId: "residential-2",
       modelType: MODEL_TYPES.RESIDENTIAL_02_C,
-      position: { x: 180, y: 0, z: 3 },
+      position: { x: 200, y: 0, z: -50 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
+    },
+    {
+      instanceId: "residential-2",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
+      position: { x: 260, y: 0, z: -50 },
       scale: { x: 0.8, y: 0.9, z: 0.8 },
       // rotation: { x: 0, y: Math.PI / 6, z: 0 },
     },
@@ -37,27 +44,27 @@ export const buildingsCollection: ModelCollection = {
     {
       instanceId: "residential-4",
       modelType: MODEL_TYPES.RESIDENTIAL_02_B,
-      position: { x: 0, y: 0, z: 80 },
+      position: { x: 60, y: 0, z: 50 },
       scale: { x: 0.8, y: 0.9, z: 0.8 },
       // rotation: { x: 0, y: Math.PI / 6, z: 0 },
     },
     {
       instanceId: "residential-1",
       modelType: MODEL_TYPES.RESIDENTIAL_01_A,
-      position: { x: 60, y: 0, z: 80 },
+      position: { x: 120, y: 0, z: 50 },
       // Uses default scale from definition
     },
     {
       instanceId: "residential-5",
       modelType: MODEL_TYPES.RESIDENTIAL_02_C,
-      position: { x: 120, y: 0, z: 80 },
+      position: { x: 180, y: 0, z: 50 },
       scale: { x: 0.8, y: 0.9, z: 0.8 },
       // rotation: { x: 0, y: Math.PI / 6, z: 0 },
     },
     {
       instanceId: "residential-1",
       modelType: MODEL_TYPES.RESIDENTIAL_02_A,
-      position: { x: 180, y: 0, z: 80 },
+      position: { x: 240, y: 0, z: 50 },
       // Uses default scale from definition
     },
   ],

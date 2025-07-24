@@ -14,7 +14,7 @@ export interface LoadedModel {
   materials?: THREE.Material[];
 }
 
-export interface SkyboxOptions {
+export interface SkyTextureOptions {
   opacity?: number; // 0.0 to 1.0, controls transparency
   darkness?: number; // 0.0 to 1.0, multiplies color to darken (0 = black, 1 = original)
   transparent?: boolean; // Enable transparency blending
@@ -348,7 +348,7 @@ export class AssetManager {
   async loadSkyTexture(path: string): Promise<THREE.Texture> {
     const texture = await this.loadTexture(path);
 
-    // Configure texture for skybox usage
+    // Configure texture for skyTexture usage
     texture.mapping = THREE.EquirectangularReflectionMapping;
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
@@ -356,10 +356,10 @@ export class AssetManager {
     return texture;
   }
 
-  async createSkybox(
+  async createSkyBackground(
     skyTexturePath: string,
-    options: SkyboxOptions = {}
-  ): Promise<THREE.Mesh> {
+    options: SkyTextureOptions = {}
+  ): Promise<THREE.Texture> {
     try {
       const skyTexture = await this.loadSkyTexture(skyTexturePath);
 
@@ -395,34 +395,11 @@ export class AssetManager {
         }
       }
 
-      // Create a large sphere geometry for the skybox
-      const skyGeometry = new THREE.SphereGeometry(500, 32, 32);
-
-      // Create material with the sky texture and options
-      const materialOptions: THREE.MeshBasicMaterialParameters = {
-        map: skyTexture,
-        side: THREE.BackSide, // Render on the inside of the sphere
-      };
-
-      // Apply opacity and transparency settings
-      if (options.opacity !== undefined) {
-        materialOptions.opacity = Math.max(0, Math.min(1, options.opacity));
-        materialOptions.transparent = true;
-      }
-
-      if (options.transparent) {
-        materialOptions.transparent = true;
-      }
-
-      const skyMaterial = new THREE.MeshBasicMaterial(materialOptions);
-
-      const skybox = new THREE.Mesh(skyGeometry, skyMaterial);
-      skybox.name = "skybox";
-
-      return skybox;
+      // Return the processed texture to be used as scene.background
+      return skyTexture;
     } catch (error) {
       console.error(
-        `Failed to create skybox with texture: ${skyTexturePath}`,
+        `Failed to create sky background with texture: ${skyTexturePath}`,
         error
       );
       throw error;

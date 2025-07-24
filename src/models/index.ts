@@ -1,32 +1,32 @@
 // Central export file for the models system
-export { AssetManager, type SkyboxOptions } from "./AssetManager.js";
+export { AssetManager, type SkyTextureOptions } from "./AssetManager.js";
 export { ModelPlacer } from "./ModelPlacer.js";
-export { 
+export {
   InstancedModelPlacer,
   type InstancedCollection,
   type InstancedModelGroup,
-  type PlacedInstancedModel 
+  type PlacedInstancedModel,
 } from "./InstancedModelPlacer.js";
-export { 
-  ModelDefinitionRegistry, 
-  MODEL_TYPES, 
+export {
+  ModelDefinitionRegistry,
+  MODEL_TYPES,
   MODEL_DEFINITIONS,
   type ModelDefinition,
-  type ModelType 
+  type ModelType,
 } from "./definitions/ModelDefinitions.js";
-export { 
+export {
   buildingsCollection,
   commercialCollection,
   residentialCollection,
   gridLayoutCollection,
-  allCollections 
+  allCollections,
 } from "./collections/example-collections.js";
 export {
   massResidentialCollection,
   skyscraperDistrictCollection,
   megaCityCollection,
   circularCityCollection,
-  allInstancedCollections
+  allInstancedCollections,
 } from "./collections/instanced-collections.js";
 export {
   downtownFinancialDistrict,
@@ -37,11 +37,11 @@ export {
   waterfrontDistrict,
   entertainmentDistrict,
   completeCityDesign,
-  allCityDistricts
+  allCityDistricts,
 } from "./collections/city-design.js";
 export {
   compactCityBlocks,
-  compactCityCollections
+  compactCityCollections,
 } from "./collections/compact-city.js";
 export {
   type ModelPosition,
@@ -49,5 +49,5 @@ export {
   type ModelRotation,
   type ModelInstance,
   type ModelCollection,
-  type PlacedModel
+  type PlacedModel,
 } from "./ModelPlacer.js";
