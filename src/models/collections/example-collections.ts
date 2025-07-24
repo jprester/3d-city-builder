@@ -44,28 +44,150 @@ export const buildingsCollection: ModelCollection = {
     {
       instanceId: "residential-4",
       modelType: MODEL_TYPES.RESIDENTIAL_02_B,
-      position: { x: 60, y: 0, z: 50 },
+      position: { x: 40, y: 0, z: 50 },
       scale: { x: 0.8, y: 0.9, z: 0.8 },
       // rotation: { x: 0, y: Math.PI / 6, z: 0 },
     },
     {
       instanceId: "residential-1",
       modelType: MODEL_TYPES.RESIDENTIAL_01_A,
-      position: { x: 120, y: 0, z: 50 },
+      position: { x: 100, y: 0, z: 50 },
       // Uses default scale from definition
     },
     {
       instanceId: "residential-5",
       modelType: MODEL_TYPES.RESIDENTIAL_02_C,
-      position: { x: 180, y: 0, z: 50 },
+      position: { x: 160, y: 0, z: 50 },
       scale: { x: 0.8, y: 0.9, z: 0.8 },
       // rotation: { x: 0, y: Math.PI / 6, z: 0 },
     },
     {
       instanceId: "skyscraper-1",
       modelType: MODEL_TYPES.SKYSCRAPER_01,
-      position: { x: 240, y: 0, z: 50 },
+      position: { x: 220, y: 0, z: 50 },
       // Uses default scale from definition
+    },
+  ],
+};
+
+export const residentialBlockCollection: ModelCollection = {
+  name: "residential-block",
+  models: [
+    // First row of residential buildings --------------------------
+    {
+      instanceId: "residential-1",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
+      position: { x: 50, y: 0, z: -50 },
+      // Uses default scale from definition
+    },
+    {
+      instanceId: "residential-2",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_B,
+      position: { x: 100, y: 0, z: -50 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
+    },
+    {
+      instanceId: "residential-3",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_C,
+      position: { x: 150, y: 0, z: -50 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
+    },
+    {
+      instanceId: "residential-4",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_B,
+      position: { x: 200, y: 0, z: -50 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
+    },
+    {
+      instanceId: "residential-4",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_A,
+      position: { x: 250, y: 0, z: -50 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
+    },
+
+    // Second row of residential buildings --------------------------
+    {
+      instanceId: "residential-5",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_B,
+      position: { x: 60, y: 0, z: -110 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
+    },
+    {
+      instanceId: "residential-1",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
+      position: { x: 120, y: 0, z: -110 },
+      // Uses default scale from definition
+    },
+    {
+      instanceId: "residential-6",
+      modelType: MODEL_TYPES.COMMERCIAL_03_A,
+      position: { x: 180, y: 0, z: -110 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
+    },
+    {
+      instanceId: "residential-6",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_C,
+      position: { x: 240, y: 0, z: -110 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
+    },
+
+    // Third row of residential buildings --------------------------
+    {
+      instanceId: "residential-7",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_B,
+      position: { x: 70, y: 0, z: -170 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+    },
+    {
+      instanceId: "residential-8",
+      modelType: MODEL_TYPES.COMMERCIAL_03_C,
+      position: { x: 130, y: 0, z: -170 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+    },
+    {
+      instanceId: "residential-9",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_C,
+      position: { x: 190, y: 0, z: -170 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+    },
+    {
+      instanceId: "residential-10",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_B,
+      position: { x: 250, y: 0, z: -170 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+    },
+
+    // Fourth row of residential buildings --------------------------
+    {
+      instanceId: "residential-11",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
+      position: { x: 70, y: 0, z: -240 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+    },
+    {
+      instanceId: "residential-12",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_C,
+      position: { x: 130, y: 0, z: -240 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+    },
+    {
+      instanceId: "residential-13",
+      modelType: MODEL_TYPES.COMMERCIAL_03_B,
+      position: { x: 190, y: 0, z: -240 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
+    },
+    {
+      instanceId: "residential-14",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_B,
+      position: { x: 250, y: 0, z: -240 },
+      scale: { x: 0.8, y: 0.9, z: 0.8 },
     },
   ],
 };
@@ -166,6 +288,7 @@ export const gridLayoutCollection: ModelCollection = {
 
 // All collections for easy import
 export const allCollections = [
+  residentialBlockCollection,
   buildingsCollection,
   commercialCollection,
   residentialCollection,

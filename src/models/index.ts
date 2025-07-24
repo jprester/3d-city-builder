@@ -15,6 +15,7 @@ export {
   type ModelType,
 } from "./definitions/ModelDefinitions.js";
 export {
+  residentialBlockCollection,
   buildingsCollection,
   commercialCollection,
   residentialCollection,

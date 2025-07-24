@@ -4,7 +4,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import {
   AssetManager,
   ModelPlacer,
-  buildingsCollection,
+  // buildingsCollection,
+  residentialBlockCollection,
   type SkyTextureOptions,
 } from "./models/index.js";
 
@@ -131,7 +132,7 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     // Test both regular and instanced collections
     console.log("=== Testing Regular Models ===");
     const placedModels = await modelPlacer.placeModelCollection(
-      buildingsCollection,
+      residentialBlockCollection,
       scene
     );
     console.log(`Successfully placed ${placedModels.length} regular models`);
