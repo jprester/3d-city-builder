@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { initThreeScene } from "./threeScene";
+import { getMemoryInfo } from "./utils/helperFunctions";
 import "./App.css";
 
 function App() {
@@ -8,21 +9,6 @@ function App() {
   const [memoryInfo, setMemoryInfo] = useState<any>(null);
   const rendererRef = useRef<any>(null);
   const intervalRef = useRef<number | null>(null);
-
-  // Helper to get memory info object
-  function getMemoryInfo(renderer: any) {
-    const info = renderer.info;
-
-    return {
-      geometries: info.memory.geometries,
-      textures: info.memory.textures,
-      programs: info.programs?.length || 0,
-      calls: info.render.calls,
-      triangles: info.render.triangles,
-      points: info.render.points,
-      lines: info.render.lines,
-    };
-  }
 
   useEffect(() => {
     if (!canvasRef.current) return;

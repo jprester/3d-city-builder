@@ -1,4 +1,9 @@
 import * as THREE from "three";
+import { AssetManager } from "../models/AssetManager.js";
+import {
+  MODEL_DEFINITIONS,
+  MODEL_TYPES,
+} from "../models/definitions/ModelDefinitions.js";
 
 export const getMemoryInfo = (renderer: THREE.WebGLRenderer) => {
   const info = renderer.info;
@@ -34,4 +39,82 @@ export const addHumanReferenceModel = async (
   humanReference.position.set(0, 0.2, 0); // Position at center, half height above ground
   humanReference.name = "HumanReference";
   scene.add(humanReference);
+};
+
+export const createGroundPlane = async (
+  scene: THREE.Scene,
+  assetManager: AssetManager,
+  options?: {
+    size?: number;
+    position?: { x: number; y: number; z: number };
+    textureRepeat?: number;
+    fallbackColor?: number;
+  }
+) => {
+  const groundDef = MODEL_DEFINITIONS[MODEL_TYPES.GROUND_PLANE];
+  const {
+    size = 100,
+    position = { x: 0, y: -0.5, z: 0 },
+    textureRepeat = 10,
+    fallbackColor = 0x333333,
+  } = options || {};
+
+  try {
+    const groundTextures = await assetManager.loadTextures({
+      base: groundDef.textures?.base || "/assets/textures/ground.jpg",
+      emissive:
+        groundDef.textures?.emissive || "/assets/textures/ground_em.jpg",
+    });
+
+    const groundGeometry = new THREE.PlaneGeometry(size, size);
+    const groundMaterial = new THREE.MeshStandardMaterial({
+      map: groundTextures.base,
+      emissiveMap: groundTextures.emissive,
+      emissive: new THREE.Color(0x202020),
+      emissiveIntensity: 1.1,
+    });
+
+    if (groundTextures.base) {
+      groundTextures.base.wrapS = THREE.RepeatWrapping;
+      groundTextures.base.wrapT = THREE.RepeatWrapping;
+      groundTextures.base.repeat.set(textureRepeat, textureRepeat);
+    }
+
+    if (groundTextures.emissive) {
+      groundTextures.emissive.wrapS = THREE.RepeatWrapping;
+      groundTextures.emissive.wrapT = THREE.RepeatWrapping;
+      groundTextures.emissive.repeat.set(textureRepeat, textureRepeat);
+    }
+
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2; // Rotate to be horizontal
+    ground.position.set(position.x, position.y, position.z);
+    ground.receiveShadow = true;
+
+    // Use scale from model definition
+    const scale = groundDef.defaultScale || { x: 30, y: 30, z: 30 };
+    ground.scale.set(scale.x, scale.y, scale.z);
+    ground.name = groundDef.name;
+    scene.add(ground);
+
+    console.log(`${groundDef.name} added to scene`);
+    return ground;
+  } catch (error) {
+    console.warn("Failed to load ground textures:", error);
+
+    // Fallback ground without textures
+    const groundGeometry = new THREE.PlaneGeometry(size, size);
+    const groundMaterial = new THREE.MeshStandardMaterial({
+      color: fallbackColor,
+    });
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.set(position.x, position.y, position.z);
+    ground.receiveShadow = true;
+    ground.name = groundDef.name;
+    scene.add(ground);
+
+    console.log(`Fallback ${groundDef.name} added to scene`);
+    return ground;
+  }
 };

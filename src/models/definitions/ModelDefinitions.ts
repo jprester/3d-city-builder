@@ -358,6 +358,20 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     category: "skyscraper",
     description: "Massive skyscraper tower sixth variant",
   },
+
+  // Environment elements
+  GROUND_PLANE: {
+    id: "GROUND_PLANE",
+    name: "Ground Plane",
+    filePath: "", // No file path needed for procedural geometry
+    textures: {
+      base: "/assets/textures/ground.jpg",
+      emissive: "/assets/textures/ground_em.jpg",
+    },
+    defaultScale: { x: 30, y: 30, z: 30 },
+    category: "environment",
+    description: "Ground plane with texture mapping for scene base",
+  },
 };
 
 // Helper functions for working with model definitions
@@ -443,6 +457,9 @@ export const MODEL_TYPES = {
   MEGA_TOWER_04: "MEGA_TOWER_04" as const,
   MEGA_TOWER_05: "MEGA_TOWER_05" as const,
   MEGA_TOWER_06: "MEGA_TOWER_06" as const,
+
+  // Environment elements
+  GROUND_PLANE: "GROUND_PLANE" as const,
 } as const;
 
 export type ModelType = (typeof MODEL_TYPES)[keyof typeof MODEL_TYPES];
