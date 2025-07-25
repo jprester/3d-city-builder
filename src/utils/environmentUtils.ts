@@ -151,4 +151,12 @@ export const setupEnvironment = async (
 ): Promise<void> => {
   setupNightLighting(scene, config);
   await setupSkyTexture(scene, assetManager, texturePath, skyOptions);
+
+  if (config.fog.enabled) {
+    scene.fog = new THREE.Fog(
+      config.fog.color,
+      config.fog.near,
+      config.fog.far
+    );
+  }
 };

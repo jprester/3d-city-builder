@@ -1,3 +1,5 @@
+import { colors } from "./colors.js";
+
 export type EffectMode = "none" | "light" | "heavy";
 
 export interface EffectConfiguration {
@@ -28,6 +30,12 @@ export interface EffectConfiguration {
   };
   renderer: {
     toneMappingExposure: number;
+  };
+  fog: {
+    enabled: boolean;
+    color: number;
+    near: number;
+    far: number;
   };
 }
 
@@ -61,6 +69,12 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
     renderer: {
       toneMappingExposure: 1.0,
     },
+    fog: {
+      enabled: false,
+      color: colors.almostBlackBlue,
+      near: 1,
+      far: 1000,
+    },
   },
   light: {
     mode: "light",
@@ -91,6 +105,12 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
     renderer: {
       toneMappingExposure: 1.3,
     },
+    fog: {
+      enabled: true,
+      color: colors.veryDarkBlue,
+      near: 40,
+      far: 250,
+    },
   },
   heavy: {
     mode: "heavy",
@@ -120,6 +140,12 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
     },
     renderer: {
       toneMappingExposure: 1.4,
+    },
+    fog: {
+      enabled: true,
+      color: colors.almostBlackBlue,
+      near: 20,
+      far: 200,
     },
   },
 };
