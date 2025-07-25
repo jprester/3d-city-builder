@@ -130,12 +130,15 @@ export const initThreeScene = async (container: HTMLDivElement) => {
 
   try {
     // Test both regular and instanced collections
-    console.log("=== Testing Regular Models ===");
-    const placedModels = await modelPlacer.placeModelCollection(
-      residentialBlockCollection,
-      scene
-    );
-    console.log(`Successfully placed ${placedModels.length} regular models`);
+    console.log("=== Testing Grouped Models ===");
+    const { group: residentialGroup1, models: placedModels } =
+      await modelPlacer.placeModelCollectionAsGroup(
+        residentialBlockCollection,
+        scene,
+        { x: 0, y: 0, z: 0 } // Position the entire block
+      );
+    console.log(`Successfully placed ${placedModels.length} models in group`);
+    residentialGroup1.position.set(0, 0, 0); // Move group to a new position
 
     // console.log("=== Testing Instanced Models ===");
     // const instancedModels = await modelPlacer.placeInstancedCollection(

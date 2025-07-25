@@ -13,36 +13,36 @@ export const massResidentialCollection: InstancedCollection = {
       modelType: MODEL_TYPES.RESIDENTIAL_01_A,
       instances: InstancedModelPlacer.createInstancesFromPositions(
         MODEL_TYPES.RESIDENTIAL_01_A,
-        // Create a 10x10 grid of houses
-        Array.from({ length: 100 }, (_, i) => ({
-          x: (i % 10) * 8 - 36, // 10 columns, spaced 8 units apart
+        // Create a 5x4 grid of houses (5 rows, 4 buildings each)
+        Array.from({ length: 20 }, (_, i) => ({
+          x: (i % 4) * 80 - 120, // 4 columns, spaced 80 units apart
           y: 0,
-          z: Math.floor(i / 10) * 8 - 36, // 10 rows, spaced 8 units apart
+          z: Math.floor(i / 4) * 80 - 160, // 5 rows, spaced 80 units apart
         })),
         {
-          randomRotation: true,
+          randomRotation: false,
           randomScale: { min: 0.8, max: 1.2 },
         }
       ),
-      maxInstances: 100,
+      maxInstances: 20,
     },
-    {
-      modelType: MODEL_TYPES.RESIDENTIAL_01_B,
-      instances: InstancedModelPlacer.createInstancesFromPositions(
-        MODEL_TYPES.RESIDENTIAL_01_B,
-        // Create another 8x8 grid with different positioning
-        Array.from({ length: 64 }, (_, i) => ({
-          x: (i % 8) * 100 + 50, // 8 columns, offset to the right
-          y: 0,
-          z: Math.floor(i / 8) * 10 - 32, // 8 rows
-        })),
-        {
-          rotation: { x: 0, y: Math.PI / 4, z: 0 }, // 45-degree rotation
-          randomScale: { min: 0.7, max: 1.1 },
-        }
-      ),
-      maxInstances: 64,
-    },
+    // {
+    //   modelType: MODEL_TYPES.RESIDENTIAL_01_B,
+    //   instances: InstancedModelPlacer.createInstancesFromPositions(
+    //     MODEL_TYPES.RESIDENTIAL_01_B,
+    //     // Create another 8x8 grid with different positioning
+    //     Array.from({ length: 64 }, (_, i) => ({
+    //       x: (i % 8) * 100 + 50, // 8 columns, offset to the right
+    //       y: 0,
+    //       z: Math.floor(i / 8) * 10 - 32, // 8 rows
+    //     })),
+    //     {
+    //       rotation: { x: 0, y: Math.PI / 4, z: 0 }, // 45-degree rotation
+    //       randomScale: { min: 0.7, max: 1.1 },
+    //     }
+    //   ),
+    //   maxInstances: 64,
+    // },
   ],
 };
 

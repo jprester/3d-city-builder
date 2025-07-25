@@ -186,6 +186,50 @@ export class ModelPlacer {
     return successfulModels;
   }
 
+  async placeModelCollectionAsGroup(collection: ModelCollection, scene: THREE.Scene, groupPosition?: ModelPosition): Promise<{ group: THREE.Group; models: PlacedModel[] }> {
+    console.log(`Placing model collection as group: ${collection.name}`);
+    
+    const group = new THREE.Group();
+    group.name = `${collection.name}_group`;
+    
+    const placedModels: PlacedModel[] = [];
+    const loadPromises = collection.models.map(async (modelInstance) => {
+      try {
+        // Create a temporary scene to place the model first
+        const tempScene = new THREE.Scene();
+        const placedModel = await this.placeModelInstance(modelInstance, tempScene);
+        
+        // Remove from temp scene and add to group
+        tempScene.remove(placedModel.object3D);
+        group.add(placedModel.object3D);
+        
+        placedModels.push(placedModel);
+        return placedModel;
+      } catch (error) {
+        console.error(`Failed to place model instance "${modelInstance.instanceId}" from collection "${collection.name}":`, error);
+        return null;
+      }
+    });
+    
+    const results = await Promise.allSettled(loadPromises);
+    const successfulModels = results
+      .filter((result): result is PromiseFulfilledResult<PlacedModel | null> => 
+        result.status === 'fulfilled' && result.value !== null
+      )
+      .map(result => result.value!);
+    
+    // Position the entire group
+    if (groupPosition) {
+      group.position.set(groupPosition.x, groupPosition.y, groupPosition.z);
+    }
+    
+    scene.add(group);
+    
+    console.log(`Successfully placed ${successfulModels.length}/${collection.models.length} models in group "${collection.name}"`);
+    
+    return { group, models: successfulModels };
+  }
+
   async placeMultipleCollections(collections: ModelCollection[], scene: THREE.Scene): Promise<Map<string, PlacedModel[]>> {
     const results = new Map<string, PlacedModel[]>();
     
@@ -348,6 +392,57 @@ export class ModelPlacer {
 
   removeInstancedModel(modelType: string, scene: THREE.Scene): boolean {
     return this.instancedPlacer.removeInstancedModel(modelType, scene);
+  }
+
+  updateGroupPosition(groupName: string, position: Partial<ModelPosition>, scene: THREE.Scene): boolean {
+    const group = scene.getObjectByName(`${groupName}_group`) as THREE.Group;
+    if (!group) {
+      console.warn(`Group "${groupName}_group" not found in scene`);
+      return false;
+    }
+    
+    const currentPos = group.position;
+    group.position.set(
+      position.x ?? currentPos.x,
+      position.y ?? currentPos.y,
+      position.z ?? currentPos.z
+    );
+    
+    return true;
+  }
+
+  updateGroupRotation(groupName: string, rotation: Partial<ModelRotation>, scene: THREE.Scene): boolean {
+    const group = scene.getObjectByName(`${groupName}_group`) as THREE.Group;
+    if (!group) {
+      console.warn(`Group "${groupName}_group" not found in scene`);
+      return false;
+    }
+    
+    const currentRot = group.rotation;
+    group.rotation.set(
+      rotation.x ?? currentRot.x,
+      rotation.y ?? currentRot.y,
+      rotation.z ?? currentRot.z
+    );
+    
+    return true;
+  }
+
+  updateGroupScale(groupName: string, scale: Partial<ModelScale>, scene: THREE.Scene): boolean {
+    const group = scene.getObjectByName(`${groupName}_group`) as THREE.Group;
+    if (!group) {
+      console.warn(`Group "${groupName}_group" not found in scene`);
+      return false;
+    }
+    
+    const currentScale = group.scale;
+    group.scale.set(
+      scale.x ?? currentScale.x,
+      scale.y ?? currentScale.y,
+      scale.z ?? currentScale.z
+    );
+    
+    return true;
   }
 
   dispose(): void {
