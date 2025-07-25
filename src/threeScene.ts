@@ -8,6 +8,7 @@ import {
   residentialBlockCollection,
   type SkyTextureOptions,
 } from "./models/index.js";
+import { addHumanReferenceModel } from "./utils/helperFunctions.js";
 
 export function logMemoryUsage(renderer: THREE.WebGLRenderer) {
   const info = renderer.info;
@@ -127,6 +128,9 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     scene.add(ground);
     console.log("Fallback ground plane added to scene");
   }
+
+  // Add human reference for scale comparison
+  addHumanReferenceModel(scene);
 
   try {
     // Test both regular and instanced collections
