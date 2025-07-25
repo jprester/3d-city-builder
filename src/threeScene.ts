@@ -11,6 +11,14 @@ import {
   createGroundPlane,
 } from "./utils/helperFunctions.js";
 import { setupEnvironment } from "./utils/environmentUtils.js";
+import {
+  setupPostProcessing,
+  enhanceMaterialsForBloom,
+} from "./utils/postProcessingUtils.js";
+import {
+  getEffectConfiguration,
+  type EffectMode,
+} from "./utils/effectsConfig.js";
 
 export const initThreeScene = async (container: HTMLDivElement) => {
   const scene = new THREE.Scene();
@@ -21,10 +29,22 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     1000
   );
 
-  const renderer = new THREE.WebGLRenderer();
+  // Get effect configuration - Change this line to switch modes:
+  // 'none' = No effects, standard lighting
+  // 'light' = Subtle bloom and colorful lights (DEFAULT)
+  // 'heavy' = Full cyberpunk effects with animation
+  const effectMode: EffectMode = "light"; // Change to 'light' or 'heavy' for different effects
+  const effectConfig = getEffectConfiguration(effectMode);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setAnimationLoop(animate);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = effectConfig.renderer.toneMappingExposure;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
   container.appendChild(renderer.domElement);
+
+  // Setup post-processing for cyberpunk effects
+  // We'll initialize post-processing after scene setup
 
   const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -36,6 +56,7 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   await setupEnvironment(
     scene,
     assetManager,
+    effectConfig,
     "/assets/sky_night.jpg",
     { darkness: 0.05 }
   );
@@ -93,19 +114,46 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     scene.add(cube);
   }
 
+  // Initialize post-processing after all scene elements are added
+  const postProcessing = setupPostProcessing(
+    renderer,
+    scene,
+    camera,
+    effectConfig
+  );
+
+  // Enhance materials for better bloom interaction (only if post-processing is enabled)
+  if (effectConfig.postProcessing.enabled) {
+    enhanceMaterialsForBloom(scene);
+  }
+
   camera.position.z = 5;
+
+  // Handle window resize
+  const handleResize = () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    postProcessing.onWindowResize();
+  };
+  window.addEventListener("resize", handleResize);
 
   function animate() {
     controls.update(); // Update controls
 
-    renderer.render(scene, camera);
+    // Render with or without post-processing based on configuration
+    postProcessing.render(renderer, scene, camera);
   }
+
+  renderer.setAnimationLoop(animate);
 
   return {
     cleanup: () => {
+      window.removeEventListener("resize", handleResize);
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
+      postProcessing.dispose();
       modelPlacer.dispose();
       assetManager.dispose();
       renderer.dispose();
@@ -114,5 +162,6 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     renderer,
     assetManager,
     modelPlacer,
+    postProcessing,
   };
 };

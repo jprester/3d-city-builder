@@ -1,60 +1,117 @@
 import * as THREE from "three";
 import { AssetManager, type SkyTextureOptions } from "../models/index.js";
+import type { EffectConfiguration } from "./effectsConfig.js";
 
 /**
  * Sets up night-time lighting for the scene
  */
-export const setupNightLighting = (scene: THREE.Scene): void => {
-  // Cool, dim ambient lighting for night scene
-  const ambientLight = new THREE.AmbientLight(0x304080, 0);
+export const setupNightLighting = (
+  scene: THREE.Scene,
+  config: EffectConfiguration
+): void => {
+  // Ambient lighting based on configuration
+  const ambientLight = new THREE.AmbientLight(
+    0x0a0a2a,
+    config.lighting.ambientIntensity
+  );
   scene.add(ambientLight);
 
-  // Moon-like directional light
-  const directionalLight = new THREE.DirectionalLight(0x8080ff, 0.2);
+  // // Moon-like directional light
+  const directionalLight = new THREE.DirectionalLight(0x4d79ff, 0.4);
   directionalLight.position.set(10, 100, 10);
   directionalLight.castShadow = true;
   scene.add(directionalLight);
 
-  // Add sphere to represent directional light
-  const dirSphereGeometry = new THREE.SphereGeometry(0.5, 16, 16);
-  const dirSphereMaterial = new THREE.MeshBasicMaterial({ color: 0x8080ff });
-  const dirSphere = new THREE.Mesh(dirSphereGeometry, dirSphereMaterial);
-  dirSphere.position.copy(directionalLight.position);
-  scene.add(dirSphere);
+  if (config.lighting.colorfulLights) {
+    // Define all possible lights
+    const availableLights = [
+      // Bright cyan light
+      {
+        color: 0x00ffff,
+        position: { x: 100, y: 30, z: -50 },
+        sphereColor: 0x00ffff,
+      },
+      // Hot pink/magenta light
+      {
+        color: 0xff0080,
+        position: { x: 220, y: 30, z: -70 },
+        sphereColor: 0xff0080,
+      },
+      // Electric purple light
+      {
+        color: 0xb266ff, // lighter purple
+        position: { x: 180, y: 40, z: -60 },
+        sphereColor: 0xb266ff,
+      },
+      // Bright white light
+      {
+        color: 0xffffff, // bright white
+        position: { x: 100, y: 50, z: -40 },
+        sphereColor: 0xffffff,
+      },
+      // // Orange/amber light
+      {
+        color: 0xff4000,
+        position: { x: 220, y: 60, z: -70 },
+        sphereColor: 0xff4000,
+      },
+    ];
 
-  // Warm artificial point lighting
-  const pointLight = new THREE.PointLight(0xb388ff, 500, 200);
-  pointLight.position.set(100, 80, -10);
-  scene.add(pointLight);
-  // Add sphere to represent point light
-  const pointSphereGeometry = new THREE.SphereGeometry(0.4, 16, 16);
-  const pointSphereMaterial = new THREE.MeshBasicMaterial({ color: 0xffaa44 });
-  const pointSphere = new THREE.Mesh(pointSphereGeometry, pointSphereMaterial);
-  pointSphere.position.copy(pointLight.position);
-  scene.add(pointSphere);
+    // Use only the number of lights specified in config
+    const lightsToUse = availableLights.slice(0, config.lighting.lightCount);
 
-  // Duplicate: Pink point light at (200, 80, -10)
-  const pinkPointLight = new THREE.PointLight(0xff69b4, 500, 200); // Pink color
-  pinkPointLight.position.set(200, 80, -10);
-  scene.add(pinkPointLight);
-  // Add sphere to represent pink point light
-  const pinkSphereGeometry = new THREE.SphereGeometry(0.4, 16, 16);
-  const pinkSphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff69b4 });
-  const pinkSphere = new THREE.Mesh(pinkSphereGeometry, pinkSphereMaterial);
-  pinkSphere.position.copy(pinkPointLight.position);
-  scene.add(pinkSphere);
+    lightsToUse.forEach((lightConfig, index) => {
+      // Create point light
+      const pointLight = new THREE.PointLight(
+        lightConfig.color,
+        config.lighting.baseIntensity,
+        250
+      );
+      pointLight.position.set(
+        lightConfig.position.x,
+        lightConfig.position.y,
+        lightConfig.position.z
+      );
+      scene.add(pointLight);
 
-  // Optionally, visualize ambient light (not a point, but for reference)
-  // const ambientSphereGeometry = new THREE.SphereGeometry(0.3, 16, 16);
-  // const ambientSphereMaterial = new THREE.MeshBasicMaterial({
-  //   color: 0x304080,
-  // });
-  // const ambientSphere = new THREE.Mesh(
-  //   ambientSphereGeometry,
-  //   ambientSphereMaterial
-  // );
-  // ambientSphere.position.set(0, 0, 0); // Center
-  // scene.add(ambientSphere);
+      // Create glowing sphere to represent the light source
+      const sphereGeometry = new THREE.SphereGeometry(
+        0.8 + index * 0.1,
+        16,
+        16
+      );
+      const sphereMaterial = new THREE.MeshBasicMaterial({
+        color: lightConfig.sphereColor,
+        transparent: true,
+        opacity: 0.8,
+      });
+      const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+      sphere.position.copy(pointLight.position);
+      scene.add(sphere);
+
+      // Add animation if enabled
+      if (config.lighting.animatedIntensity) {
+        const originalIntensity = config.lighting.baseIntensity;
+        const animate = () => {
+          const time = Date.now() * 0.001;
+          pointLight.intensity =
+            originalIntensity +
+            Math.sin(time + index) * config.lighting.animationAmplitude;
+          requestAnimationFrame(animate);
+        };
+        animate();
+      }
+    });
+  } else {
+    // Simple warm lighting for 'none' mode
+    const pointLight = new THREE.PointLight(
+      0xffaa44,
+      config.lighting.baseIntensity,
+      100
+    );
+    pointLight.position.set(0, 8, 0);
+    scene.add(pointLight);
+  }
 };
 
 /**
@@ -88,9 +145,10 @@ export const setupSkyTexture = async (
 export const setupEnvironment = async (
   scene: THREE.Scene,
   assetManager: AssetManager,
+  config: EffectConfiguration,
   texturePath?: string,
   skyOptions?: SkyTextureOptions
 ): Promise<void> => {
-  setupNightLighting(scene);
+  setupNightLighting(scene, config);
   await setupSkyTexture(scene, assetManager, texturePath, skyOptions);
 };
