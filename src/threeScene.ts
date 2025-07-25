@@ -19,6 +19,7 @@ import {
   getEffectConfiguration,
   type EffectMode,
 } from "./utils/effectsConfig.js";
+import { colors } from "./utils/constants.js";
 
 export const initThreeScene = async (container: HTMLDivElement) => {
   const scene = new THREE.Scene();
@@ -58,10 +59,11 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     assetManager,
     effectConfig,
     "/assets/sky_night.jpg",
-    { darkness: 0.05 }
+    { darkness: 0.2 }
   );
 
-  // Add ground plane
+  // Add ground plane with custom emissive configuration
+  // You can override the ground plane's emissive properties here:
   await createGroundPlane(scene, assetManager);
 
   // Add human reference for scale comparison
@@ -109,7 +111,9 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     console.error("Failed to load models:", error);
     // Fallback to basic geometry
     const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+    const material = new THREE.MeshStandardMaterial({
+      color: colors.limeGreen,
+    });
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
   }
@@ -122,7 +126,7 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     effectConfig
   );
 
-  // Enhance materials for better bloom interaction (only if post-processing is enabled)
+  // // Enhance materials for better bloom interaction (only if post-processing is enabled)
   if (effectConfig.postProcessing.enabled) {
     enhanceMaterialsForBloom(scene);
   }

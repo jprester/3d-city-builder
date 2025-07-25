@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import { AssetManager } from "./AssetManager.js";
-import { ModelDefinitionRegistry, ModelType } from "./definitions/ModelDefinitions.js";
+import { ModelDefinitionRegistry, ModelType, type EmissiveConfig } from "./definitions/ModelDefinitions.js";
 import { InstancedModelPlacer, InstancedCollection, type PlacedInstancedModel } from "./InstancedModelPlacer.js";
+import { applyEmissiveToObject } from "../utils/windowLightingUtils.js";
 
 export interface ModelPosition {
   x: number;
@@ -28,6 +29,8 @@ export interface ModelInstance {
   position: ModelPosition;
   scale?: ModelScale;
   rotation?: ModelRotation;
+  emissiveConfig?: EmissiveConfig; // Override emissive configuration for this instance
+  excludeFromEffects?: boolean; // Override exclusion from post-processing effects
 }
 
 // Legacy interface for backward compatibility
@@ -95,6 +98,19 @@ export class ModelPlacer {
       
       // Set name for debugging
       model.name = `${definition.name}_${instance.instanceId}`;
+      
+      // Store exclusion flag on the model for post-processing
+      const excludeFromEffects = instance.excludeFromEffects ?? definition.excludeFromEffects ?? false;
+      (model as any).excludeFromEffects = excludeFromEffects;
+      
+      // Apply emissive configuration (instance override takes precedence)
+      const emissiveConfig = instance.emissiveConfig || definition.emissiveConfig;
+      if (emissiveConfig && !excludeFromEffects) {
+        applyEmissiveToObject(model, emissiveConfig);
+        console.log(`Applied emissive config to ${definition.name}_${instance.instanceId}`);
+      } else if (excludeFromEffects) {
+        console.log(`Excluded ${definition.name}_${instance.instanceId} from effects`);
+      }
       
       scene.add(model);
       

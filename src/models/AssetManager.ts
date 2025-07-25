@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
+import { colors } from "../utils/constants.js";
 
 export interface ModelTextures {
   base?: string;
@@ -125,7 +126,7 @@ export class AssetManager {
                   }
                   if (loadedTextures.emissive) {
                     newMaterial.emissiveMap = loadedTextures.emissive;
-                    newMaterial.emissive = new THREE.Color(0x404040);
+                    newMaterial.emissive = new THREE.Color(colors.darkGrey);
                   }
 
                   newMaterial.needsUpdate = true;
@@ -188,7 +189,7 @@ export class AssetManager {
                 }
 
                 if (loadedTextures.specular) {
-                  material.specular = new THREE.Color(0xffffff); // Default specular color
+                  material.specular = new THREE.Color(colors.white); // Default specular color
                   material.specularMap = loadedTextures.specular;
                   material.specularMap.wrapS = THREE.RepeatWrapping;
                   material.specularMap.wrapT = THREE.RepeatWrapping;
@@ -229,7 +230,7 @@ export class AssetManager {
               if (child instanceof THREE.Mesh) {
                 if (!child.material) {
                   const material = new THREE.MeshStandardMaterial({
-                    color: 0x888888,
+                    color: colors.grey,
                   });
                   child.material = material;
                   materials.push(material);

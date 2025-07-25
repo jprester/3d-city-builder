@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { AssetManager, type SkyTextureOptions } from "../models/index.js";
 import type { EffectConfiguration } from "./effectsConfig.js";
+import { colors } from "./constants.js";
 
 /**
  * Sets up night-time lighting for the scene
@@ -10,15 +11,12 @@ export const setupNightLighting = (
   config: EffectConfiguration
 ): void => {
   // Ambient lighting based on configuration
-  const ambientLight = new THREE.AmbientLight(
-    0x0a0a2a,
-    config.lighting.ambientIntensity
-  );
+  const ambientLight = new THREE.AmbientLight(colors.cornflowerBlue, 0.5);
   scene.add(ambientLight);
 
   // // Moon-like directional light
-  const directionalLight = new THREE.DirectionalLight(0x4d79ff, 0.4);
-  directionalLight.position.set(10, 100, 10);
+  const directionalLight = new THREE.DirectionalLight(colors.limeGreen, 0.1);
+  directionalLight.position.set(0, 50, 0);
   directionalLight.castShadow = true;
   scene.add(directionalLight);
 
@@ -27,33 +25,33 @@ export const setupNightLighting = (
     const availableLights = [
       // Bright cyan light
       {
-        color: 0x00ffff,
+        color: colors.cyan,
         position: { x: 100, y: 30, z: -50 },
-        sphereColor: 0x00ffff,
+        sphereColor: colors.cyan,
       },
       // Hot pink/magenta light
       {
-        color: 0xff0080,
-        position: { x: 220, y: 30, z: -70 },
-        sphereColor: 0xff0080,
+        color: colors.hotPink,
+        position: { x: 220, y: 50, z: -70 },
+        sphereColor: colors.hotPink,
       },
       // Electric purple light
       {
-        color: 0xb266ff, // lighter purple
+        color: colors.lightPurple, // lighter purple
         position: { x: 180, y: 40, z: -60 },
-        sphereColor: 0xb266ff,
+        sphereColor: colors.lightPurple,
       },
       // Bright white light
       {
-        color: 0xffffff, // bright white
+        color: colors.white, // bright white
         position: { x: 100, y: 50, z: -40 },
-        sphereColor: 0xffffff,
+        sphereColor: colors.white,
       },
       // // Orange/amber light
       {
-        color: 0xff4000,
+        color: colors.orange,
         position: { x: 220, y: 60, z: -70 },
-        sphereColor: 0xff4000,
+        sphereColor: colors.orange,
       },
     ];
 
@@ -105,7 +103,7 @@ export const setupNightLighting = (
   } else {
     // Simple warm lighting for 'none' mode
     const pointLight = new THREE.PointLight(
-      0xffaa44,
+      colors.darkWarmYellow,
       config.lighting.baseIntensity,
       100
     );
@@ -121,7 +119,9 @@ export const setupSkyTexture = async (
   scene: THREE.Scene,
   assetManager: AssetManager,
   texturePath: string = "/assets/sky_night.jpg",
-  options: SkyTextureOptions = { darkness: 0.05 }
+  options: SkyTextureOptions = {
+    darkness: 1,
+  }
 ): Promise<void> => {
   try {
     const skyTexture = await assetManager.createSkyBackground(
@@ -135,7 +135,7 @@ export const setupSkyTexture = async (
       "Failed to load sky texture, using default background:",
       error
     );
-    scene.background = new THREE.Color(0x000814); // Dark blue fallback
+    scene.background = new THREE.Color(colors.almostBlackBlue); // Dark blue fallback
   }
 };
 

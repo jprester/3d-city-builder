@@ -51,7 +51,7 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
       },
     },
     lighting: {
-      colorfulLights: false,
+      colorfulLights: true,
       animatedIntensity: false,
       lightCount: 1,
       baseIntensity: 200,
@@ -82,8 +82,8 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
     },
     lighting: {
       colorfulLights: true,
-      animatedIntensity: true,
-      lightCount: 6,
+      animatedIntensity: false,
+      lightCount: 5,
       baseIntensity: 450, // Reduced from 400
       animationAmplitude: 0,
       ambientIntensity: 0.3, // Reduced from 0.15

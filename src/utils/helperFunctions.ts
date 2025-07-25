@@ -3,7 +3,10 @@ import { AssetManager } from "../models/AssetManager.js";
 import {
   MODEL_DEFINITIONS,
   MODEL_TYPES,
+  type EmissiveConfig,
 } from "../models/definitions/ModelDefinitions.js";
+import { colors } from "./constants.js";
+// import { applyEmissiveToObject } from "./windowLightingUtils.js"; // Not needed for ground plane
 
 export const getMemoryInfo = (renderer: THREE.WebGLRenderer) => {
   const info = renderer.info;
@@ -31,8 +34,8 @@ export const addHumanReferenceModel = async (
 ) => {
   const humanGeometry = new THREE.BoxGeometry(0.4, 1.7, 0.2); // Width: 0.4m, Height: 1.7m, Depth: 0.2m
   const humanMaterial = new THREE.MeshStandardMaterial({
-    color: options?.color || 0xff4444, // Red color for visibility
-    emissive: new THREE.Color(options?.emissive || 0x220000),
+    color: options?.color || colors.red, // Red color for visibility
+    emissive: new THREE.Color(options?.emissive || colors.darkRed),
     emissiveIntensity: options?.emissiveIntensity || 10,
   });
   const humanReference = new THREE.Mesh(humanGeometry, humanMaterial);
@@ -49,6 +52,7 @@ export const createGroundPlane = async (
     position?: { x: number; y: number; z: number };
     textureRepeat?: number;
     fallbackColor?: number;
+    emissiveConfig?: EmissiveConfig; // Override emissive configuration
   }
 ) => {
   const groundDef = MODEL_DEFINITIONS[MODEL_TYPES.GROUND_PLANE];
@@ -56,22 +60,27 @@ export const createGroundPlane = async (
     size = 100,
     position = { x: 0, y: -0.5, z: 0 },
     textureRepeat = 10,
-    fallbackColor = 0x333333,
+    fallbackColor = colors.darkerGrey,
   } = options || {};
 
   try {
+    const textures = groundDef.textures ?? {};
     const groundTextures = await assetManager.loadTextures({
-      base: groundDef.textures?.base || "/assets/textures/ground.jpg",
-      emissive:
-        groundDef.textures?.emissive || "/assets/textures/ground_em.jpg",
+      base: textures.base || "/assets/textures/ground.jpg",
+      emissive: textures.emissive || "/assets/textures/ground_em.jpg",
     });
 
     const groundGeometry = new THREE.PlaneGeometry(size, size);
+
     const groundMaterial = new THREE.MeshStandardMaterial({
       map: groundTextures.base,
       emissiveMap: groundTextures.emissive,
-      emissive: new THREE.Color(0x202020),
-      emissiveIntensity: 1.1,
+      emissive: new THREE.Color(colors.lightBlue), // Add some emissive color
+      emissiveIntensity: 0.3, // Default emissive intensity
+      transparent: false,
+      opacity: 1.0,
+      roughness: 1.0,
+      metalness: 0.0,
     });
 
     if (groundTextures.base) {
@@ -95,9 +104,15 @@ export const createGroundPlane = async (
     const scale = groundDef.defaultScale || { x: 30, y: 30, z: 30 };
     ground.scale.set(scale.x, scale.y, scale.z);
     ground.name = groundDef.name;
+
+    // Set exclusion flag for post-processing effects
+    (ground as any).excludeFromEffects = groundDef.excludeFromEffects ?? false;
+
     scene.add(ground);
 
-    console.log(`${groundDef.name} added to scene`);
+    console.log(
+      `${groundDef.name} added to scene (excluded from effects: ${groundDef.excludeFromEffects})`
+    );
     return ground;
   } catch (error) {
     console.warn("Failed to load ground textures:", error);
@@ -112,9 +127,15 @@ export const createGroundPlane = async (
     ground.position.set(position.x, position.y, position.z);
     ground.receiveShadow = true;
     ground.name = groundDef.name;
+
+    // Set exclusion flag for post-processing effects
+    (ground as any).excludeFromEffects = groundDef.excludeFromEffects ?? false;
+
     scene.add(ground);
 
-    console.log(`Fallback ${groundDef.name} added to scene`);
+    console.log(
+      `Fallback ${groundDef.name} added to scene (excluded from effects: ${groundDef.excludeFromEffects})`
+    );
     return ground;
   }
 };

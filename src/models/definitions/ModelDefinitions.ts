@@ -1,4 +1,15 @@
 import { ModelTextures } from "../AssetManager.js";
+import { colors } from "../../utils/constants.js";
+
+export interface EmissiveConfig {
+  color?: number | number[]; // Single color or array of colors
+  intensity?: number;
+  opacity?: number;
+  roughness?: number;
+  metalness?: number;
+  randomizeColors?: boolean;
+  materialFilter?: string[]; // Names of materials to apply emissive to
+}
 
 export interface ModelDefinition {
   id: string;
@@ -8,6 +19,8 @@ export interface ModelDefinition {
   defaultScale?: { x: number; y: number; z: number };
   category?: string;
   description?: string;
+  emissiveConfig?: EmissiveConfig;
+  excludeFromEffects?: boolean; // Flag to exclude from post-processing effects
 }
 
 export interface ModelRegistry {
@@ -23,6 +36,12 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     defaultScale: { x: 1, y: 1, z: 1 },
     category: "modern",
     description: "A modern glass cube building",
+    emissiveConfig: {
+      color: [colors.coolBlue, colors.warmWhite, colors.lightBlue], // Cool blue, warm white, light blue
+      intensity: 0.8,
+      opacity: 0.9,
+      randomizeColors: true,
+    },
   },
 
   HIGH_RISE: {
@@ -32,6 +51,12 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     defaultScale: { x: 1, y: 1, z: 1 },
     category: "commercial",
     description: "A tall commercial high-rise building",
+    emissiveConfig: {
+      color: [colors.warmYellow, colors.orangeYellow], // Warm yellow, orange
+      intensity: 0.6,
+      opacity: 0.95,
+      randomizeColors: true,
+    },
   },
   SKYSCRAPER_01: {
     id: "SKYSCRAPER_01",
@@ -40,6 +65,13 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     defaultScale: { x: 2.3, y: 2.3, z: 2.3 },
     category: "commercial",
     description: "A tall commercial skyscraper",
+    emissiveConfig: {
+      color: colors.cyan, // Bright cyan for futuristic look
+      intensity: 1.2,
+      opacity: 0.85,
+      roughness: 0.05,
+      metalness: 0.2,
+    },
   },
   SKYSCRAPER_02: {
     id: "SKYSCRAPER_02",
@@ -48,6 +80,12 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     defaultScale: { x: 1.8, y: 1.8, z: 1.8 },
     category: "commercial",
     description: "A tall commercial skyscraper",
+    emissiveConfig: {
+      color: [colors.hotPink, colors.purple], // Hot pink, purple for dark building
+      intensity: 1.5,
+      opacity: 0.8,
+      randomizeColors: true,
+    },
   },
 
   // Residential Series 1 (Small Houses)
@@ -368,6 +406,13 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
       base: "/assets/textures/ground.jpg",
       emissive: "/assets/textures/ground_em.jpg",
     },
+    emissiveConfig: {
+      color: [colors.lightBlue], // Warm yellow, orange
+      intensity: 0.5,
+      opacity: 1,
+      randomizeColors: false,
+    },
+    excludeFromEffects: true, // Exclude ground plane from post-processing effects
     defaultScale: { x: 30, y: 30, z: 30 },
     category: "environment",
     description: "Ground plane with texture mapping for scene base",

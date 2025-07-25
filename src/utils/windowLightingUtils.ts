@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import type { EmissiveConfig } from "../models/definitions/ModelDefinitions.js";
+import { colors } from "./constants.js";
 
 export interface WindowLightingConfig {
   colors: number[];
@@ -11,14 +13,14 @@ export interface WindowLightingConfig {
 
 export const DEFAULT_WINDOW_CONFIG: WindowLightingConfig = {
   colors: [
-    0xffdd88, // Warm white
-    // 0xff9944, // Orange/amber
-    0x88ddff, // Cool blue
-    0xffaa66, // Warm yellow
-    // 0xdd88ff, // Purple/pink
-    // 0x66ffaa, // Cool green
-    // 0xffcc99, // Peach
-    0x99ccff, // Light blue
+    colors.warmWhite, // Warm white
+    // colors.orangeYellow, // Orange/amber
+    colors.coolBlue, // Cool blue
+    colors.warmYellow, // Warm yellow
+    // colors.purple, // Purple/pink
+    // colors.neonGreen, // Cool green
+    // colors.peach, // Peach
+    colors.lightBlue, // Light blue
   ],
   emissiveIntensity: 0.5,
   opacity: 1,
@@ -29,12 +31,12 @@ export const DEFAULT_WINDOW_CONFIG: WindowLightingConfig = {
 
 export const CYBERPUNK_WINDOW_CONFIG: WindowLightingConfig = {
   colors: [
-    0x00ffff, // Cyan
-    0xff0080, // Hot pink
-    0x8000ff, // Purple
-    0x00ff40, // Neon green
-    0xff4000, // Orange
-    0x4080ff, // Electric blue
+    colors.cyan, // Cyan
+    colors.hotPink, // Hot pink
+    colors.purple, // Purple
+    colors.mediumNeonGreen, // Neon green
+    colors.orange, // Orange
+    colors.electricBlue, // Electric blue
   ],
   emissiveIntensity: 2.2,
   opacity: 1,
@@ -45,16 +47,124 @@ export const CYBERPUNK_WINDOW_CONFIG: WindowLightingConfig = {
 
 export const REALISTIC_WINDOW_CONFIG: WindowLightingConfig = {
   colors: [
-    0xfff4e6, // Warm white
-    0xffe6cc, // Warm beige
-    0xfff0b3, // Soft yellow
-    0xffe0cc, // Peach
+    colors.offWhite, // Warm white
+    colors.lightPeach, // Warm beige
+    colors.softYellow, // Soft yellow
+    colors.peach, // Peach
   ],
   emissiveIntensity: 0.1,
   opacity: 1,
   roughness: 0.2,
   metalness: 0.0,
   randomizeColors: false,
+};
+
+/**
+ * Converts EmissiveConfig to WindowLightingConfig
+ */
+const convertEmissiveToWindowConfig = (
+  emissiveConfig: EmissiveConfig
+): WindowLightingConfig => {
+  const colors = Array.isArray(emissiveConfig.color)
+    ? (emissiveConfig.color as number[])
+    : emissiveConfig.color
+    ? [emissiveConfig.color as number]
+    : DEFAULT_WINDOW_CONFIG.colors;
+
+  return {
+    colors,
+    emissiveIntensity:
+      emissiveConfig.intensity ?? DEFAULT_WINDOW_CONFIG.emissiveIntensity,
+    opacity: emissiveConfig.opacity ?? DEFAULT_WINDOW_CONFIG.opacity,
+    roughness: emissiveConfig.roughness ?? DEFAULT_WINDOW_CONFIG.roughness,
+    metalness: emissiveConfig.metalness ?? DEFAULT_WINDOW_CONFIG.metalness,
+    randomizeColors:
+      emissiveConfig.randomizeColors ?? DEFAULT_WINDOW_CONFIG.randomizeColors,
+  };
+};
+
+/**
+ * Applies emissive configuration to a specific object/mesh
+ */
+export const applyEmissiveToObject = (
+  object: THREE.Object3D,
+  emissiveConfig: EmissiveConfig
+): void => {
+  const config = convertEmissiveToWindowConfig(emissiveConfig);
+
+  object.traverse((child) => {
+    // Check if this child object should be excluded from effects
+    if ((child as any).excludeFromEffects) {
+      return; // Skip objects marked for exclusion
+    }
+
+    if (child instanceof THREE.Mesh && child.material) {
+      const material = child.material as THREE.Material;
+
+      if ("emissive" in material) {
+        const meshMaterial = material as THREE.MeshStandardMaterial;
+
+        // Check if this material should be affected
+        const materialName = meshMaterial.name?.toLowerCase() || "";
+        const shouldApply =
+          !emissiveConfig.materialFilter ||
+          emissiveConfig.materialFilter.some((filter) =>
+            materialName.includes(filter.toLowerCase())
+          );
+
+        if (shouldApply) {
+          // Enhanced window detection
+          const isWindow =
+            materialName.includes("window") ||
+            materialName.includes("glass") ||
+            materialName.includes("emit") ||
+            materialName.includes("light") ||
+            (meshMaterial.transparent && meshMaterial.opacity < 0.9) ||
+            (meshMaterial.color.r > 0.7 &&
+              meshMaterial.color.g > 0.7 &&
+              meshMaterial.color.b > 0.7) ||
+            (meshMaterial.roughness < 0.3 && meshMaterial.metalness < 0.3);
+
+          if (isWindow || emissiveConfig.materialFilter) {
+            // Apply emissive configuration
+            let selectedColor: number;
+
+            if (config.randomizeColors && config.colors.length > 1) {
+              selectedColor =
+                config.colors[Math.floor(Math.random() * config.colors.length)];
+            } else {
+              // Use consistent color based on object position
+              const hash = Math.abs(
+                Math.floor(child.position.x) +
+                  Math.floor(child.position.y) * 10 +
+                  Math.floor(child.position.z) * 100
+              );
+              selectedColor = config.colors[hash % config.colors.length];
+            }
+
+            meshMaterial.emissive = new THREE.Color(selectedColor);
+            meshMaterial.emissiveIntensity = config.emissiveIntensity;
+
+            // Apply material properties
+            if (!meshMaterial.transparent && config.opacity < 1) {
+              meshMaterial.transparent = true;
+            }
+            meshMaterial.opacity = config.opacity;
+            meshMaterial.roughness = config.roughness;
+            meshMaterial.metalness = config.metalness;
+
+            // Add variation if randomization is enabled
+            if (config.randomizeColors) {
+              meshMaterial.emissiveIntensity += (Math.random() - 0.5) * 0.2;
+              if (config.opacity < 1) {
+                meshMaterial.opacity += (Math.random() - 0.5) * 0.1;
+              }
+            }
+          }
+        }
+      }
+    }
+  });
 };
 
 /**
@@ -65,6 +175,11 @@ export const enhanceWindowMaterials = (
   config: WindowLightingConfig = DEFAULT_WINDOW_CONFIG
 ): void => {
   scene.traverse((object) => {
+    // Check if this object should be excluded from effects
+    if ((object as any).excludeFromEffects) {
+      return; // Skip objects marked for exclusion
+    }
+
     if (object instanceof THREE.Mesh && object.material) {
       const material = object.material as THREE.Material;
 
@@ -126,10 +241,10 @@ export const enhanceWindowMaterials = (
             meshMaterial.metalness > 0.7;
 
           if (isBrightSurface) {
-            meshMaterial.emissive = new THREE.Color(0x222244);
+            meshMaterial.emissive = new THREE.Color(colors.darkIndigo);
             meshMaterial.emissiveIntensity = 0.3;
           } else {
-            meshMaterial.emissive = new THREE.Color(0x050508);
+            meshMaterial.emissive = new THREE.Color(colors.nearBlack);
             meshMaterial.emissiveIntensity = 0.02;
           }
         }
