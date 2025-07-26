@@ -139,3 +139,60 @@ export const createGroundPlane = async (
     return ground;
   }
 };
+
+export const createGroundTiles = (
+  scene: THREE.Scene,
+  tiles: {
+    name: string; // Unique name for the tile
+    size?: { width: number; depth: number };
+    position?: { x: number; y: number; z: number };
+    color?: number;
+    emissive?: number;
+    emissiveIntensity?: number;
+  }[]
+) => {
+  const createdMeshes: THREE.Mesh[] = [];
+  tiles.forEach((options) => {
+    const {
+      name,
+      size = { width: 250, depth: 250 },
+      position = { x: 0, y: 0, z: 0 },
+      color = colors.darkGrey,
+      emissive = colors.lightBlue,
+      emissiveIntensity = 0.3,
+    } = options;
+
+    if (!name) {
+      console.warn(
+        "A ground tile was created without a name. It will be inaccessible by name."
+      );
+    }
+
+    const groundGeometry = new THREE.PlaneGeometry(size.width, size.depth);
+    const groundMaterial = new THREE.MeshStandardMaterial({
+      color: color,
+      emissive: new THREE.Color(emissive),
+      emissiveIntensity: emissiveIntensity,
+      roughness: 0.5,
+      metalness: 0.1,
+    });
+    const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+    groundMesh.rotation.x = -Math.PI / 2; // Rotate to make it horizontal
+    groundMesh.position.set(position.x, position.y, position.z);
+    groundMesh.name = name; // Assign the unique name
+    groundMesh.userData.isGroundTile = true; // Mark as a ground tile
+    scene.add(groundMesh);
+    createdMeshes.push(groundMesh);
+  });
+  return createdMeshes;
+};
+
+export const getAllGroundTiles = (scene: THREE.Scene) => {
+  return scene.children.filter(
+    (obj) => obj.userData.isGroundTile
+  ) as THREE.Mesh[];
+};
+
+export const getGroundTileByName = (scene: THREE.Scene, name: string) => {
+  return scene.getObjectByName(name) as THREE.Mesh | undefined;
+};

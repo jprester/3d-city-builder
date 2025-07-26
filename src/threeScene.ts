@@ -3,12 +3,15 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import {
   AssetManager,
   ModelPlacer,
+  residentialBlockCollectionOnTile,
   // buildingsCollection,
   residentialBlockCollection,
 } from "./models/index.js";
 import {
   addHumanReferenceModel,
   createGroundPlane,
+  createGroundTiles,
+  getGroundTileByName,
 } from "./utils/helperFunctions.js";
 import { setupEnvironment } from "./utils/environmentUtils.js";
 import {
@@ -23,6 +26,11 @@ import { colors } from "./utils/constants.js";
 
 export const initThreeScene = async (container: HTMLDivElement) => {
   const scene = new THREE.Scene();
+
+  // Add axes helper for coordinate system guide
+  const axesHelper = new THREE.AxesHelper(300); // The number represents the size of the axes
+  scene.add(axesHelper);
+
   const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
@@ -34,7 +42,7 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   // 'none' = No effects, standard lighting
   // 'light' = Subtle bloom and colorful lights (DEFAULT)
   // 'heavy' = Full cyberpunk effects with animation
-  const effectMode: EffectMode = "light"; // Change to 'light' or 'heavy' for different effects
+  const effectMode: EffectMode = "none"; // Change to 'light' or 'heavy' for different effects
   const effectConfig = getEffectConfiguration(effectMode);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -66,12 +74,45 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   // You can override the ground plane's emissive properties here:
   await createGroundPlane(scene, assetManager);
 
+  // add a floor panel that cover the city block
+  createGroundTiles(scene, [
+    {
+      name: "tile-1",
+      size: { width: 250, depth: 250 },
+      position: { x: -150, y: 0, z: -150 },
+    },
+    {
+      name: "tile-2",
+      size: { width: 250, depth: 250 },
+      position: { x: -150, y: 0, z: 150 },
+    },
+    {
+      name: "tile-3",
+      size: { width: 250, depth: 250 },
+      position: { x: 150, y: 0, z: 150 },
+    },
+    {
+      name: "tile-4",
+      size: { width: 250, depth: 250 },
+      position: { x: 150, y: 0, z: -150 },
+    },
+  ]);
+
   // Add human reference for scale comparison
   addHumanReferenceModel(scene);
 
   try {
     // Test both regular and instanced collections
     console.log("=== Testing Grouped Models ===");
+    const tileForPlacing = getGroundTileByName(scene, "tile-2");
+    if (tileForPlacing) {
+      await modelPlacer.placeModelCollectionAsGroup(
+        residentialBlockCollectionOnTile,
+        scene,
+        tileForPlacing.position // Position the entire block on tile-2
+      );
+    }
+
     const { group: residentialGroup1, models: placedModels } =
       await modelPlacer.placeModelCollectionAsGroup(
         residentialBlockCollection,

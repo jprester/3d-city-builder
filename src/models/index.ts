@@ -17,11 +17,12 @@ export {
 export {
   residentialBlockCollection,
   buildingsCollection,
-  commercialCollection,
-  residentialCollection,
+  // commercialCollection,
+  // residentialCollection,
   gridLayoutCollection,
   allCollections,
-} from "./collections/example-collections.js";
+  residentialBlockCollectionOnTile,
+} from "./collections/building-collections.js";
 export {
   massResidentialCollection,
   skyscraperDistrictCollection,

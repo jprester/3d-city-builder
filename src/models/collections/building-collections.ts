@@ -113,7 +113,7 @@ export const residentialBlockCollection: ModelCollection = {
     {
       instanceId: "residential-5",
       modelType: MODEL_TYPES.RESIDENTIAL_02_B,
-      position: { x: 60, y: 0, z: -110 },
+      position: { x: 50, y: 0, z: -110 },
       scale: { x: 0.8, y: 0.9, z: 0.8 },
       // rotation: { x: 0, y: Math.PI / 6, z: 0 },
     },
@@ -142,13 +142,13 @@ export const residentialBlockCollection: ModelCollection = {
     {
       instanceId: "residential-7",
       modelType: MODEL_TYPES.RESIDENTIAL_01_B,
-      position: { x: 70, y: 0, z: -170 },
+      position: { x: 50, y: 0, z: -170 },
       scale: { x: 0.8, y: 0.9, z: 0.8 },
     },
     {
       instanceId: "residential-8",
       modelType: MODEL_TYPES.COMMERCIAL_03_C,
-      position: { x: 130, y: 0, z: -170 },
+      position: { x: 110, y: 0, z: -170 },
       scale: { x: 0.8, y: 0.9, z: 0.8 },
     },
     {
@@ -168,7 +168,7 @@ export const residentialBlockCollection: ModelCollection = {
     {
       instanceId: "residential-11",
       modelType: MODEL_TYPES.RESIDENTIAL_01_A,
-      position: { x: 70, y: 0, z: -240 },
+      position: { x: 50, y: 0, z: -240 },
       scale: { x: 0.8, y: 0.9, z: 0.8 },
     },
     {
@@ -192,58 +192,104 @@ export const residentialBlockCollection: ModelCollection = {
   ],
 };
 
-// Commercial district with high-rise buildings
-export const commercialCollection: ModelCollection = {
-  name: "commercial-district",
+export const residentialBlockCollectionOnTile: ModelCollection = {
+  name: "residential-block-on-tile",
   models: [
+    // First row of residential buildings --------------------------
     {
-      instanceId: "office-tower-1",
-      modelType: MODEL_TYPES.HIGH_RISE,
-      position: { x: 8, y: 0, z: 0 },
-      scale: { x: 1, y: 1.5, z: 1 },
+      instanceId: "rtile-r1-1",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
+      position: { x: -100, y: 0, z: -100 },
     },
     {
-      instanceId: "office-tower-2",
-      modelType: MODEL_TYPES.HIGH_RISE,
-      position: { x: 11, y: 0, z: 2 },
-      scale: { x: 0.9, y: 1.2, z: 0.9 },
-      rotation: { x: 0, y: -Math.PI / 4, z: 0 },
+      instanceId: "rtile-r1-2",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_B,
+      position: { x: -50, y: 0, z: -100 },
     },
     {
-      instanceId: "shopping-center",
-      modelType: MODEL_TYPES.GLASS_CUBE,
-      position: { x: 8, y: 0, z: -3 },
-      scale: { x: 2, y: 0.5, z: 1.5 },
+      instanceId: "rtile-r1-3",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_C,
+      position: { x: 0, y: 0, z: -100 },
     },
-  ],
-};
+    {
+      instanceId: "rtile-r1-4",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
+      position: { x: 50, y: 0, z: -100 },
+    },
+    {
+      instanceId: "rtile-r1-5",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
+      position: { x: 100, y: 0, z: -100 },
+    },
+    // Second row
+    {
+      instanceId: "rtile-r2-1",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_B,
+      position: { x: -100, y: 0, z: -40 },
+    },
+    {
+      instanceId: "rtile-r2-2",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
+      position: { x: -50, y: 0, z: -40 },
+    },
+    {
+      instanceId: "rtile-r2-3",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_A,
+      position: { x: 0, y: 0, z: -40 },
+    },
+    {
+      instanceId: "rtile-r2-4",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_B,
+      position: { x: 50, y: 0, z: -40 },
+    },
+    {
+      instanceId: "rtile-r2-5",
+      modelType: MODEL_TYPES.COMMERCIAL_03_A,
+      position: { x: 100, y: 0, z: -40 },
+    },
 
-// Mixed residential neighborhood
-export const residentialCollection: ModelCollection = {
-  name: "residential-neighborhood",
-  models: [
+    // Third row
     {
-      instanceId: "house-1",
-      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
-      position: { x: -8, y: 0, z: -8 },
+      instanceId: "rtile-r3-1",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_A,
+      position: { x: -100, y: 0, z: 30 },
     },
     {
-      instanceId: "house-2",
+      instanceId: "rtile-r3-2",
       modelType: MODEL_TYPES.RESIDENTIAL_01_B,
-      position: { x: -5, y: 0, z: -8 },
-      rotation: { x: 0, y: Math.PI / 2, z: 0 },
+      position: { x: -40, y: 0, z: 30 },
     },
     {
-      instanceId: "house-3",
+      instanceId: "rtile-r3-3",
+      modelType: MODEL_TYPES.COMMERCIAL_03_C,
+      position: { x: 30, y: 0, z: 30 },
+    },
+    {
+      instanceId: "rtile-r3-4",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_C,
+      position: { x: 100, y: 0, z: 30 },
+    },
+
+    // Fourth row
+    {
+      instanceId: "rtile-r4-1",
       modelType: MODEL_TYPES.RESIDENTIAL_01_A,
-      position: { x: -8, y: 0, z: -5 },
-      scale: { x: 1.1, y: 1.1, z: 1.1 },
+      position: { x: -100, y: 0, z: 100 },
     },
     {
-      instanceId: "house-4",
-      modelType: MODEL_TYPES.RESIDENTIAL_01_B,
-      position: { x: -5, y: 0, z: -5 },
-      rotation: { x: 0, y: Math.PI, z: 0 },
+      instanceId: "rtile-r4-2",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_C,
+      position: { x: -50, y: 0, z: 100 },
+    },
+    {
+      instanceId: "rtile-r4-3",
+      modelType: MODEL_TYPES.COMMERCIAL_03_B,
+      position: { x: 0, y: 0, z: 100 },
+    },
+    {
+      instanceId: "rtile-r4-4",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_B,
+      position: { x: 50, y: 0, z: 100 },
     },
   ],
 };
@@ -251,7 +297,7 @@ export const residentialCollection: ModelCollection = {
 // Grid layout with mixed building types
 export const gridLayoutCollection: ModelCollection = {
   name: "grid-layout",
-  models: Array.from({ length: 16 }, (_, i) => {
+  models: Array.from({ length: 4 }, (_, i) => {
     const row = Math.floor(i / 4);
     const col = i % 4;
 
@@ -268,9 +314,9 @@ export const gridLayoutCollection: ModelCollection = {
       instanceId: `grid-building-${i}`,
       modelType,
       position: {
-        x: (col - 1.5) * 4,
+        x: (col - 1.5) * 80,
         y: 0,
-        z: (row - 1.5) * 4,
+        z: (row - 1.5) * 80,
       },
       scale: {
         x: 0.7 + Math.random() * 0.4,
@@ -290,7 +336,7 @@ export const gridLayoutCollection: ModelCollection = {
 export const allCollections = [
   residentialBlockCollection,
   buildingsCollection,
-  commercialCollection,
-  residentialCollection,
+  // commercialCollection,
+  // residentialCollection,
   gridLayoutCollection,
 ];
