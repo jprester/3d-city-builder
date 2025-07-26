@@ -192,8 +192,8 @@ export const residentialBlockCollection: ModelCollection = {
   ],
 };
 
-export const residentialBlockCollectionOnTile: ModelCollection = {
-  name: "residential-block-on-tile",
+export const residentialAndCommercialBlockCollection: ModelCollection = {
+  name: "residential-and-commercial-block-on-tile",
   models: [
     // First row of residential buildings --------------------------
     {
@@ -273,23 +273,89 @@ export const residentialBlockCollectionOnTile: ModelCollection = {
     // Fourth row
     {
       instanceId: "rtile-r4-1",
-      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
+      modelType: MODEL_TYPES.COMMERCIAL_03_B,
       position: { x: -100, y: 0, z: 100 },
     },
     {
       instanceId: "rtile-r4-2",
-      modelType: MODEL_TYPES.RESIDENTIAL_01_C,
-      position: { x: -50, y: 0, z: 100 },
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
+      position: { x: -30, y: 0, z: 100 },
     },
     {
       instanceId: "rtile-r4-3",
-      modelType: MODEL_TYPES.COMMERCIAL_03_B,
-      position: { x: 0, y: 0, z: 100 },
+      modelType: MODEL_TYPES.RESIDENTIAL_01_C,
+      position: { x: 40, y: 0, z: 100 },
     },
     {
       instanceId: "rtile-r4-4",
       modelType: MODEL_TYPES.RESIDENTIAL_02_B,
-      position: { x: 50, y: 0, z: 100 },
+      position: { x: 100, y: 0, z: 100 },
+    },
+  ],
+};
+
+export const industrialBlockCollection: ModelCollection = {
+  name: "industrial-block",
+  models: [
+    // first row of industrial buildings --------------------------
+
+    {
+      instanceId: "industrial-2",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_C,
+      position: { x: 90, y: 0, z: 80 },
+      scale: { x: 1.2, y: 1.0, z: 1.2 },
+      rotation: { x: 0, y: Math.PI / 2, z: 0 },
+    },
+    {
+      instanceId: "industrial-3",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_A,
+      position: { x: 0, y: 0, z: 80 },
+      scale: { x: 1.2, y: 1.0, z: 1.2 },
+      rotation: { x: 0, y: Math.PI / 2, z: 0 },
+    },
+    {
+      instanceId: "industrial-4",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_B,
+      position: { x: -80, y: 0, z: 80 },
+      scale: { x: 1.2, y: 1.0, z: 1.2 },
+      rotation: { x: 0, y: Math.PI / 2, z: 0 },
+    },
+
+    // second row of industrial buildings --------------------------
+
+    {
+      instanceId: "industrial-2",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_A,
+      position: { x: 90, y: 0, z: 0 },
+      scale: { x: 1.2, y: 1.0, z: 1.2 },
+      rotation: { x: 0, y: Math.PI / 2, z: 0 },
+    },
+    {
+      instanceId: "industrial-3",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_B,
+      position: { x: 0, y: 0, z: 0 },
+      scale: { x: 1.2, y: 1.0, z: 1.2 },
+      rotation: { x: 0, y: Math.PI / 2, z: 0 },
+    },
+    {
+      instanceId: "industrial-4",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_C,
+      position: { x: -80, y: 0, z: 0 },
+      scale: { x: 1.2, y: 1.0, z: 1.2 },
+      rotation: { x: 0, y: Math.PI / 2, z: 0 },
+    },
+
+    // third row of industrial buildings --------------------------
+
+    {
+      instanceId: "industrial-1",
+      modelType: MODEL_TYPES.INDUSTRIAL_04_A,
+      position: { x: 20, y: 0, z: -80 },
+      scale: { x: 1.2, y: 1.0, z: 1.2 },
+      rotation: { x: 0, y: Math.PI / 2, z: 0 },
+      emissiveConfig: {
+        intensity: 0,
+      },
     },
   ],
 };
@@ -336,6 +402,7 @@ export const gridLayoutCollection: ModelCollection = {
 export const allCollections = [
   residentialBlockCollection,
   buildingsCollection,
+  industrialBlockCollection,
   // commercialCollection,
   // residentialCollection,
   gridLayoutCollection,

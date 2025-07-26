@@ -21,7 +21,7 @@ export {
   // residentialCollection,
   gridLayoutCollection,
   allCollections,
-  residentialBlockCollectionOnTile,
+  residentialAndCommercialBlockCollection,
 } from "./collections/building-collections.js";
 export {
   massResidentialCollection,

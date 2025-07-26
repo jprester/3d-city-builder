@@ -3,7 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import {
   AssetManager,
   ModelPlacer,
-  residentialBlockCollectionOnTile,
+  residentialAndCommercialBlockCollection,
   // buildingsCollection,
   residentialBlockCollection,
 } from "./models/index.js";
@@ -23,13 +23,23 @@ import {
   type EffectMode,
 } from "./utils/effectsConfig.js";
 import { colors } from "./utils/constants.js";
+import { industrialBlockCollection } from "./models/collections/building-collections.js";
 
 export const initThreeScene = async (container: HTMLDivElement) => {
   const scene = new THREE.Scene();
 
-  // Add axes helper for coordinate system guide
-  const axesHelper = new THREE.AxesHelper(300); // The number represents the size of the axes
-  scene.add(axesHelper);
+  // Get effect configuration - Change this line to switch modes:
+  // 'none' = No effects, standard lighting
+  // 'light' = Subtle bloom and colorful lights (DEFAULT)
+  // 'heavy' = Full cyberpunk effects with animation
+  const effectMode: EffectMode = "heavy"; // Change to 'light' or 'heavy' for different effects
+  const effectConfig = getEffectConfiguration(effectMode);
+
+  if (effectMode === "none") {
+    // Add axes helper for coordinate system guide
+    const axesHelper = new THREE.AxesHelper(300); // The number represents the size of the axes
+    scene.add(axesHelper);
+  }
 
   const camera = new THREE.PerspectiveCamera(
     75,
@@ -37,13 +47,6 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     0.1,
     1000
   );
-
-  // Get effect configuration - Change this line to switch modes:
-  // 'none' = No effects, standard lighting
-  // 'light' = Subtle bloom and colorful lights (DEFAULT)
-  // 'heavy' = Full cyberpunk effects with animation
-  const effectMode: EffectMode = "none"; // Change to 'light' or 'heavy' for different effects
-  const effectConfig = getEffectConfiguration(effectMode);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -74,42 +77,53 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   // You can override the ground plane's emissive properties here:
   await createGroundPlane(scene, assetManager);
 
-  // add a floor panel that cover the city block
-  createGroundTiles(scene, [
-    {
-      name: "tile-1",
-      size: { width: 250, depth: 250 },
-      position: { x: -150, y: 0, z: -150 },
-    },
-    {
-      name: "tile-2",
-      size: { width: 250, depth: 250 },
-      position: { x: -150, y: 0, z: 150 },
-    },
-    {
-      name: "tile-3",
-      size: { width: 250, depth: 250 },
-      position: { x: 150, y: 0, z: 150 },
-    },
-    {
-      name: "tile-4",
-      size: { width: 250, depth: 250 },
-      position: { x: 150, y: 0, z: -150 },
-    },
-  ]);
+  createGroundTiles(
+    scene,
+    [
+      {
+        name: "tile-1",
+        size: { width: 250, depth: 250 },
+        position: { x: -150, y: 0, z: -150 },
+      },
+      {
+        name: "tile-2",
+        size: { width: 250, depth: 250 },
+        position: { x: -150, y: 0, z: 150 },
+      },
+      {
+        name: "tile-3",
+        size: { width: 250, depth: 250 },
+        position: { x: 150, y: 0, z: 150 },
+      },
+      {
+        name: "tile-4",
+        size: { width: 250, depth: 250 },
+        position: { x: 150, y: 0, z: -150 },
+      },
+    ],
+    effectMode !== "none" // Hide tiles if no effects are enabled
+  );
 
   // Add human reference for scale comparison
   addHumanReferenceModel(scene);
 
   try {
+    const tile4Placement = getGroundTileByName(scene, "tile-1");
+    if (tile4Placement) {
+      await modelPlacer.placeModelCollectionAsGroup(
+        industrialBlockCollection,
+        scene,
+        tile4Placement.position // Position the entire block on tile-4
+      );
+    }
     // Test both regular and instanced collections
     console.log("=== Testing Grouped Models ===");
-    const tileForPlacing = getGroundTileByName(scene, "tile-2");
-    if (tileForPlacing) {
+    const tile2Placement = getGroundTileByName(scene, "tile-2");
+    if (tile2Placement) {
       await modelPlacer.placeModelCollectionAsGroup(
-        residentialBlockCollectionOnTile,
+        residentialAndCommercialBlockCollection,
         scene,
-        tileForPlacing.position // Position the entire block on tile-2
+        tile2Placement.position // Position the entire block on tile-2
       );
     }
 

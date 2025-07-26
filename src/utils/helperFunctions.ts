@@ -149,7 +149,8 @@ export const createGroundTiles = (
     color?: number;
     emissive?: number;
     emissiveIntensity?: number;
-  }[]
+  }[],
+  isHidden?: boolean
 ) => {
   const createdMeshes: THREE.Mesh[] = [];
   tiles.forEach((options) => {
@@ -181,6 +182,12 @@ export const createGroundTiles = (
     groundMesh.position.set(position.x, position.y, position.z);
     groundMesh.name = name; // Assign the unique name
     groundMesh.userData.isGroundTile = true; // Mark as a ground tile
+
+    // hide the tile if specified
+    if (isHidden) {
+      groundMesh.visible = false;
+    }
+
     scene.add(groundMesh);
     createdMeshes.push(groundMesh);
   });
