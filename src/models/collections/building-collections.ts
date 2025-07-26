@@ -354,7 +354,7 @@ export const industrialBlockCollection: ModelCollection = {
       scale: { x: 1.2, y: 1.0, z: 1.2 },
       rotation: { x: 0, y: Math.PI / 2, z: 0 },
       emissiveConfig: {
-        intensity: 0,
+        intensity: 3,
       },
     },
   ],

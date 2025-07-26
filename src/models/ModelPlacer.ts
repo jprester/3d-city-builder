@@ -136,8 +136,14 @@ export class ModelPlacer {
         instance.emissiveConfig || definition.emissiveConfig;
       if (emissiveConfig && !excludeFromEffects) {
         applyEmissiveToObject(model, emissiveConfig);
+        // Mark objects with custom emissive configs as excluded from global effects
+        // to prevent enhanceMaterialsForBloom from overriding them
+        // Apply the flag to all children recursively
+        model.traverse((child) => {
+          (child as any).excludeFromEffects = true;
+        });
         console.log(
-          `Applied emissive config to ${definition.name}_${instance.instanceId}`
+          `Applied custom emissive config to ${definition.name}_${instance.instanceId} and excluded all children from global effects`
         );
       } else if (excludeFromEffects) {
         console.log(

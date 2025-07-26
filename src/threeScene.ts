@@ -21,6 +21,7 @@ import {
 import {
   getEffectConfiguration,
   type EffectMode,
+  DEFAULT_EFFECT_MODE,
 } from "./utils/effectsConfig.js";
 import { colors } from "./utils/constants.js";
 import { industrialBlockCollection } from "./models/collections/building-collections.js";
@@ -32,7 +33,7 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   // 'none' = No effects, standard lighting
   // 'light' = Subtle bloom and colorful lights (DEFAULT)
   // 'heavy' = Full cyberpunk effects with animation
-  const effectMode: EffectMode = "heavy"; // Change to 'light' or 'heavy' for different effects
+  const effectMode: EffectMode = DEFAULT_EFFECT_MODE; // Change to 'none', 'light' or 'heavy' for different effects
   const effectConfig = getEffectConfiguration(effectMode);
 
   if (effectMode === "none") {

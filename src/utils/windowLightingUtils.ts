@@ -65,7 +65,10 @@ export const REALISTIC_WINDOW_CONFIG: WindowLightingConfig = {
 const convertEmissiveToWindowConfig = (
   emissiveConfig: EmissiveConfig
 ): WindowLightingConfig => {
-  const colors = Array.isArray(emissiveConfig.color)
+  // If intensity is 0, use black color to ensure no emission
+  const colors = emissiveConfig.intensity === 0
+    ? [0x000000] // Black - no emission
+    : Array.isArray(emissiveConfig.color)
     ? (emissiveConfig.color as number[])
     : emissiveConfig.color
     ? [emissiveConfig.color as number]
@@ -113,6 +116,10 @@ export const applyEmissiveToObject = (
           );
 
         if (shouldApply) {
+          // When applying custom emissive config, override ALL materials
+          // not just windows - this ensures custom configs take full precedence
+          const forceApply = emissiveConfig.materialFilter || config.emissiveIntensity === 0;
+          
           // Enhanced window detection
           const isWindow =
             materialName.includes("window") ||
@@ -125,7 +132,7 @@ export const applyEmissiveToObject = (
               meshMaterial.color.b > 0.7) ||
             (meshMaterial.roughness < 0.3 && meshMaterial.metalness < 0.3);
 
-          if (isWindow || emissiveConfig.materialFilter) {
+          if (isWindow || forceApply) {
             // Apply emissive configuration
             let selectedColor: number;
 
