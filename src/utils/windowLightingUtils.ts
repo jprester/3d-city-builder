@@ -22,7 +22,7 @@ export const DEFAULT_WINDOW_CONFIG: WindowLightingConfig = {
     // colors.peach, // Peach
     colors.lightBlue, // Light blue
   ],
-  emissiveIntensity: 0.5,
+  emissiveIntensity: 0.8,
   opacity: 1,
   roughness: 0.1,
   metalness: 0.1,
@@ -38,7 +38,7 @@ export const CYBERPUNK_WINDOW_CONFIG: WindowLightingConfig = {
     colors.orange, // Orange
     colors.electricBlue, // Electric blue
   ],
-  emissiveIntensity: 2.2,
+  emissiveIntensity: 0.9,
   opacity: 1,
   roughness: 0.05,
   metalness: 0.2,

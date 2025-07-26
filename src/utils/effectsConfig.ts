@@ -108,8 +108,8 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
     fog: {
       enabled: true,
       color: colors.veryDarkBlue,
-      near: 40,
-      far: 250,
+      near: 150,
+      far: 800,
     },
   },
   heavy: {
@@ -144,8 +144,8 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
     fog: {
       enabled: true,
       color: colors.almostBlackBlue,
-      near: 20,
-      far: 200,
+      near: 100,
+      far: 650,
     },
   },
 };
