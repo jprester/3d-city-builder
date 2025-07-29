@@ -2,6 +2,12 @@ import { colors } from "./constants.js";
 
 export type EffectMode = "none" | "light" | "heavy";
 
+export enum EffectModes {
+  None = "none",
+  Light = "light",
+  Heavy = "heavy",
+}
+
 export interface EffectConfiguration {
   mode: EffectMode;
   postProcessing: {
@@ -156,4 +162,4 @@ export const getEffectConfiguration = (
   return EFFECT_CONFIGURATIONS[mode];
 };
 
-export const DEFAULT_EFFECT_MODE: EffectMode = "none"; // Default effect mode
+export const DEFAULT_EFFECT_MODE: EffectMode = EffectModes.None; // Default effect mode

@@ -140,6 +140,59 @@ export const createGroundPlane = async (
   }
 };
 
+// Helper function to create canvas-based text texture
+const createTextTexture = (
+  text: string,
+  options?: {
+    fontSize?: number;
+    fontFamily?: string;
+    textColor?: string;
+    backgroundColor?: string;
+    padding?: number;
+  }
+) => {
+  const {
+    fontSize = 64,
+    fontFamily = "Arial, sans-serif",
+    textColor = "#ffffff",
+    backgroundColor = "transparent",
+    padding = 20,
+  } = options || {};
+
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  if (!context) return null;
+
+  // Set font and measure text
+  context.font = `${fontSize}px ${fontFamily}`;
+  const textMetrics = context.measureText(text);
+  const textWidth = textMetrics.width;
+  const textHeight = fontSize;
+
+  // Set canvas size with padding
+  canvas.width = textWidth + padding * 2;
+  canvas.height = textHeight + padding * 2;
+
+  // Clear and set background
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  if (backgroundColor !== "transparent") {
+    context.fillStyle = backgroundColor;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  // Draw text
+  context.font = `${fontSize}px ${fontFamily}`;
+  context.fillStyle = textColor;
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+  // Create texture
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  return texture;
+};
+
 export const createGroundTiles = (
   scene: THREE.Scene,
   tiles: {
@@ -149,6 +202,13 @@ export const createGroundTiles = (
     color?: number;
     emissive?: number;
     emissiveIntensity?: number;
+    showLabel?: boolean; // Whether to show text label
+    labelOptions?: {
+      fontSize?: number;
+      textColor?: string;
+      backgroundColor?: string;
+      height?: number; // Height above ground
+    };
   }[],
   isHidden?: boolean
 ) => {
@@ -161,6 +221,8 @@ export const createGroundTiles = (
       color = colors.darkGrey,
       emissive = colors.lightBlue,
       emissiveIntensity = 0.3,
+      showLabel = true,
+      labelOptions = {},
     } = options;
 
     if (!name) {
@@ -183,6 +245,48 @@ export const createGroundTiles = (
     groundMesh.name = name; // Assign the unique name
     groundMesh.userData.isGroundTile = true; // Mark as a ground tile
 
+    // Add text label if requested
+    if (showLabel && name) {
+      const {
+        fontSize = 48,
+        textColor = "#ffffff",
+        backgroundColor = "rgba(0, 0, 0, 0.7)",
+        height = 2,
+      } = labelOptions;
+
+      const textTexture = createTextTexture(name, {
+        fontSize,
+        textColor,
+        backgroundColor,
+        padding: 16,
+      });
+
+      if (textTexture) {
+        // Create text plane - made larger to accommodate bigger text
+        const textGeometry = new THREE.PlaneGeometry(120, 30); // Increased from 40x10 to 120x30
+        const textMaterial = new THREE.MeshBasicMaterial({
+          map: textTexture,
+          transparent: true,
+          alphaTest: 0.1,
+          side: THREE.DoubleSide,
+        });
+        const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+
+        // Position text above the tile
+        textMesh.position.set(position.x, position.y + height, position.z);
+        textMesh.rotation.x = -Math.PI / 2; // Make it horizontal like the ground
+        textMesh.name = `${name}-label`;
+        textMesh.userData.isTileLabel = true;
+
+        // If the tile is hidden, hide the label too
+        if (isHidden) {
+          textMesh.visible = false;
+        }
+
+        scene.add(textMesh);
+      }
+    }
+
     // hide the tile if specified
     if (isHidden) {
       groundMesh.visible = false;
@@ -202,4 +306,21 @@ export const getAllGroundTiles = (scene: THREE.Scene) => {
 
 export const getGroundTileByName = (scene: THREE.Scene, name: string) => {
   return scene.getObjectByName(name) as THREE.Mesh | undefined;
+};
+
+export const getAllTileLabels = (scene: THREE.Scene) => {
+  return scene.children.filter(
+    (obj) => obj.userData.isTileLabel
+  ) as THREE.Mesh[];
+};
+
+export const getTileLabelByName = (scene: THREE.Scene, tileName: string) => {
+  return scene.getObjectByName(`${tileName}-label`) as THREE.Mesh | undefined;
+};
+
+export const toggleTileLabels = (scene: THREE.Scene, visible: boolean) => {
+  const labels = getAllTileLabels(scene);
+  labels.forEach((label) => {
+    label.visible = visible;
+  });
 };

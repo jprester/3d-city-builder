@@ -98,7 +98,14 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         position: { x: -150, y: 0, z: -150 },
         color: colors.darkIndigo,
         emissive: colors.electricBlue,
-        emissiveIntensity: 0.2,
+        emissiveIntensity: 0.8, // Testing HMR - should see bright blue glow!
+        showLabel: true,
+        labelOptions: {
+          fontSize: 160,
+          textColor: "#ffffff",
+          backgroundColor: "rgba(0, 50, 100, 0.9)", // More opaque to test HMR
+          height: 1,
+        },
       },
       {
         name: "tile-2",
@@ -107,6 +114,13 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         color: colors.veryDarkGrey,
         emissive: colors.neonGreen,
         emissiveIntensity: 0.2,
+        showLabel: true,
+        labelOptions: {
+          fontSize: 160,
+          textColor: "#ffffff",
+          backgroundColor: "rgba(0, 100, 50, 0.8)",
+          height: 1,
+        },
       },
       {
         name: "tile-3",
@@ -115,6 +129,13 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         color: colors.darkRed,
         emissive: colors.vermilion,
         emissiveIntensity: 0.2,
+        showLabel: true,
+        labelOptions: {
+          fontSize: 160,
+          textColor: "#ffffff",
+          backgroundColor: "rgba(100, 20, 20, 0.8)",
+          height: 1,
+        },
       },
       {
         name: "tile-4",
@@ -123,6 +144,13 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         color: colors.darkerGrey,
         emissive: colors.hotPink,
         emissiveIntensity: 0.2,
+        showLabel: true,
+        labelOptions: {
+          fontSize: 160,
+          textColor: "#ffffff",
+          backgroundColor: "rgba(100, 20, 80, 0.8)",
+          height: 1,
+        },
       },
       {
         name: "tile-5",
@@ -131,6 +159,13 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         color: colors.veryDarkBlue,
         emissive: colors.cyan,
         emissiveIntensity: 0.2,
+        showLabel: true,
+        labelOptions: {
+          fontSize: 160,
+          textColor: "#ffffff",
+          backgroundColor: "rgba(0, 80, 100, 0.8)",
+          height: 1,
+        },
       },
       {
         name: "tile-6",
@@ -139,14 +174,28 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         color: colors.darkGrey,
         emissive: colors.canaryYellow,
         emissiveIntensity: 0.2,
+        showLabel: true,
+        labelOptions: {
+          fontSize: 160,
+          textColor: "#000000",
+          backgroundColor: "rgba(200, 200, 0, 0.8)",
+          height: 1,
+        },
       },
       {
         name: "tile-7",
         size: { width: 250, depth: 250 },
         position: { x: -450, y: 0, z: -150 },
-        color: colors.darkIndigo,
-        emissive: colors.lightPurple,
+        color: colors.neonGreen,
+        emissive: colors.neonGreen,
         emissiveIntensity: 0.2,
+        showLabel: true,
+        labelOptions: {
+          fontSize: 160,
+          textColor: "#ffffff",
+          backgroundColor: "rgba(80, 20, 100, 0.8)",
+          height: 1,
+        },
       },
       {
         name: "tile-8",
@@ -155,6 +204,13 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         color: colors.veryDarkGrey,
         emissive: colors.orangeYellow,
         emissiveIntensity: 0.2,
+        showLabel: true,
+        labelOptions: {
+          fontSize: 160,
+          textColor: "#000000",
+          backgroundColor: "rgba(200, 150, 0, 0.8)",
+          height: 1,
+        },
       },
       {
         name: "tile-9",
@@ -163,6 +219,13 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         color: colors.darkRed,
         emissive: colors.mediumNeonGreen,
         emissiveIntensity: 0.2,
+        showLabel: true,
+        labelOptions: {
+          fontSize: 160,
+          textColor: "#ffffff",
+          backgroundColor: "rgba(0, 150, 0, 0.8)",
+          height: 1,
+        },
       },
       {
         name: "tile-10",
@@ -171,6 +234,13 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         color: colors.darkerGrey,
         emissive: colors.skyBlue,
         emissiveIntensity: 0.2,
+        showLabel: true,
+        labelOptions: {
+          fontSize: 150,
+          textColor: "#ffffff",
+          backgroundColor: "rgba(50, 150, 200, 0.8)",
+          height: 1,
+        },
       },
       {
         name: "tile-11",
@@ -179,6 +249,13 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         color: colors.veryDarkBlue,
         emissive: colors.goldenYellow,
         emissiveIntensity: 0.2,
+        showLabel: true,
+        labelOptions: {
+          fontSize: 150,
+          textColor: "#000000",
+          backgroundColor: "rgba(255, 215, 0, 0.8)",
+          height: 1,
+        },
       },
       {
         name: "tile-12",
@@ -187,6 +264,13 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         color: colors.darkGrey,
         emissive: colors.purple,
         emissiveIntensity: 0.2,
+        showLabel: true,
+        labelOptions: {
+          fontSize: 150,
+          textColor: "#ffffff",
+          backgroundColor: "rgba(128, 0, 128, 0.8)",
+          height: 1,
+        },
       },
     ],
     effectMode !== "none" // Hide tiles if no effects are enabled
