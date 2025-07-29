@@ -21,6 +21,7 @@ export interface ModelDefinition {
   description?: string;
   emissiveConfig?: EmissiveConfig;
   excludeFromEffects?: boolean; // Flag to exclude from post-processing effects
+  hasRoofLights?: boolean; // Flag to enable red roof lights for tall buildings
 }
 
 export interface ModelRegistry {
@@ -51,6 +52,7 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     defaultScale: { x: 1, y: 1, z: 1 },
     category: "commercial",
     description: "A tall commercial high-rise building",
+    hasRoofLights: true,
     emissiveConfig: {
       color: [colors.warmYellow, colors.orangeYellow], // Warm yellow, orange
       intensity: 0.6,
@@ -65,6 +67,7 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     defaultScale: { x: 2.3, y: 2.3, z: 2.3 },
     category: "commercial",
     description: "A tall commercial skyscraper",
+    hasRoofLights: true,
     emissiveConfig: {
       color: colors.cyan, // Bright cyan for futuristic look
       intensity: 1.2,
@@ -80,6 +83,7 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     defaultScale: { x: 1.8, y: 1.8, z: 1.8 },
     category: "commercial",
     description: "A tall commercial skyscraper",
+    hasRoofLights: true,
     emissiveConfig: {
       color: [colors.hotPink, colors.purple], // Hot pink, purple for dark building
       intensity: 1.5,
@@ -330,6 +334,7 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     defaultScale: { x: 2.0, y: 2.0, z: 2.0 },
     category: "skyscraper",
     description: "Massive skyscraper tower",
+    hasRoofLights: true,
   },
 
   MEGA_TOWER_02: {
@@ -343,6 +348,7 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     defaultScale: { x: 2.0, y: 2.0, z: 2.0 },
     category: "skyscraper",
     description: "Massive skyscraper tower variant",
+    hasRoofLights: true,
   },
 
   MEGA_TOWER_03: {
@@ -356,6 +362,7 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     defaultScale: { x: 2.0, y: 2.0, z: 2.0 },
     category: "skyscraper",
     description: "Massive skyscraper tower third variant",
+    hasRoofLights: true,
   },
 
   MEGA_TOWER_04: {
@@ -369,6 +376,7 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     defaultScale: { x: 2.0, y: 2.0, z: 2.0 },
     category: "skyscraper",
     description: "Massive skyscraper tower fourth variant",
+    hasRoofLights: true,
   },
 
   MEGA_TOWER_05: {
@@ -382,6 +390,7 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     defaultScale: { x: 2.0, y: 2.0, z: 2.0 },
     category: "skyscraper",
     description: "Massive skyscraper tower fifth variant",
+    hasRoofLights: true,
   },
 
   MEGA_TOWER_06: {
@@ -395,6 +404,7 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     defaultScale: { x: 2.0, y: 2.0, z: 2.0 },
     category: "skyscraper",
     description: "Massive skyscraper tower sixth variant",
+    hasRoofLights: true,
   },
 
   // Environment elements

@@ -360,6 +360,107 @@ export const industrialBlockCollection: ModelCollection = {
   ],
 };
 
+export const commercialBlockCollection1: ModelCollection = {
+  name: "commercial-block1",
+  models: [
+    {
+      instanceId: "cb1-r1-1",
+      modelType: MODEL_TYPES.INDUSTRIAL_04_B,
+      position: { x: 0, y: 0, z: -50 },
+      emissiveConfig: {
+        intensity: 3,
+      },
+    },
+
+    // Second row
+    {
+      instanceId: "cb1-r2-1",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_B,
+      position: { x: -100, y: 0, z: 80 },
+    },
+    {
+      instanceId: "cb1-r2-2",
+      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
+      position: { x: -50, y: 0, z: 80 },
+    },
+    {
+      instanceId: "cb1-r2-3",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_A,
+      position: { x: 0, y: 0, z: 80 },
+    },
+    {
+      instanceId: "cb1-r2-4",
+      modelType: MODEL_TYPES.COMMERCIAL_03_B,
+      position: { x: 90, y: 0, z: 90 },
+    },
+  ],
+};
+
+export const commercialBlockCollection2: ModelCollection = {
+  name: "commercial-block1",
+  models: [
+    // First row of commercial buildings --------------------------
+    {
+      instanceId: "cb2-r1-1",
+      modelType: MODEL_TYPES.INDUSTRIAL_04_C,
+      position: { x: 0, y: 0, z: -40 },
+      emissiveConfig: {
+        intensity: 3,
+      },
+    },
+    // // second row of commercial buildings --------------------------
+    {
+      instanceId: "cb2-r2-1",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_B,
+      position: { x: 100, y: 0, z: 60 },
+    },
+    {
+      instanceId: "cb2-r2-2",
+      modelType: MODEL_TYPES.COMMERCIAL_03_A,
+      position: { x: 0, y: 0, z: 60 },
+    },
+    {
+      instanceId: "cb2-r2-3",
+      modelType: MODEL_TYPES.RESIDENTIAL_02_A,
+      position: { x: -100, y: 0, z: 60 },
+    },
+  ],
+};
+
+export const mixedUseBlockCollection1: ModelCollection = {
+  name: "mixed-use-block1",
+  models: [
+    // First row of mixed-use buildings --------------------------
+    {
+      instanceId: "mub1-r1-1",
+      modelType: MODEL_TYPES.MIXED_USE_05_A,
+      position: { x: 0, y: 0, z: 0 },
+    },
+    // {
+    //   instanceId: "mub1-r1-2",
+    //   modelType: MODEL_TYPES.MIXED_USE_05_B,
+    //   position: { x: 110, y: 0, z: 0 },
+    // },
+  ],
+};
+
+export const mixedUseBlockCollection2: ModelCollection = {
+  name: "mixed-use-block2",
+  models: [
+    // First row of mixed-use buildings --------------------------
+    {
+      instanceId: "mub2-r1-1",
+      modelType: MODEL_TYPES.MIXED_USE_05_C,
+      position: { x: 0, y: 0, z: 0 },
+    },
+    // {
+    //   instanceId: "mub1-r1-2",
+    //   modelType: MODEL_TYPES.MIXED_USE_05_B,
+    //   position: { x: 110, y: 0, z: 0 },
+    // },
+  ],
+};
+
 // Grid layout with mixed building types
 export const gridLayoutCollection: ModelCollection = {
   name: "grid-layout",

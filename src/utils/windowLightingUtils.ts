@@ -296,3 +296,109 @@ export const addWindowPointLights = (scene: THREE.Scene): void => {
 
   console.log(`Added ${windowLights.length} window point lights`);
 };
+
+/**
+ * Determines if a building should have roof lights based on its model definition
+ */
+const shouldHaveRoofLights = (object: THREE.Object3D): boolean => {
+  // Check if the object has model definition data in userData
+  if (object.userData && object.userData.modelDefinition) {
+    return object.userData.modelDefinition.hasRoofLights === true;
+  }
+  
+  // Fallback: no roof lights if no model definition found
+  return false;
+};
+
+/**
+ * Finds the highest point of a building for roof light placement
+ */
+const getBuildingRoofPosition = (object: THREE.Object3D): THREE.Vector3 => {
+  const box = new THREE.Box3().setFromObject(object);
+  const center = box.getCenter(new THREE.Vector3());
+  
+  // Place light at the highest point (roof)
+  return new THREE.Vector3(center.x, box.max.y + 2, center.z);
+};
+
+/**
+ * Adds red warning lights to buildings that have hasRoofLights flag enabled in their model definition
+ */
+export const addSkyscraperRoofLights = (scene: THREE.Scene): void => {
+  const roofLights: THREE.PointLight[] = [];
+  const processedBuildings = new Set<string>();
+
+  scene.traverse((object) => {
+    // Check if this object should be excluded from effects
+    if ((object as THREE.Object3D & { excludeFromEffects?: boolean }).excludeFromEffects) {
+      return;
+    }
+
+    // Look for building objects (groups or meshes that represent complete buildings)
+    if (object instanceof THREE.Group || object instanceof THREE.Mesh) {
+      // Create a unique identifier for this building to avoid duplicates
+      const buildingId = `${Math.round(object.position.x)}_${Math.round(object.position.z)}`;
+      
+      if (processedBuildings.has(buildingId)) {
+        return;
+      }
+
+      // Check if this building should have roof lights based on model definition
+      if (shouldHaveRoofLights(object)) {
+        processedBuildings.add(buildingId);
+        
+        const roofPosition = getBuildingRoofPosition(object);
+        
+        // Create red warning light (like real skyscraper lights)
+        const roofLight = new THREE.PointLight(
+          colors.red, // Bright red color
+          0.8, // Moderate intensity
+          25 // Medium radius
+        );
+        
+        roofLight.position.copy(roofPosition);
+        
+        // Add a subtle pulsing effect by varying intensity slightly
+        const originalIntensity = roofLight.intensity;
+        roofLight.userData = {
+          originalIntensity,
+          pulsePhase: Math.random() * Math.PI * 2, // Random starting phase
+          isRoofLight: true
+        };
+        
+        scene.add(roofLight);
+        roofLights.push(roofLight);
+        
+        // Optionally add a small red emissive sphere as visual indicator
+        const lightIndicator = new THREE.Mesh(
+          new THREE.SphereGeometry(1, 8, 6),
+          new THREE.MeshStandardMaterial({
+            color: colors.red,
+            emissive: colors.red,
+            emissiveIntensity: 0.8
+          })
+        );
+        
+        lightIndicator.position.copy(roofPosition);
+        lightIndicator.userData = { isRoofLightIndicator: true };
+        scene.add(lightIndicator);
+      }
+    }
+  });
+
+  console.log(`Added ${roofLights.length} red roof lights to buildings with hasRoofLights flag`);
+};
+
+/**
+ * Animates the roof lights with a subtle pulsing effect
+ * Call this in your render loop for animated effects
+ */
+export const animateRoofLights = (scene: THREE.Scene, time: number): void => {
+  scene.traverse((object) => {
+    if (object instanceof THREE.PointLight && object.userData.isRoofLight) {
+      const { originalIntensity, pulsePhase } = object.userData;
+      // Create a subtle pulsing effect (±20% intensity variation)
+      object.intensity = originalIntensity + Math.sin(time * 0.002 + pulsePhase) * 0.2;
+    }
+  });
+};

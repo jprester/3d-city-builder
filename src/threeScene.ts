@@ -19,12 +19,22 @@ import {
   enhanceMaterialsForBloom,
 } from "./utils/postProcessingUtils.js";
 import {
+  addSkyscraperRoofLights,
+  animateRoofLights,
+} from "./utils/windowLightingUtils.js";
+import {
   getEffectConfiguration,
   type EffectMode,
   DEFAULT_EFFECT_MODE,
 } from "./utils/effectsConfig.js";
 import { colors } from "./utils/constants.js";
-import { industrialBlockCollection } from "./models/collections/building-collections.js";
+import {
+  commercialBlockCollection1,
+  commercialBlockCollection2,
+  industrialBlockCollection,
+  mixedUseBlockCollection1,
+  mixedUseBlockCollection2,
+} from "./models/collections/building-collections.js";
 
 export const initThreeScene = async (container: HTMLDivElement) => {
   const scene = new THREE.Scene();
@@ -50,6 +60,7 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   );
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
+
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = effectConfig.renderer.toneMappingExposure;
@@ -85,21 +96,97 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         name: "tile-1",
         size: { width: 250, depth: 250 },
         position: { x: -150, y: 0, z: -150 },
+        color: colors.darkIndigo,
+        emissive: colors.electricBlue,
+        emissiveIntensity: 0.2,
       },
       {
         name: "tile-2",
         size: { width: 250, depth: 250 },
         position: { x: -150, y: 0, z: 150 },
+        color: colors.veryDarkGrey,
+        emissive: colors.neonGreen,
+        emissiveIntensity: 0.2,
       },
       {
         name: "tile-3",
         size: { width: 250, depth: 250 },
         position: { x: 150, y: 0, z: 150 },
+        color: colors.darkRed,
+        emissive: colors.vermilion,
+        emissiveIntensity: 0.2,
       },
       {
         name: "tile-4",
         size: { width: 250, depth: 250 },
         position: { x: 150, y: 0, z: -150 },
+        color: colors.darkerGrey,
+        emissive: colors.hotPink,
+        emissiveIntensity: 0.2,
+      },
+      {
+        name: "tile-5",
+        size: { width: 250, depth: 250 },
+        position: { x: 150, y: 0, z: -450 },
+        color: colors.veryDarkBlue,
+        emissive: colors.cyan,
+        emissiveIntensity: 0.2,
+      },
+      {
+        name: "tile-6",
+        size: { width: 250, depth: 250 },
+        position: { x: -150, y: 0, z: -450 },
+        color: colors.darkGrey,
+        emissive: colors.canaryYellow,
+        emissiveIntensity: 0.2,
+      },
+      {
+        name: "tile-7",
+        size: { width: 250, depth: 250 },
+        position: { x: -450, y: 0, z: -150 },
+        color: colors.darkIndigo,
+        emissive: colors.lightPurple,
+        emissiveIntensity: 0.2,
+      },
+      {
+        name: "tile-8",
+        size: { width: 250, depth: 250 },
+        position: { x: -450, y: 0, z: 150 },
+        color: colors.veryDarkGrey,
+        emissive: colors.orangeYellow,
+        emissiveIntensity: 0.2,
+      },
+      {
+        name: "tile-9",
+        size: { width: 250, depth: 250 },
+        position: { x: -450, y: 0, z: -450 },
+        color: colors.darkRed,
+        emissive: colors.mediumNeonGreen,
+        emissiveIntensity: 0.2,
+      },
+      {
+        name: "tile-10",
+        size: { width: 250, depth: 250 },
+        position: { x: 450, y: 0, z: 150 },
+        color: colors.darkerGrey,
+        emissive: colors.skyBlue,
+        emissiveIntensity: 0.2,
+      },
+      {
+        name: "tile-11",
+        size: { width: 250, depth: 250 },
+        position: { x: 450, y: 0, z: -150 },
+        color: colors.veryDarkBlue,
+        emissive: colors.goldenYellow,
+        emissiveIntensity: 0.2,
+      },
+      {
+        name: "tile-12",
+        size: { width: 250, depth: 250 },
+        position: { x: 450, y: 0, z: -450 },
+        color: colors.darkGrey,
+        emissive: colors.purple,
+        emissiveIntensity: 0.2,
       },
     ],
     effectMode !== "none" // Hide tiles if no effects are enabled
@@ -109,12 +196,12 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   addHumanReferenceModel(scene);
 
   try {
-    const tile4Placement = getGroundTileByName(scene, "tile-1");
-    if (tile4Placement) {
+    const tile1Placement = getGroundTileByName(scene, "tile-1");
+    if (tile1Placement) {
       await modelPlacer.placeModelCollectionAsGroup(
         industrialBlockCollection,
         scene,
-        tile4Placement.position // Position the entire block on tile-4
+        tile1Placement.position // Position the entire block on tile-1
       );
     }
     // Test both regular and instanced collections
@@ -125,6 +212,51 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         residentialAndCommercialBlockCollection,
         scene,
         tile2Placement.position // Position the entire block on tile-2
+      );
+    }
+
+    const tile6Placement = getGroundTileByName(scene, "tile-6");
+    if (tile6Placement) {
+      await modelPlacer.placeModelCollectionAsGroup(
+        commercialBlockCollection1,
+        scene,
+        tile6Placement.position // Position the entire block on tile-8
+      );
+    }
+
+    const tile4Placement = getGroundTileByName(scene, "tile-4");
+    if (tile4Placement) {
+      await modelPlacer.placeModelCollectionAsGroup(
+        commercialBlockCollection2,
+        scene,
+        tile4Placement.position // Position the entire block on tile-4
+      );
+    }
+
+    const tile5Placement = getGroundTileByName(scene, "tile-5");
+    if (tile5Placement) {
+      await modelPlacer.placeModelCollectionAsGroup(
+        commercialBlockCollection2,
+        scene,
+        tile5Placement.position // Position the entire block on tile-5
+      );
+    }
+
+    const tile12Placement = getGroundTileByName(scene, "tile-12");
+    if (tile12Placement) {
+      await modelPlacer.placeModelCollectionAsGroup(
+        mixedUseBlockCollection1,
+        scene,
+        tile12Placement.position // Position the entire block on tile-10
+      );
+    }
+
+    const tile9Placement = getGroundTileByName(scene, "tile-9");
+    if (tile9Placement) {
+      await modelPlacer.placeModelCollectionAsGroup(
+        mixedUseBlockCollection2,
+        scene,
+        tile9Placement.position // Position the entire block on tile-9
       );
     }
 
@@ -187,6 +319,9 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     enhanceMaterialsForBloom(scene);
   }
 
+  // Add red roof lights to tall buildings
+  addSkyscraperRoofLights(scene);
+
   camera.position.z = 5;
 
   // Handle window resize
@@ -200,6 +335,9 @@ export const initThreeScene = async (container: HTMLDivElement) => {
 
   function animate() {
     controls.update(); // Update controls
+
+    // Animate roof lights with pulsing effect
+    animateRoofLights(scene, Date.now());
 
     // Render with or without post-processing based on configuration
     postProcessing.render(renderer, scene, camera);

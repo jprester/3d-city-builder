@@ -126,6 +126,14 @@ export class ModelPlacer {
       // Set name for debugging
       model.name = `${definition.name}_${instance.instanceId}`;
 
+      // Store model type and definition info in userData for later access
+      model.userData = {
+        ...model.userData,
+        modelType: instance.modelType,
+        modelDefinition: definition,
+        instanceId: instance.instanceId
+      };
+
       // Store exclusion flag on the model for post-processing
       const excludeFromEffects =
         instance.excludeFromEffects ?? definition.excludeFromEffects ?? false;
@@ -213,6 +221,14 @@ export class ModelPlacer {
       }
 
       model.name = config.name || config.id;
+      
+      // Store model type in userData for legacy models
+      model.userData = {
+        ...model.userData,
+        modelType: "LEGACY",
+        instanceId: config.id
+      };
+      
       scene.add(model);
 
       const placedModel: PlacedModel = {
