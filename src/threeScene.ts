@@ -35,6 +35,11 @@ import {
   mixedUseBlockCollection1,
   mixedUseBlockCollection2,
 } from "./models/collections/building-collections.js";
+import {
+  saveCameraState,
+  loadCameraState,
+  applyCameraState,
+} from "./utils/cameraState.js";
 
 export const initThreeScene = async (container: HTMLDivElement) => {
   const scene = new THREE.Scene();
@@ -80,14 +85,22 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   controls.maxDistance = 2000;
   controls.maxPolarAngle = Math.PI;
 
-  // Set initial camera position
-  camera.position.set(0, 0, 5);
-  controls.target.set(0, 0, 0);
-  controls.update();
-
   // Store initial camera position for reset functionality
   const initialCameraPosition = { x: 0, y: 0, z: 5 };
   const initialControlsTarget = { x: 0, y: 0, z: 0 };
+
+  // Try to load saved camera state, otherwise use initial position
+  const savedCameraState = loadCameraState();
+  const cameraWasRestored = !!savedCameraState;
+  if (savedCameraState) {
+    applyCameraState(camera, controls, savedCameraState);
+    console.log("Restored camera position from previous session");
+  } else {
+    // Set initial camera position
+    camera.position.set(0, 0, 5);
+    controls.target.set(0, 0, 0);
+    controls.update();
+  }
 
   // Initialize AssetManager and ModelPlacer
   const assetManager = new AssetManager();
@@ -456,6 +469,22 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   };
   window.addEventListener("resize", handleResize);
 
+  // Camera state persistence
+  let lastSaveTime = 0;
+  const SAVE_INTERVAL = 1000; // Save every 1 second
+
+  // Save camera state when controls change
+  const saveCameraStateDebounced = () => {
+    const now = Date.now();
+    if (now - lastSaveTime > SAVE_INTERVAL) {
+      saveCameraState(camera, controls);
+      lastSaveTime = now;
+    }
+  };
+
+  controls.addEventListener("change", saveCameraStateDebounced);
+  controls.addEventListener("end", () => saveCameraState(camera, controls));
+
   function animate() {
     controls.update(); // Update controls
 
@@ -500,6 +529,9 @@ export const initThreeScene = async (container: HTMLDivElement) => {
 
   return {
     cleanup: () => {
+      // Save camera state one final time before cleanup
+      saveCameraState(camera, controls);
+
       window.removeEventListener("resize", handleResize);
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
@@ -518,5 +550,6 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     assetManager,
     modelPlacer,
     postProcessing,
+    cameraWasRestored,
   };
 };

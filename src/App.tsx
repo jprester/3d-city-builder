@@ -1,33 +1,38 @@
 import { useEffect, useRef, useState } from "react";
-import { initThreeScene } from "./threeScene";
+import ThreeScene, { ThreeSceneRef } from "./components/ThreeScene";
 import { getMemoryInfo } from "./utils/helperFunctions";
 import "./App.css";
 
 function App() {
-  const canvasRef = useRef<HTMLDivElement>(null);
   const [logging, setLogging] = useState(false);
   const [memoryInfo, setMemoryInfo] = useState<any>(null);
   const rendererRef = useRef<any>(null);
   const setCityMapViewRef = useRef<(() => void) | null>(null);
   const resetCameraViewRef = useRef<(() => void) | null>(null);
   const intervalRef = useRef<number | null>(null);
+  const threeSceneRef = useRef<ThreeSceneRef>(null);
+
+  const handleSceneReady = ({
+    setCityMapView,
+    resetCameraView,
+    renderer,
+    cameraRestored,
+  }: {
+    setCityMapView: () => void;
+    resetCameraView: () => void;
+    renderer: any;
+    cameraRestored?: boolean;
+  }) => {
+    rendererRef.current = renderer;
+    setCityMapViewRef.current = setCityMapView;
+    resetCameraViewRef.current = resetCameraView;
+    
+    if (cameraRestored) {
+      console.log("✅ Camera position restored from previous session");
+    }
+  };
 
   useEffect(() => {
-    if (!canvasRef.current) return;
-
-    let cleanupFn: (() => void) | null = null;
-
-    // Initialize Three.js scene and get cleanup function and renderer
-    const scenePromise = initThreeScene(canvasRef.current);
-    scenePromise.then(
-      ({ cleanup, renderer, setCityMapView, resetCameraView }) => {
-        rendererRef.current = renderer;
-        setCityMapViewRef.current = setCityMapView;
-        resetCameraViewRef.current = resetCameraView;
-        cleanupFn = cleanup;
-      }
-    );
-
     // Keyboard shortcut handler
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === "m" || event.key === "M") {
@@ -48,11 +53,10 @@ function App() {
     // Add keyboard event listener
     window.addEventListener("keydown", handleKeyPress);
 
-    // Clean up Three.js on unmount
+    // Clean up on unmount
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
       window.removeEventListener("keydown", handleKeyPress);
-      if (cleanupFn) cleanupFn();
     };
   }, []);
 
@@ -78,13 +82,10 @@ function App() {
 
   return (
     <div>
-      <div
-        ref={canvasRef}
-        style={{
-          width: "100vw",
-          height: "100vh",
-          overflow: "hidden",
-        }}
+      <ThreeScene
+        ref={threeSceneRef}
+        onSceneReady={handleSceneReady}
+        className=""
       />
       <button
         style={{ position: "absolute", top: 20, left: 20, zIndex: 10 }}
