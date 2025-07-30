@@ -32,6 +32,7 @@ import {
   commercialBlockCollection1,
   commercialBlockCollection2,
   industrialBlockCollection,
+  megaCollection,
   mixedUseBlockCollection1,
   mixedUseBlockCollection2,
 } from "./models/collections/building-collections.js";
@@ -272,6 +273,21 @@ export const initThreeScene = async (container: HTMLDivElement) => {
           height: 1,
         },
       },
+      {
+        name: "tile-13",
+        size: { width: 250, depth: 250 },
+        position: { x: 0, y: 0, z: -950 },
+        color: colors.darkIndigo,
+        emissive: colors.electricBlue,
+        emissiveIntensity: 0.8, // Testing HMR - should see bright blue glow!
+        showLabel: true,
+        labelOptions: {
+          fontSize: 160,
+          textColor: "#ffffff",
+          backgroundColor: "rgba(0, 50, 100, 0.9)", // More opaque to test HMR
+          height: 1,
+        },
+      },
     ],
     effectMode !== "none" // Hide tiles if no effects are enabled
   );
@@ -343,6 +359,15 @@ export const initThreeScene = async (container: HTMLDivElement) => {
         tile9Placement.position // Position the entire block on tile-9
       );
     }
+
+    // const tile13Placement = getGroundTileByName(scene, "tile-13");
+    // if (tile13Placement) {
+    //   await modelPlacer.placeModelCollectionAsGroup(
+    //     megaCollection,
+    //     scene,
+    //     tile13Placement.position // Position the entire block on tile-13
+    //   );
+    // }
 
     const { group: residentialGroup1, models: placedModels } =
       await modelPlacer.placeModelCollectionAsGroup(

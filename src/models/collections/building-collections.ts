@@ -402,7 +402,7 @@ export const commercialBlockCollection2: ModelCollection = {
     // First row of commercial buildings --------------------------
     {
       instanceId: "cb2-r1-1",
-      modelType: MODEL_TYPES.INDUSTRIAL_04_C,
+      modelType: MODEL_TYPES.MIXED_USE_05_B,
       position: { x: 0, y: 0, z: -40 },
       emissiveConfig: {
         intensity: 3,
@@ -435,6 +435,9 @@ export const mixedUseBlockCollection1: ModelCollection = {
       instanceId: "mub1-r1-1",
       modelType: MODEL_TYPES.MIXED_USE_05_A,
       position: { x: 0, y: 0, z: 0 },
+      emissiveConfig: {
+        intensity: 3,
+      },
     },
     // {
     //   instanceId: "mub1-r1-2",
@@ -450,14 +453,29 @@ export const mixedUseBlockCollection2: ModelCollection = {
     // First row of mixed-use buildings --------------------------
     {
       instanceId: "mub2-r1-1",
-      modelType: MODEL_TYPES.MIXED_USE_05_C,
+      modelType: MODEL_TYPES.MIXED_USE_05_B,
       position: { x: 0, y: 0, z: 0 },
+      emissiveConfig: {
+        intensity: 3,
+      },
     },
     // {
     //   instanceId: "mub1-r1-2",
     //   modelType: MODEL_TYPES.MIXED_USE_05_B,
     //   position: { x: 110, y: 0, z: 0 },
     // },
+  ],
+};
+
+export const megaCollection: ModelCollection = {
+  name: "mega-collection",
+  models: [
+    {
+      instanceId: "meg1-r1-1",
+      modelType: MODEL_TYPES.MEGA_TOWER_01,
+      position: { x: 0, y: 0, z: 0 },
+      scale: { x: 0.9, y: 0.9, z: 0.9 },
+    },
   ],
 };
 
