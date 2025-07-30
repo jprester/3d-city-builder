@@ -1,5 +1,5 @@
 import { useRef, useEffect, useImperativeHandle, forwardRef } from "react";
-import { initThreeScene } from "../threeScene";
+import { initCityScene } from "../cityScene";
 
 interface ThreeSceneProps {
   className?: string;
@@ -39,28 +39,30 @@ const ThreeScene = forwardRef<ThreeSceneRef, ThreeSceneProps>(
       let isComponentMounted = true;
 
       // Initialize Three.js scene
-      const scenePromise = initThreeScene(mountRef.current);
-      scenePromise.then((controls) => {
-        if (!isComponentMounted) {
-          // Component was unmounted before scene finished loading
-          controls.cleanup();
-          return;
-        }
+      const scenePromise = initCityScene(mountRef.current);
+      scenePromise
+        .then((controls) => {
+          if (!isComponentMounted) {
+            // Component was unmounted before scene finished loading
+            controls.cleanup();
+            return;
+          }
 
-        sceneControlsRef.current = controls;
-        
-        // Notify parent component that scene is ready
-        if (onSceneReady) {
-          onSceneReady({
-            setCityMapView: controls.setCityMapView,
-            resetCameraView: controls.resetCameraView,
-            renderer: controls.renderer,
-            cameraRestored: controls.cameraWasRestored,
-          });
-        }
-      }).catch((error) => {
-        console.error("Failed to initialize Three.js scene:", error);
-      });
+          sceneControlsRef.current = controls;
+
+          // Notify parent component that scene is ready
+          if (onSceneReady) {
+            onSceneReady({
+              setCityMapView: controls.setCityMapView,
+              resetCameraView: controls.resetCameraView,
+              renderer: controls.renderer,
+              cameraRestored: controls.cameraWasRestored,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Failed to initialize Three.js scene:", error);
+        });
 
       // Cleanup function
       return () => {

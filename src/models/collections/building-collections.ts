@@ -1,5 +1,6 @@
 import { ModelCollection } from "../ModelPlacer.js";
 import { MODEL_TYPES } from "../definitions/ModelDefinitions.js";
+import { colors } from "../../utils/constants.js";
 
 // Optimized building collection - only placement data!
 export const buildingsCollection: ModelCollection = {
@@ -368,7 +369,8 @@ export const commercialBlockCollection1: ModelCollection = {
       modelType: MODEL_TYPES.INDUSTRIAL_04_B,
       position: { x: 0, y: 0, z: -50 },
       emissiveConfig: {
-        intensity: 3,
+        intensity: 7,
+        color: colors.electricBlue, // Warm white for visibility
       },
     },
 
@@ -437,6 +439,7 @@ export const mixedUseBlockCollection1: ModelCollection = {
       position: { x: 0, y: 0, z: 0 },
       emissiveConfig: {
         intensity: 3,
+        color: colors.warmWhite, // Warm white for visibility
       },
     },
     // {

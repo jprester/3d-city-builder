@@ -41,7 +41,7 @@ import {
   applyCameraState,
 } from "./utils/cameraState.js";
 
-export const initThreeScene = async (container: HTMLDivElement) => {
+export const initCityScene = async (container: HTMLDivElement) => {
   const scene = new THREE.Scene();
 
   // Get effect configuration - Change this line to switch modes:
@@ -80,7 +80,7 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   // Configure controls
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
-  controls.screenSpacePanning = false;
+  controls.screenSpacePanning = true;
   controls.minDistance = 1;
   controls.maxDistance = 2000;
   controls.maxPolarAngle = Math.PI;
