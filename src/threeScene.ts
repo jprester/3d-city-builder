@@ -72,6 +72,19 @@ export const initThreeScene = async (container: HTMLDivElement) => {
 
   const controls = new OrbitControls(camera, renderer.domElement);
 
+  // Configure controls
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+  controls.screenSpacePanning = false;
+  controls.minDistance = 1;
+  controls.maxDistance = 2000;
+  controls.maxPolarAngle = Math.PI;
+
+  // Set initial camera position
+  camera.position.set(0, 0, 5);
+  controls.target.set(0, 0, 0);
+  controls.update();
+
   // Store initial camera position for reset functionality
   const initialCameraPosition = { x: 0, y: 0, z: 5 };
   const initialControlsTarget = { x: 0, y: 0, z: 0 };
@@ -434,8 +447,6 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   // Add red roof lights to tall buildings
   addSkyscraperRoofLights(scene);
 
-  camera.position.z = 5;
-
   // Handle window resize
   const handleResize = () => {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -459,25 +470,17 @@ export const initThreeScene = async (container: HTMLDivElement) => {
 
   // Function to position camera for top-down city map view
   const setCityMapView = () => {
-    console.log("setCityMapView called!");
-    console.log("Camera position before:", camera.position.clone());
-    console.log("Controls target before:", controls.target.clone());
-
-    // Position camera high above the center of the city
+    // Directly set camera position and controls target
     camera.position.set(0, 800, 0);
-    camera.lookAt(0, 0, 0);
     controls.target.set(0, 0, 0);
-    controls.update();
 
-    console.log("Camera position after:", camera.position.clone());
-    console.log("Controls target after:", controls.target.clone());
+    // Force controls to update immediately
+    controls.update();
   };
 
   // Function to reset camera to initial position
   const resetCameraView = () => {
     console.log("resetCameraView called!");
-    console.log("Camera position before:", camera.position.clone());
-    console.log("Controls target before:", controls.target.clone());
 
     // Reset to initial camera position
     camera.position.set(
@@ -490,10 +493,9 @@ export const initThreeScene = async (container: HTMLDivElement) => {
       initialControlsTarget.y,
       initialControlsTarget.z
     );
-    controls.update();
 
-    console.log("Camera position after:", camera.position.clone());
-    console.log("Controls target after:", controls.target.clone());
+    // Force controls to update immediately
+    controls.update();
   };
 
   return {
