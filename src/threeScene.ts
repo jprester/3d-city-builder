@@ -462,13 +462,13 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     console.log("setCityMapView called!");
     console.log("Camera position before:", camera.position.clone());
     console.log("Controls target before:", controls.target.clone());
-    
+
     // Position camera high above the center of the city
     camera.position.set(0, 800, 0);
     camera.lookAt(0, 0, 0);
     controls.target.set(0, 0, 0);
     controls.update();
-    
+
     console.log("Camera position after:", camera.position.clone());
     console.log("Controls target after:", controls.target.clone());
   };
@@ -478,12 +478,20 @@ export const initThreeScene = async (container: HTMLDivElement) => {
     console.log("resetCameraView called!");
     console.log("Camera position before:", camera.position.clone());
     console.log("Controls target before:", controls.target.clone());
-    
+
     // Reset to initial camera position
-    camera.position.set(initialCameraPosition.x, initialCameraPosition.y, initialCameraPosition.z);
-    controls.target.set(initialControlsTarget.x, initialControlsTarget.y, initialControlsTarget.z);
+    camera.position.set(
+      initialCameraPosition.x,
+      initialCameraPosition.y,
+      initialCameraPosition.z
+    );
+    controls.target.set(
+      initialControlsTarget.x,
+      initialControlsTarget.y,
+      initialControlsTarget.z
+    );
     controls.update();
-    
+
     console.log("Camera position after:", camera.position.clone());
     console.log("Controls target after:", controls.target.clone());
   };
