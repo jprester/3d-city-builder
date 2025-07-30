@@ -32,7 +32,6 @@ import {
   commercialBlockCollection1,
   commercialBlockCollection2,
   industrialBlockCollection,
-  megaCollection,
   mixedUseBlockCollection1,
   mixedUseBlockCollection2,
 } from "./models/collections/building-collections.js";
@@ -72,6 +71,10 @@ export const initThreeScene = async (container: HTMLDivElement) => {
   // We'll initialize post-processing after scene setup
 
   const controls = new OrbitControls(camera, renderer.domElement);
+
+  // Store initial camera position for reset functionality
+  const initialCameraPosition = { x: 0, y: 0, z: 5 };
+  const initialControlsTarget = { x: 0, y: 0, z: 0 };
 
   // Initialize AssetManager and ModelPlacer
   const assetManager = new AssetManager();
@@ -454,6 +457,37 @@ export const initThreeScene = async (container: HTMLDivElement) => {
 
   renderer.setAnimationLoop(animate);
 
+  // Function to position camera for top-down city map view
+  const setCityMapView = () => {
+    console.log("setCityMapView called!");
+    console.log("Camera position before:", camera.position.clone());
+    console.log("Controls target before:", controls.target.clone());
+    
+    // Position camera high above the center of the city
+    camera.position.set(0, 800, 0);
+    camera.lookAt(0, 0, 0);
+    controls.target.set(0, 0, 0);
+    controls.update();
+    
+    console.log("Camera position after:", camera.position.clone());
+    console.log("Controls target after:", controls.target.clone());
+  };
+
+  // Function to reset camera to initial position
+  const resetCameraView = () => {
+    console.log("resetCameraView called!");
+    console.log("Camera position before:", camera.position.clone());
+    console.log("Controls target before:", controls.target.clone());
+    
+    // Reset to initial camera position
+    camera.position.set(initialCameraPosition.x, initialCameraPosition.y, initialCameraPosition.z);
+    controls.target.set(initialControlsTarget.x, initialControlsTarget.y, initialControlsTarget.z);
+    controls.update();
+    
+    console.log("Camera position after:", camera.position.clone());
+    console.log("Controls target after:", controls.target.clone());
+  };
+
   return {
     cleanup: () => {
       window.removeEventListener("resize", handleResize);
@@ -467,6 +501,10 @@ export const initThreeScene = async (container: HTMLDivElement) => {
       controls.dispose();
     },
     renderer,
+    camera,
+    controls,
+    setCityMapView,
+    resetCameraView,
     assetManager,
     modelPlacer,
     postProcessing,

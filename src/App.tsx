@@ -8,6 +8,8 @@ function App() {
   const [logging, setLogging] = useState(false);
   const [memoryInfo, setMemoryInfo] = useState<any>(null);
   const rendererRef = useRef<any>(null);
+  const setCityMapViewRef = useRef<(() => void) | null>(null);
+  const resetCameraViewRef = useRef<(() => void) | null>(null);
   const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -17,14 +19,39 @@ function App() {
 
     // Initialize Three.js scene and get cleanup function and renderer
     const scenePromise = initThreeScene(canvasRef.current);
-    scenePromise.then(({ cleanup, renderer }) => {
-      rendererRef.current = renderer;
-      cleanupFn = cleanup;
-    });
+    scenePromise.then(
+      ({ cleanup, renderer, setCityMapView, resetCameraView }) => {
+        rendererRef.current = renderer;
+        setCityMapViewRef.current = setCityMapView;
+        resetCameraViewRef.current = resetCameraView;
+        cleanupFn = cleanup;
+      }
+    );
+
+    // Keyboard shortcut handler
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === "m" || event.key === "M") {
+        if (setCityMapViewRef.current) {
+          setCityMapViewRef.current();
+        } else {
+          console.log("setCityMapViewRef.current is null!");
+        }
+      } else if (event.key === "r" || event.key === "R") {
+        if (resetCameraViewRef.current) {
+          resetCameraViewRef.current();
+        } else {
+          console.log("resetCameraViewRef.current is null!");
+        }
+      }
+    };
+
+    // Add keyboard event listener
+    window.addEventListener("keydown", handleKeyPress);
 
     // Clean up Three.js on unmount
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
+      window.removeEventListener("keydown", handleKeyPress);
       if (cleanupFn) cleanupFn();
     };
   }, []);
@@ -64,6 +91,59 @@ function App() {
         onClick={() => setLogging((v) => !v)}>
         {logging ? "Stop Memory Logging" : "Start Memory Logging"}
       </button>
+
+      {/* Camera control buttons in top right corner */}
+      <div
+        style={{
+          position: "absolute",
+          top: 20,
+          right: 20,
+          zIndex: 10,
+          display: "flex",
+          gap: "10px",
+        }}>
+        <button
+          style={{
+            padding: "8px 16px",
+            backgroundColor: "#007acc",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontSize: "14px",
+          }}
+          onClick={() => {
+            if (setCityMapViewRef.current) {
+              setCityMapViewRef.current();
+            } else {
+              console.log("setCityMapViewRef.current is null!");
+            }
+          }}
+          title="Press 'M' key or click to switch to city map view">
+          📍 Map View
+        </button>
+
+        <button
+          style={{
+            padding: "8px 16px",
+            backgroundColor: "#28a745",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontSize: "14px",
+          }}
+          onClick={() => {
+            if (resetCameraViewRef.current) {
+              resetCameraViewRef.current();
+            } else {
+              console.log("resetCameraViewRef.current is null!");
+            }
+          }}
+          title="Press 'R' key or click to reset to initial camera view">
+          🏠 Reset View
+        </button>
+      </div>
 
       {logging ? (
         <div
