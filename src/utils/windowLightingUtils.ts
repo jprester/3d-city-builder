@@ -66,13 +66,14 @@ const convertEmissiveToWindowConfig = (
   emissiveConfig: EmissiveConfig
 ): WindowLightingConfig => {
   // If intensity is 0, use black color to ensure no emission
-  const colors = emissiveConfig.intensity === 0
-    ? [0x000000] // Black - no emission
-    : Array.isArray(emissiveConfig.color)
-    ? (emissiveConfig.color as number[])
-    : emissiveConfig.color
-    ? [emissiveConfig.color as number]
-    : DEFAULT_WINDOW_CONFIG.colors;
+  const colors =
+    emissiveConfig.intensity === 0
+      ? [0x000000] // Black - no emission
+      : Array.isArray(emissiveConfig.color)
+      ? (emissiveConfig.color as number[])
+      : emissiveConfig.color
+      ? [emissiveConfig.color as number]
+      : DEFAULT_WINDOW_CONFIG.colors;
 
   return {
     colors,
@@ -118,8 +119,9 @@ export const applyEmissiveToObject = (
         if (shouldApply) {
           // When applying custom emissive config, override ALL materials
           // not just windows - this ensures custom configs take full precedence
-          const forceApply = emissiveConfig.materialFilter || config.emissiveIntensity === 0;
-          
+          const forceApply =
+            emissiveConfig.materialFilter || config.emissiveIntensity === 0;
+
           // Enhanced window detection
           const isWindow =
             materialName.includes("window") ||
@@ -197,14 +199,11 @@ export const enhanceWindowMaterials = (
         const materialName = meshMaterial.name?.toLowerCase() || "";
         const isWindow =
           materialName.includes("window") ||
+          materialName.includes("windows") ||
           materialName.includes("glass") ||
           materialName.includes("emit") ||
           materialName.includes("light") ||
-          (meshMaterial.transparent && meshMaterial.opacity < 0.9) ||
-          (meshMaterial.color.r > 0.7 &&
-            meshMaterial.color.g > 0.7 &&
-            meshMaterial.color.b > 0.7) ||
-          (meshMaterial.roughness < 0.3 && meshMaterial.metalness < 0.3);
+          (meshMaterial.transparent && meshMaterial.opacity < 0.9);
 
         if (isWindow) {
           // Apply window lighting configuration
@@ -305,7 +304,7 @@ const shouldHaveRoofLights = (object: THREE.Object3D): boolean => {
   if (object.userData && object.userData.modelDefinition) {
     return object.userData.modelDefinition.hasRoofLights === true;
   }
-  
+
   // Fallback: no roof lights if no model definition found
   return false;
 };
@@ -316,7 +315,7 @@ const shouldHaveRoofLights = (object: THREE.Object3D): boolean => {
 const getBuildingRoofPosition = (object: THREE.Object3D): THREE.Vector3 => {
   const box = new THREE.Box3().setFromObject(object);
   const center = box.getCenter(new THREE.Vector3());
-  
+
   // Place light at the highest point (roof)
   return new THREE.Vector3(center.x, box.max.y + 2, center.z);
 };
@@ -330,15 +329,20 @@ export const addSkyscraperRoofLights = (scene: THREE.Scene): void => {
 
   scene.traverse((object) => {
     // Check if this object should be excluded from effects
-    if ((object as THREE.Object3D & { excludeFromEffects?: boolean }).excludeFromEffects) {
+    if (
+      (object as THREE.Object3D & { excludeFromEffects?: boolean })
+        .excludeFromEffects
+    ) {
       return;
     }
 
     // Look for building objects (groups or meshes that represent complete buildings)
     if (object instanceof THREE.Group || object instanceof THREE.Mesh) {
       // Create a unique identifier for this building to avoid duplicates
-      const buildingId = `${Math.round(object.position.x)}_${Math.round(object.position.z)}`;
-      
+      const buildingId = `${Math.round(object.position.x)}_${Math.round(
+        object.position.z
+      )}`;
+
       if (processedBuildings.has(buildingId)) {
         return;
       }
@@ -346,39 +350,39 @@ export const addSkyscraperRoofLights = (scene: THREE.Scene): void => {
       // Check if this building should have roof lights based on model definition
       if (shouldHaveRoofLights(object)) {
         processedBuildings.add(buildingId);
-        
+
         const roofPosition = getBuildingRoofPosition(object);
-        
+
         // Create red warning light (like real skyscraper lights)
         const roofLight = new THREE.PointLight(
           colors.red, // Bright red color
           0.8, // Moderate intensity
           25 // Medium radius
         );
-        
+
         roofLight.position.copy(roofPosition);
-        
+
         // Add a subtle pulsing effect by varying intensity slightly
         const originalIntensity = roofLight.intensity;
         roofLight.userData = {
           originalIntensity,
           pulsePhase: Math.random() * Math.PI * 2, // Random starting phase
-          isRoofLight: true
+          isRoofLight: true,
         };
-        
+
         scene.add(roofLight);
         roofLights.push(roofLight);
-        
+
         // Optionally add a small red emissive sphere as visual indicator
         const lightIndicator = new THREE.Mesh(
           new THREE.SphereGeometry(1, 8, 6),
           new THREE.MeshStandardMaterial({
             color: colors.red,
             emissive: colors.red,
-            emissiveIntensity: 0.8
+            emissiveIntensity: 0.8,
           })
         );
-        
+
         lightIndicator.position.copy(roofPosition);
         lightIndicator.userData = { isRoofLightIndicator: true };
         scene.add(lightIndicator);
@@ -386,7 +390,9 @@ export const addSkyscraperRoofLights = (scene: THREE.Scene): void => {
     }
   });
 
-  console.log(`Added ${roofLights.length} red roof lights to buildings with hasRoofLights flag`);
+  console.log(
+    `Added ${roofLights.length} red roof lights to buildings with hasRoofLights flag`
+  );
 };
 
 /**
@@ -398,7 +404,8 @@ export const animateRoofLights = (scene: THREE.Scene, time: number): void => {
     if (object instanceof THREE.PointLight && object.userData.isRoofLight) {
       const { originalIntensity, pulsePhase } = object.userData;
       // Create a subtle pulsing effect (±20% intensity variation)
-      object.intensity = originalIntensity + Math.sin(time * 0.002 + pulsePhase) * 0.2;
+      object.intensity =
+        originalIntensity + Math.sin(time * 0.002 + pulsePhase) * 0.2;
     }
   });
 };

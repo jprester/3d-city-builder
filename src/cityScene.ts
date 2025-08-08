@@ -407,6 +407,17 @@ export const initCityScene = async (container: HTMLDivElement) => {
     console.log(`Successfully placed ${placedModels.length} models in group`);
     residentialGroup1.position.set(0, 0, 0); // Move group to a new position
 
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "dark-skyscraper2",
+    //     name: "darkSkyscraper",
+    //     filePath: "/assets/models/skyscraper_dark.glb",
+    //     position: { x: 120, y: 0, z: 60 },
+    //     scale: { x: 3, y: 3, z: 3 },
+    //   },
+    //   scene
+    // );
+
     // console.log("=== Testing Instanced Models ===");
     // const instancedModels = await modelPlacer.placeInstancedCollection(
     //   massResidentialCollection,
