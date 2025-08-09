@@ -129,6 +129,9 @@ export const setupSkyTexture = async (
       options
     );
     scene.background = skyTexture;
+    // Also use the same texture for image-based lighting (env map)
+    // so PBR materials receive ambient illumination.
+    scene.environment = skyTexture;
     console.log("Sky texture set as scene background");
   } catch (error) {
     console.warn(

@@ -122,16 +122,25 @@ export const applyEmissiveToObject = (
           const forceApply =
             emissiveConfig.materialFilter || config.emissiveIntensity === 0;
 
+          if (
+            materialName.includes("roof-metal") ||
+            materialName.includes("roof")
+          ) {
+            // Skip roof materials
+            return;
+          }
+
           // Enhanced window detection
           const isWindow =
             materialName.includes("window") ||
+            materialName.includes("windows") ||
             materialName.includes("glass") ||
             materialName.includes("emit") ||
             materialName.includes("light") ||
-            (meshMaterial.transparent && meshMaterial.opacity < 0.9) ||
             (meshMaterial.color.r > 0.7 &&
               meshMaterial.color.g > 0.7 &&
               meshMaterial.color.b > 0.7) ||
+            (meshMaterial.transparent && meshMaterial.opacity < 0.9) ||
             (meshMaterial.roughness < 0.3 && meshMaterial.metalness < 0.3);
 
           if (isWindow || forceApply) {

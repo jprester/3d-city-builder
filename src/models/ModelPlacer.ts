@@ -50,6 +50,8 @@ export interface ModelConfig {
   scale?: ModelScale;
   rotation?: ModelRotation;
   name?: string;
+  emissiveConfig?: EmissiveConfig;
+  excludeFromEffects?: boolean;
 }
 
 export interface ModelCollection {
@@ -131,7 +133,7 @@ export class ModelPlacer {
         ...model.userData,
         modelType: instance.modelType,
         modelDefinition: definition,
-        instanceId: instance.instanceId
+        instanceId: instance.instanceId,
       };
 
       // Store exclusion flag on the model for post-processing
@@ -221,14 +223,38 @@ export class ModelPlacer {
       }
 
       model.name = config.name || config.id;
-      
+
       // Store model type in userData for legacy models
       model.userData = {
         ...model.userData,
         modelType: "LEGACY",
-        instanceId: config.id
+        instanceId: config.id,
       };
-      
+
+      // Store exclusion flag on the model for post-processing
+      const excludeFromEffects =
+        instance.excludeFromEffects ?? config.excludeFromEffects ?? false;
+      (model as any).excludeFromEffects = excludeFromEffects;
+
+      // Apply emissive configuration (instance override takes precedence)
+      const emissiveConfig = instance.emissiveConfig || config.emissiveConfig;
+      if (emissiveConfig && !excludeFromEffects) {
+        applyEmissiveToObject(model, emissiveConfig);
+        // Mark objects with custom emissive configs as excluded from global effects
+        // to prevent enhanceMaterialsForBloom from overriding them
+        // Apply the flag to all children recursively
+        model.traverse((child) => {
+          (child as any).excludeFromEffects = true;
+        });
+        console.log(
+          `Applied custom emissive config to ${config.name}_${instance.instanceId} and excluded all children from global effects`
+        );
+      } else if (excludeFromEffects) {
+        console.log(
+          `Excluded ${config.name}_${instance.instanceId} from effects`
+        );
+      }
+
       scene.add(model);
 
       const placedModel: PlacedModel = {

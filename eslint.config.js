@@ -23,6 +23,12 @@ export default tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
+      // Downgrade unused vars/params to warnings during development
+      "no-unused-vars": ["warn", { args: "after-used", ignoreRestSiblings: true }],
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { args: "after-used", argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
       "@typescript-eslint/no-explicit-any": "warn", // This is just for quick prototyping. Remove this rule or change to 'error' in production
     },
   }

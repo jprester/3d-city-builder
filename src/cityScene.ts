@@ -1,12 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import {
-  AssetManager,
-  ModelPlacer,
-  residentialAndCommercialBlockCollection,
-  // buildingsCollection,
-  residentialBlockCollection,
-} from "./models/index.js";
+import { AssetManager, ModelPlacer } from "./models/index.js";
 import {
   addHumanReferenceModel,
   createGroundPlane,
@@ -14,6 +8,11 @@ import {
   getGroundTileByName,
 } from "./utils/helperFunctions.js";
 import { setupEnvironment } from "./utils/environmentUtils.js";
+import {
+  setEnvMapIntensity as setEnvMapIntensityUtil,
+  harmonizePBR as harmonizePBRUtil,
+  logMaterialMaps,
+} from "./utils/materialUtils.js";
 import {
   setupPostProcessing,
   enhanceMaterialsForBloom,
@@ -28,18 +27,20 @@ import {
   DEFAULT_EFFECT_MODE,
 } from "./utils/effectsConfig.js";
 import { colors } from "./utils/constants.js";
+// import { commercialBlockCollection1, commercialBlockCollection2, industrialBlockCollection, mixedUseBlockCollection1, mixedUseBlockCollection2 } from "./models/collections/building-collections.js";
+import {
+  saveCameraState,
+  loadCameraState,
+  applyCameraState,
+} from "./utils/cameraState.js";
 import {
   commercialBlockCollection1,
   commercialBlockCollection2,
   industrialBlockCollection,
   mixedUseBlockCollection1,
   mixedUseBlockCollection2,
+  residentialAndCommercialBlockCollection,
 } from "./models/collections/building-collections.js";
-import {
-  saveCameraState,
-  loadCameraState,
-  applyCameraState,
-} from "./utils/cameraState.js";
 
 export const initCityScene = async (container: HTMLDivElement) => {
   const scene = new THREE.Scene();
@@ -114,6 +115,12 @@ export const initCityScene = async (container: HTMLDivElement) => {
     "/assets/sky_night.jpg",
     { darkness: 0.2 }
   );
+
+  // Slightly increase exposure for better base texture visibility
+  renderer.toneMappingExposure *= 1.2;
+
+  // Boost environment lighting influence on PBR materials
+  setEnvMapIntensityUtil(scene, 5.2);
 
   // Add ground plane with custom emissive configuration
   // You can override the ground plane's emissive properties here:
@@ -327,10 +334,11 @@ export const initCityScene = async (container: HTMLDivElement) => {
   try {
     const tile1Placement = getGroundTileByName(scene, "tile-1");
     if (tile1Placement) {
+      // Example: place a collection here if desired
       await modelPlacer.placeModelCollectionAsGroup(
         industrialBlockCollection,
         scene,
-        tile1Placement.position // Position the entire block on tile-1
+        tile1Placement.position
       );
     }
     // Test both regular and instanced collections
@@ -398,25 +406,118 @@ export const initCityScene = async (container: HTMLDivElement) => {
     //   );
     // }
 
-    const { group: residentialGroup1, models: placedModels } =
-      await modelPlacer.placeModelCollectionAsGroup(
-        residentialBlockCollection,
-        scene,
-        { x: 0, y: 0, z: 0 } // Position the entire block
-      );
-    console.log(`Successfully placed ${placedModels.length} models in group`);
-    residentialGroup1.position.set(0, 0, 0); // Move group to a new position
+    // const { group: residentialGroup1, models: placedModels } =
+    //   await modelPlacer.placeModelCollectionAsGroup(
+    //     residentialBlockCollection,
+    //     scene,
+    //     { x: 0, y: 0, z: 0 } // Position the entire block
+    //   );
+    // console.log(`Successfully placed ${placedModels.length} models in group`);
+    // residentialGroup1.position.set(0, 0, 0); // Move group to a new position
 
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "dark-skyscraper2",
-    //     name: "darkSkyscraper",
-    //     filePath: "/assets/models/skyscraper_dark.glb",
-    //     position: { x: 120, y: 0, z: 60 },
-    //     scale: { x: 3, y: 3, z: 3 },
-    //   },
-    //   scene
-    // );
+    await modelPlacer.placeModel(
+      {
+        id: "dark-skyscraper2",
+        name: "darkSkyscraper",
+        filePath: "/assets/models/skyscraper_dark.glb",
+        position: { x: 120, y: 0, z: -20 },
+        scale: { x: 3, y: 3, z: 3 },
+        emissiveConfig: {
+          intensity: 4,
+          color: colors.skyBlue,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "new-skyscraper1",
+        name: "newSkyscraper1",
+        filePath: "/assets/models/synth-remixed-skyscraper.glb",
+        position: { x: 0, y: 0, z: 60 },
+        scale: { x: 4.2, y: 4.2, z: 4.2 },
+        emissiveConfig: {
+          intensity: 2,
+          color: colors.orangeYellow,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "new-skyscraper2",
+        name: "newSkyscraper2",
+        filePath: "/assets/models/synth-remixed-next-skyscraper2.glb",
+        position: { x: -30, y: 0, z: 130 },
+        scale: { x: 4.2, y: 4.2, z: 4.2 },
+        // emissiveConfig: {
+        //   intensity: 2,
+        //   color: colors.softYellow,
+
+        //   roughness: 0.05,
+        //   metalness: 0.3,
+        // },
+      },
+      scene
+    );
+
+    const placed3 = await modelPlacer.placeModel(
+      {
+        id: "new-skyscraper3",
+        name: "newSkyscraper3",
+        filePath: "/assets/models/synth-remixed-cyberpunk-skyscraper.glb",
+        position: { x: 290, y: 0, z: -70 },
+        scale: { x: 6.2, y: 6.2, z: 6.2 },
+        emissiveConfig: {
+          intensity: 4,
+          color: colors.skyBlue,
+        },
+      },
+      scene
+    );
+
+    // Suggestion #2: Inspect GLB materials/maps and harmonize
+    logMaterialMaps(placed3.object3D, "GLB");
+    harmonizePBRUtil(placed3.object3D, {
+      aoMapIntensity: 0.35,
+      clearBaseColor: true,
+      setSRGB: true,
+    });
+    setEnvMapIntensityUtil(placed3.object3D, 1.8);
+
+    const placed4 = await modelPlacer.placeModel(
+      {
+        id: "new-skyscraper4",
+        name: "newSkyscraper4",
+        filePath:
+          "/assets/models/synth-remixed-cyberpunk-skyscraper-object2.obj",
+        position: { x: -100, y: 0, z: -70 },
+        scale: { x: 6.2, y: 6.2, z: 6.2 },
+        emissiveConfig: {
+          intensity: 4,
+          color: colors.skyBlue,
+        },
+        textures: {
+          base: "/assets/textures/synthcity/building_05.jpg",
+          specular: "/assets/textures/synthcity/building_05_spec.jpg",
+          roughness: "/assets/textures/synthcity/building_05_rough.jpg",
+          emissive: "/assets/textures/synthcity/building_05_em.jpg",
+        },
+      },
+      scene
+    );
+
+    // Align OBJ too: ensure sRGB and similar envMapIntensity
+    if (placed4?.object3D) {
+      harmonizePBRUtil(placed4.object3D, {
+        aoMapIntensity: 0.0,
+        clearBaseColor: false,
+        setSRGB: true,
+      });
+      setEnvMapIntensityUtil(placed4.object3D, 1.8);
+    }
 
     // console.log("=== Testing Instanced Models ===");
     // const instancedModels = await modelPlacer.placeInstancedCollection(
