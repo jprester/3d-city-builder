@@ -98,7 +98,10 @@ export const applyEmissiveToObject = (
 
   object.traverse((child) => {
     // Check if this child object should be excluded from effects
-    if ((child as any).excludeFromEffects) {
+    if (
+      (child as THREE.Object3D & { excludeFromEffects?: boolean })
+        .excludeFromEffects
+    ) {
       return; // Skip objects marked for exclusion
     }
 
@@ -110,11 +113,29 @@ export const applyEmissiveToObject = (
 
         // Check if this material should be affected
         const materialName = meshMaterial.name?.toLowerCase() || "";
+        const isRedLight =
+          /red[-_\s]*light\d*/i.test(materialName) ||
+          (materialName.includes("red") && materialName.includes("light"));
         const shouldApply =
           !emissiveConfig.materialFilter ||
           emissiveConfig.materialFilter.some((filter) =>
             materialName.includes(filter.toLowerCase())
           );
+
+        // Special-case: GLB roof red light materials
+        if (isRedLight) {
+          // Force an intense red emissive for roof beacons
+          meshMaterial.emissive = new THREE.Color(colors.red);
+          meshMaterial.emissiveIntensity = Math.max(
+            config.emissiveIntensity,
+            6
+          );
+          // Keep them opaque and fairly glossy to pop
+          meshMaterial.transparent = false;
+          meshMaterial.roughness = Math.min(0.2, meshMaterial.roughness ?? 0.2);
+          meshMaterial.metalness = Math.max(0.1, meshMaterial.metalness ?? 0.1);
+          return; // Skip generic window logic for this material
+        }
 
         if (shouldApply) {
           // When applying custom emissive config, override ALL materials
@@ -122,9 +143,11 @@ export const applyEmissiveToObject = (
           const forceApply =
             emissiveConfig.materialFilter || config.emissiveIntensity === 0;
 
+          // Skip roof materials except for explicit red-light materials
           if (
-            materialName.includes("roof-metal") ||
-            materialName.includes("roof")
+            !isRedLight &&
+            (materialName.includes("roof-metal") ||
+              materialName.includes("roof"))
           ) {
             // Skip roof materials
             return;
@@ -194,7 +217,10 @@ export const enhanceWindowMaterials = (
 ): void => {
   scene.traverse((object) => {
     // Check if this object should be excluded from effects
-    if ((object as any).excludeFromEffects) {
+    if (
+      (object as THREE.Object3D & { excludeFromEffects?: boolean })
+        .excludeFromEffects
+    ) {
       return; // Skip objects marked for exclusion
     }
 
