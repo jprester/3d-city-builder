@@ -419,7 +419,7 @@ export const initCityScene = async (container: HTMLDivElement) => {
       {
         id: "dark-skyscraper2",
         name: "darkSkyscraper",
-        filePath: "/assets/models/blue-skyscrapper-building_darker.glb",
+        filePath: "/assets/models/blue-skyscraper.glb",
         position: { x: 120, y: 0, z: -20 },
         scale: { x: 3, y: 3, z: 3 },
         emissiveConfig: {
@@ -495,6 +495,21 @@ export const initCityScene = async (container: HTMLDivElement) => {
           specular: "/assets/textures/synthcity/building_05_spec.jpg",
           roughness: "/assets/textures/synthcity/building_05_rough.jpg",
           emissive: "/assets/textures/synthcity/building_05_em.jpg",
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "new-skyscraper5",
+        name: "office-building",
+        filePath: "/assets/models/ny-office-building.glb",
+        position: { x: 0, y: 0, z: -70 },
+        scale: { x: 3.6, y: 3.6, z: 3.6 },
+        emissiveConfig: {
+          intensity: 3,
+          color: colors.skyBlue,
         },
       },
       scene

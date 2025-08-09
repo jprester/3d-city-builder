@@ -145,9 +145,10 @@ export const applyEmissiveToObject = (
 
           // Skip roof materials except for explicit red-light materials
           if (
-            !isRedLight &&
-            (materialName.includes("roof-metal") ||
-              materialName.includes("roof"))
+            (!isRedLight &&
+              (materialName.includes("roof-metal") ||
+                materialName.includes("roof"))) ||
+            materialName.includes("wall")
           ) {
             // Skip roof materials
             return;
@@ -165,7 +166,6 @@ export const applyEmissiveToObject = (
               meshMaterial.color.b > 0.7) ||
             (meshMaterial.transparent && meshMaterial.opacity < 0.9) ||
             (meshMaterial.roughness < 0.3 && meshMaterial.metalness < 0.3);
-
           if (isWindow || forceApply) {
             // Apply emissive configuration
             let selectedColor: number;
