@@ -16,7 +16,7 @@ export {
 } from "./definitions/ModelDefinitions.js";
 export {
   residentialBlockCollection,
-  buildingsCollection,
+  cityBuildingsCollection,
   // commercialCollection,
   // residentialCollection,
   gridLayoutCollection,

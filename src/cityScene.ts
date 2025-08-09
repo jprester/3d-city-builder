@@ -8,11 +8,7 @@ import {
   getGroundTileByName,
 } from "./utils/helperFunctions.js";
 import { setupEnvironment } from "./utils/environmentUtils.js";
-import {
-  setEnvMapIntensity as setEnvMapIntensityUtil,
-  harmonizePBR as harmonizePBRUtil,
-  logMaterialMaps,
-} from "./utils/materialUtils.js";
+import { setEnvMapIntensity as setEnvMapIntensityUtil } from "./utils/materialUtils.js";
 import {
   setupPostProcessing,
   enhanceMaterialsForBloom,
@@ -34,12 +30,11 @@ import {
   applyCameraState,
 } from "./utils/cameraState.js";
 import {
+  cityBuildingsCollection,
   commercialBlockCollection1,
   commercialBlockCollection2,
   industrialBlockCollection,
   mixedUseBlockCollection1,
-  mixedUseBlockCollection2,
-  residentialAndCommercialBlockCollection,
 } from "./models/collections/building-collections.js";
 
 export const initCityScene = async (container: HTMLDivElement) => {
@@ -104,7 +99,12 @@ export const initCityScene = async (container: HTMLDivElement) => {
   }
 
   // Initialize AssetManager and ModelPlacer
-  const assetManager = new AssetManager();
+  const assetManager = new AssetManager({
+    materials: {
+      anisotropy: effectConfig.materials.anisotropy,
+      crispEmissive: effectConfig.materials.crispEmissive,
+    },
+  });
   const modelPlacer = new ModelPlacer(assetManager);
 
   // Setup environment (lighting and sky texture)
@@ -117,10 +117,10 @@ export const initCityScene = async (container: HTMLDivElement) => {
   );
 
   // Slightly increase exposure for better base texture visibility
-  renderer.toneMappingExposure *= 1.2;
+  renderer.toneMappingExposure *= 1.4;
 
-  // Boost environment lighting influence on PBR materials
-  setEnvMapIntensityUtil(scene, 5.2);
+  // Boost environment lighting influence on PBR materials (mode-driven)
+  setEnvMapIntensityUtil(scene, effectConfig.materials.envMapIntensity);
 
   // Add ground plane with custom emissive configuration
   // You can override the ground plane's emissive properties here:
@@ -343,14 +343,14 @@ export const initCityScene = async (container: HTMLDivElement) => {
     }
     // Test both regular and instanced collections
     console.log("=== Testing Grouped Models ===");
-    const tile2Placement = getGroundTileByName(scene, "tile-2");
-    if (tile2Placement) {
-      await modelPlacer.placeModelCollectionAsGroup(
-        residentialAndCommercialBlockCollection,
-        scene,
-        tile2Placement.position // Position the entire block on tile-2
-      );
-    }
+    // const tile2Placement = getGroundTileByName(scene, "tile-2");
+    // if (tile2Placement) {
+    //   await modelPlacer.placeModelCollectionAsGroup(
+    //     residentialAndCommercialBlockCollection,
+    //     scene,
+    //     tile2Placement.position // Position the entire block on tile-2
+    //   );
+    // }
 
     const tile6Placement = getGroundTileByName(scene, "tile-6");
     if (tile6Placement) {
@@ -388,14 +388,14 @@ export const initCityScene = async (container: HTMLDivElement) => {
       );
     }
 
-    const tile9Placement = getGroundTileByName(scene, "tile-9");
-    if (tile9Placement) {
-      await modelPlacer.placeModelCollectionAsGroup(
-        mixedUseBlockCollection2,
-        scene,
-        tile9Placement.position // Position the entire block on tile-9
-      );
-    }
+    // const tile9Placement = getGroundTileByName(scene, "tile-9");
+    // if (tile9Placement) {
+    //   await modelPlacer.placeModelCollectionAsGroup(
+    //     mixedUseBlockCollection2,
+    //     scene,
+    //     tile9Placement.position // Position the entire block on tile-9
+    //   );
+    // }
 
     // const tile13Placement = getGroundTileByName(scene, "tile-13");
     // if (tile13Placement) {
@@ -423,7 +423,7 @@ export const initCityScene = async (container: HTMLDivElement) => {
         position: { x: 120, y: 0, z: -20 },
         scale: { x: 3, y: 3, z: 3 },
         emissiveConfig: {
-          intensity: 4,
+          intensity: 2,
           color: colors.skyBlue,
         },
       },
@@ -438,7 +438,7 @@ export const initCityScene = async (container: HTMLDivElement) => {
         position: { x: 0, y: 0, z: 60 },
         scale: { x: 4.2, y: 4.2, z: 4.2 },
         emissiveConfig: {
-          intensity: 2,
+          intensity: 1,
           color: colors.orangeYellow,
         },
       },
@@ -450,20 +450,20 @@ export const initCityScene = async (container: HTMLDivElement) => {
         id: "new-skyscraper2",
         name: "newSkyscraper2",
         filePath: "/assets/models/synth-remixed-next-skyscraper2.glb",
-        position: { x: -30, y: 0, z: 130 },
-        scale: { x: 4.2, y: 4.2, z: 4.2 },
-        // emissiveConfig: {
-        //   intensity: 2,
-        //   color: colors.softYellow,
+        position: { x: -230, y: 0, z: 130 },
+        scale: { x: 3.2, y: 3.2, z: 3.2 },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.softYellow,
 
-        //   roughness: 0.05,
-        //   metalness: 0.3,
-        // },
+          roughness: 0.05,
+          metalness: 0.3,
+        },
       },
       scene
     );
 
-    const placed3 = await modelPlacer.placeModel(
+    await modelPlacer.placeModel(
       {
         id: "new-skyscraper3",
         name: "newSkyscraper3",
@@ -478,16 +478,7 @@ export const initCityScene = async (container: HTMLDivElement) => {
       scene
     );
 
-    // Suggestion #2: Inspect GLB materials/maps and harmonize
-    logMaterialMaps(placed3.object3D, "GLB");
-    harmonizePBRUtil(placed3.object3D, {
-      aoMapIntensity: 0.35,
-      clearBaseColor: true,
-      setSRGB: true,
-    });
-    setEnvMapIntensityUtil(placed3.object3D, 1.8);
-
-    const placed4 = await modelPlacer.placeModel(
+    await modelPlacer.placeModel(
       {
         id: "new-skyscraper4",
         name: "newSkyscraper4",
@@ -509,15 +500,11 @@ export const initCityScene = async (container: HTMLDivElement) => {
       scene
     );
 
-    // Align OBJ too: ensure sRGB and similar envMapIntensity
-    if (placed4?.object3D) {
-      harmonizePBRUtil(placed4.object3D, {
-        aoMapIntensity: 0.0,
-        clearBaseColor: false,
-        setSRGB: true,
-      });
-      setEnvMapIntensityUtil(placed4.object3D, 1.8);
-    }
+    await modelPlacer.placeModelCollectionAsGroup(
+      cityBuildingsCollection,
+      scene,
+      { x: 0, y: 0, z: 0 }
+    );
 
     // console.log("=== Testing Instanced Models ===");
     // const instancedModels = await modelPlacer.placeInstancedCollection(

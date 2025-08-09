@@ -71,9 +71,7 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     emissiveConfig: {
       color: colors.cyan, // Bright cyan for futuristic look
       intensity: 1.2,
-      opacity: 0.85,
-      roughness: 0.05,
-      metalness: 0.2,
+      opacity: 0.92,
     },
   },
   SKYSCRAPER_02: {
@@ -87,7 +85,7 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     emissiveConfig: {
       color: [colors.hotPink, colors.purple], // Hot pink, purple for dark building
       intensity: 1.5,
-      opacity: 0.8,
+      opacity: 0.9,
       randomizeColors: true,
     },
   },

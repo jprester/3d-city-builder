@@ -3,70 +3,59 @@ import { MODEL_TYPES } from "../definitions/ModelDefinitions.js";
 import { colors } from "../../utils/constants.js";
 
 // Optimized building collection - only placement data!
-export const buildingsCollection: ModelCollection = {
+export const cityBuildingsCollection: ModelCollection = {
   name: "city-buildings",
   models: [
-    // First row of residential buildings --------------------------
-    {
-      instanceId: "residential-1",
-      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
-      position: { x: 40, y: 0, z: -50 },
-      // Uses default scale from definition
-    },
-    {
-      instanceId: "residential-2",
-      modelType: MODEL_TYPES.RESIDENTIAL_02_B,
-      position: { x: 100, y: 0, z: -50 },
-      scale: { x: 0.8, y: 0.9, z: 0.8 },
-      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
-    },
-    {
-      instanceId: "residential-3",
-      modelType: MODEL_TYPES.RESIDENTIAL_01_C,
-      position: { x: 150, y: 0, z: -50 },
-      scale: { x: 0.8, y: 0.9, z: 0.8 },
-      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
-    },
-    {
-      instanceId: "residential-2",
-      modelType: MODEL_TYPES.RESIDENTIAL_02_C,
-      position: { x: 200, y: 0, z: -50 },
-      scale: { x: 0.8, y: 0.9, z: 0.8 },
-      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
-    },
-    {
-      instanceId: "residential-2",
-      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
-      position: { x: 260, y: 0, z: -50 },
-      scale: { x: 0.8, y: 0.9, z: 0.8 },
-      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
-    },
-    // Second row of residential buildings --------------------------
-    {
-      instanceId: "residential-4",
-      modelType: MODEL_TYPES.RESIDENTIAL_02_B,
-      position: { x: 40, y: 0, z: 50 },
-      scale: { x: 0.8, y: 0.9, z: 0.8 },
-      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
-    },
-    {
-      instanceId: "residential-1",
-      modelType: MODEL_TYPES.RESIDENTIAL_01_A,
-      position: { x: 100, y: 0, z: 50 },
-      // Uses default scale from definition
-    },
-    {
-      instanceId: "residential-5",
-      modelType: MODEL_TYPES.RESIDENTIAL_02_C,
-      position: { x: 160, y: 0, z: 50 },
-      scale: { x: 0.8, y: 0.9, z: 0.8 },
-      // rotation: { x: 0, y: Math.PI / 6, z: 0 },
-    },
     {
       instanceId: "skyscraper-1",
       modelType: MODEL_TYPES.SKYSCRAPER_01,
-      position: { x: 220, y: 0, z: 50 },
-      // Uses default scale from definition
+      position: { x: -50, y: 0, z: 150 },
+      scale: { x: 4.5, y: 4.5, z: 4.5 },
+      // emissiveConfig: {
+      //   intensity: 1,
+      //   opacity: 0.85,
+      //   roughness: 0.05,
+      //   metalness: 0.2,
+      // },
+    },
+
+    {
+      instanceId: "skyscraper-2",
+      modelType: MODEL_TYPES.SKYSCRAPER_02,
+      position: { x: -130, y: 0, z: 80 },
+      scale: { x: 3.5, y: 3.5, z: 3.5 },
+      // emissiveConfig: {
+      //   color: colors.orange,
+      //   intensity: 1.2,
+      //   opacity: 0.85,
+      //   roughness: 0.05,
+      //   metalness: 0.2,
+      // },
+    },
+    {
+      instanceId: "skyscraper-3",
+      modelType: MODEL_TYPES.SKYSCRAPER_01,
+      position: { x: 120, y: 0, z: 100 },
+      scale: { x: 4, y: 4, z: 4 },
+      // emissiveConfig: {
+      //   color: colors.cyan,
+      //   intensity: 0.6,
+      //   opacity: 0.85,
+      //   roughness: 0.05,
+      //   metalness: 0.2,
+      // },
+    },
+    {
+      instanceId: "skyscraper-4",
+      modelType: MODEL_TYPES.SKYSCRAPER_02,
+      position: { x: 220, y: 0, z: 135 },
+      scale: { x: 3, y: 3, z: 3 },
+      // emissiveConfig: {
+      //   // intensity: 2,
+      //   opacity: 1,
+      //   roughness: 0.05,
+      //   metalness: 0.2,
+      // },
     },
   ],
 };
@@ -406,6 +395,7 @@ export const commercialBlockCollection2: ModelCollection = {
       instanceId: "cb2-r1-1",
       modelType: MODEL_TYPES.MIXED_USE_05_B,
       position: { x: 0, y: 0, z: -40 },
+      scale: { x: 1.5, y: 1.5, z: 1.5 },
       emissiveConfig: {
         intensity: 3,
       },
@@ -523,7 +513,7 @@ export const gridLayoutCollection: ModelCollection = {
 // All collections for easy import
 export const allCollections = [
   residentialBlockCollection,
-  buildingsCollection,
+  cityBuildingsCollection,
   industrialBlockCollection,
   // commercialCollection,
   // residentialCollection,

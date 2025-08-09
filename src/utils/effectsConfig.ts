@@ -2,12 +2,6 @@ import { colors } from "./constants.js";
 
 export type EffectMode = "none" | "light" | "heavy";
 
-export enum EffectModes {
-  None = "none",
-  Light = "light",
-  Heavy = "heavy",
-}
-
 export interface EffectConfiguration {
   mode: EffectMode;
   postProcessing: {
@@ -42,6 +36,11 @@ export interface EffectConfiguration {
     color: number;
     near: number;
     far: number;
+  };
+  materials: {
+    anisotropy: number;
+    crispEmissive: boolean;
+    envMapIntensity: number;
   };
 }
 
@@ -81,6 +80,11 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
       near: 1,
       far: 1000,
     },
+    materials: {
+      anisotropy: 4,
+      crispEmissive: false,
+      envMapIntensity: 2.0,
+    },
   },
   light: {
     mode: "light",
@@ -116,6 +120,11 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
       color: colors.veryDarkBlue,
       near: 150,
       far: 800,
+    },
+    materials: {
+      anisotropy: 8,
+      crispEmissive: true,
+      envMapIntensity: 4.0,
     },
   },
   heavy: {
@@ -153,6 +162,11 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
       near: 100,
       far: 650,
     },
+    materials: {
+      anisotropy: 16,
+      crispEmissive: true,
+      envMapIntensity: 6.0,
+    },
   },
 };
 
@@ -162,4 +176,4 @@ export const getEffectConfiguration = (
   return EFFECT_CONFIGURATIONS[mode];
 };
 
-export const DEFAULT_EFFECT_MODE: EffectMode = EffectModes.None; // Default effect mode
+export const DEFAULT_EFFECT_MODE: EffectMode = "none"; // Default effect mode

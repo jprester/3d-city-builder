@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import { colors } from "../utils/constants.js";
+import { harmonizePBR } from "../utils/materialUtils.js";
 
 export interface ModelTextures {
   base?: string;
@@ -29,11 +30,26 @@ export class AssetManager {
   private loadedTextures: Map<string, THREE.Texture> = new Map();
   private loadedModels: Map<string, LoadedModel> = new Map();
 
-  constructor() {
+  // Material quality knobs (can be driven by effect config)
+  private materialQuality: { anisotropy: number; crispEmissive: boolean } = {
+    anisotropy: 8,
+    crispEmissive: true,
+  };
+
+  constructor(config?: {
+    materials?: { anisotropy: number; crispEmissive: boolean };
+  }) {
     this.loadingManager = new THREE.LoadingManager();
     this.textureLoader = new THREE.TextureLoader(this.loadingManager);
     this.gltfLoader = new GLTFLoader(this.loadingManager);
     this.objLoader = new OBJLoader(this.loadingManager);
+
+    if (config?.materials) {
+      this.materialQuality = {
+        anisotropy: config.materials.anisotropy,
+        crispEmissive: config.materials.crispEmissive,
+      };
+    }
   }
 
   async loadTexture(path: string): Promise<THREE.Texture> {
@@ -138,6 +154,18 @@ export class AssetManager {
           }
 
           const loadedModel = { model, materials };
+          // Harmonize GLB materials to improve sharpness and color-space consistency
+          try {
+            harmonizePBR(model, {
+              aoMapIntensity: 0.35,
+              clearBaseColor: true,
+              setSRGB: true,
+              anisotropy: this.materialQuality.anisotropy,
+              crispEmissive: this.materialQuality.crispEmissive,
+            });
+          } catch (e) {
+            console.warn("harmonizePBR failed on GLB model", path, e);
+          }
           this.loadedModels.set(cacheKey, loadedModel);
 
           resolve({
@@ -239,6 +267,19 @@ export class AssetManager {
             });
           }
 
+          // Harmonize PBR-related settings for all OBJ models so they render consistently
+          try {
+            harmonizePBR(object, {
+              aoMapIntensity: 0.0,
+              clearBaseColor: false,
+              setSRGB: true,
+              anisotropy: this.materialQuality.anisotropy,
+              crispEmissive: this.materialQuality.crispEmissive,
+            });
+          } catch (e) {
+            console.warn("harmonizePBR failed on OBJ model", path, e);
+          }
+
           const loadedModel = { model: object, materials };
           this.loadedModels.set(cacheKey, loadedModel);
 
@@ -302,13 +343,11 @@ export class AssetManager {
     };
   }
 
-  onProgress(
-    callback: (progress: { loaded: number; total: number }) => void
-  ): void {
+  onProgress(callback: () => void): void {
     this.loadingManager.onProgress = (_, loaded, total) => {
       this.loadedItems = loaded;
       this.totalItems = total;
-      callback({ loaded, total });
+      callback();
     };
   }
 
@@ -316,8 +355,8 @@ export class AssetManager {
     this.loadingManager.onLoad = callback;
   }
 
-  onError(callback: (url: string) => void): void {
-    this.loadingManager.onError = callback;
+  onError(callback: () => void): void {
+    this.loadingManager.onError = () => callback();
   }
 
   async preloadModels(modelPaths: string[]): Promise<void> {
