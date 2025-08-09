@@ -63,30 +63,29 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
   SKYSCRAPER_01: {
     id: "SKYSCRAPER_01",
     name: "Skyscraper",
-    filePath: "/assets/models/skyscraper_new.glb",
+    filePath: "/assets/models/blue-skyscrapper-building_darker.glb",
     defaultScale: { x: 2.3, y: 2.3, z: 2.3 },
     category: "commercial",
     description: "A tall commercial skyscraper",
     hasRoofLights: true,
     emissiveConfig: {
-      color: colors.cyan, // Bright cyan for futuristic look
-      intensity: 1.2,
-      opacity: 0.92,
+      color: colors.lightPeach, // Bright peach for futuristic look
+      intensity: 2,
+      opacity: 0.98,
     },
   },
   SKYSCRAPER_02: {
     id: "SKYSCRAPER_02",
     name: "Skyscraper",
-    filePath: "/assets/models/skyscraper_dark.glb",
+    filePath: "/assets/models/dark_skyscraper_new_darker.glb",
     defaultScale: { x: 1.8, y: 1.8, z: 1.8 },
     category: "commercial",
     description: "A tall commercial skyscraper",
     hasRoofLights: true,
     emissiveConfig: {
-      color: [colors.hotPink, colors.purple], // Hot pink, purple for dark building
-      intensity: 1.5,
-      opacity: 0.9,
-      randomizeColors: true,
+      color: colors.softYellow,
+      intensity: 2,
+      opacity: 0.98,
     },
   },
 

@@ -419,7 +419,7 @@ export const initCityScene = async (container: HTMLDivElement) => {
       {
         id: "dark-skyscraper2",
         name: "darkSkyscraper",
-        filePath: "/assets/models/skyscraper_dark.glb",
+        filePath: "/assets/models/blue-skyscrapper-building_darker.glb",
         position: { x: 120, y: 0, z: -20 },
         scale: { x: 3, y: 3, z: 3 },
         emissiveConfig: {
