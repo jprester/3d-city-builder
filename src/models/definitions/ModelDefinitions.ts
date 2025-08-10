@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import { ModelTextures } from "../AssetManager.js";
 import { colors } from "../../utils/constants.js";
 
@@ -10,6 +11,23 @@ export interface EmissiveConfig {
   randomizeColors?: boolean;
   materialFilter?: string[]; // Names of materials to apply emissive to
 }
+
+export interface AdDefinition {
+  id: string;
+  name: string;
+  diffusePath: string;
+  emissivePath?: string;
+  defaultSize?: { width: number; height: number };
+  emissiveColor?: number | THREE.Color;
+  emissiveIntensity?: number;
+  doubleSided?: boolean;
+  crispEmissive?: boolean;
+  excludeFromEffects?: boolean;
+  category?: string; // e.g., "ad", "billboard"
+  description?: string;
+}
+
+export type AdRegistry = Record<string, AdDefinition>;
 
 export interface ModelDefinition {
   id: string;
@@ -426,6 +444,24 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
   },
 };
 
+// Ad definitions registry
+export const AD_DEFINITIONS: AdRegistry = {
+  NEON_SIGN_TEST: {
+    id: "NEON_SIGN_TEST",
+    name: "Neon Sign Test",
+    diffusePath: "/assets/textures/neon-sign-test-diffuse.jpg",
+    emissivePath: "/assets/textures/neon-sign-test-emissive.jpg",
+    defaultSize: { width: 32, height: 8 },
+    emissiveColor: colors.warmWhite,
+    emissiveIntensity: 1.0,
+    doubleSided: true,
+    crispEmissive: true,
+    excludeFromEffects: true,
+    category: "ad",
+    description: "Sample neon sign used for development",
+  },
+};
+
 // Helper functions for working with model definitions
 export class ModelDefinitionRegistry {
   private static definitions = MODEL_DEFINITIONS;
@@ -468,6 +504,37 @@ export class ModelDefinitionRegistry {
   }
 
   static getAvailableModelTypes(): string[] {
+    return Object.keys(this.definitions);
+  }
+}
+
+// Helper functions for working with ad definitions
+export class AdDefinitionRegistry {
+  private static definitions = AD_DEFINITIONS;
+
+  static getDefinition(adType: string): AdDefinition | undefined {
+    return this.definitions[adType];
+  }
+
+  static getAllDefinitions(): AdDefinition[] {
+    return Object.values(this.definitions);
+  }
+
+  static getDefinitionsByCategory(category: string): AdDefinition[] {
+    return Object.values(this.definitions).filter(
+      (def) => def.category === category
+    );
+  }
+
+  static addDefinition(definition: AdDefinition): void {
+    this.definitions[definition.id] = definition;
+  }
+
+  static hasDefinition(adType: string): boolean {
+    return adType in this.definitions;
+  }
+
+  static getAvailableAdTypes(): string[] {
     return Object.keys(this.definitions);
   }
 }
@@ -515,3 +582,10 @@ export const MODEL_TYPES = {
 } as const;
 
 export type ModelType = (typeof MODEL_TYPES)[keyof typeof MODEL_TYPES];
+
+// Type-safe ad type constants
+export const AD_TYPES = {
+  NEON_SIGN_TEST: "NEON_SIGN_TEST" as const,
+} as const;
+
+export type AdType = (typeof AD_TYPES)[keyof typeof AD_TYPES];

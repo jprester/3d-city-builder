@@ -13,6 +13,12 @@ export {
   MODEL_DEFINITIONS,
   type ModelDefinition,
   type ModelType,
+  // Ad definitions
+  AdDefinitionRegistry,
+  AD_TYPES,
+  AD_DEFINITIONS,
+  type AdDefinition,
+  type AdType,
 } from "./definitions/ModelDefinitions.js";
 export {
   residentialBlockCollection,
@@ -53,3 +59,10 @@ export {
   type ModelCollection,
   type PlacedModel,
 } from "./ModelPlacer.js";
+
+// Ads/Neon signs
+export {
+  AdSignPlacer,
+  createNeonSignPlane,
+  registerAdDefinition,
+} from "./adSigns.js";
