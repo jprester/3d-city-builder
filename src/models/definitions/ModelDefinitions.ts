@@ -81,7 +81,7 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
   SKYSCRAPER_01: {
     id: "SKYSCRAPER_01",
     name: "Skyscraper",
-    filePath: "/assets/models/blue-skyscrapper-building_darker.glb",
+    filePath: "/assets/models/blue-skyscraper.glb",
     defaultScale: { x: 2.3, y: 2.3, z: 2.3 },
     category: "commercial",
     description: "A tall commercial skyscraper",
@@ -95,7 +95,7 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
   SKYSCRAPER_02: {
     id: "SKYSCRAPER_02",
     name: "Skyscraper",
-    filePath: "/assets/models/dark_skyscraper_new_darker.glb",
+    filePath: "/assets/models/dark_skyscraper.glb",
     defaultScale: { x: 1.8, y: 1.8, z: 1.8 },
     category: "commercial",
     description: "A tall commercial skyscraper",
