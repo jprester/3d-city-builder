@@ -108,7 +108,7 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
       colorfulLights: true,
       animatedIntensity: false,
       lightCount: 5,
-      baseIntensity: 450,
+      baseIntensity: 1000,
       animationAmplitude: 0,
       ambientIntensity: 0.3,
     },

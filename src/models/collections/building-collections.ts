@@ -295,6 +295,10 @@ export const industrialBlockCollection: ModelCollection = {
       position: { x: 90, y: 0, z: 80 },
       scale: { x: 1.2, y: 1.0, z: 1.2 },
       rotation: { x: 0, y: Math.PI / 2, z: 0 },
+      emissiveConfig: {
+        intensity: 5,
+        color: colors.softYellow,
+      },
     },
     {
       instanceId: "industrial-3",
@@ -302,6 +306,10 @@ export const industrialBlockCollection: ModelCollection = {
       position: { x: 0, y: 0, z: 80 },
       scale: { x: 1.2, y: 1.0, z: 1.2 },
       rotation: { x: 0, y: Math.PI / 2, z: 0 },
+      emissiveConfig: {
+        intensity: 5,
+        color: colors.softYellow,
+      },
     },
     {
       instanceId: "industrial-4",
@@ -309,6 +317,10 @@ export const industrialBlockCollection: ModelCollection = {
       position: { x: -80, y: 0, z: 80 },
       scale: { x: 1.2, y: 1.0, z: 1.2 },
       rotation: { x: 0, y: Math.PI / 2, z: 0 },
+      emissiveConfig: {
+        intensity: 5,
+        color: colors.softYellow,
+      },
     },
 
     // second row of industrial buildings --------------------------

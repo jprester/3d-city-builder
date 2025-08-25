@@ -76,7 +76,7 @@ export const createGroundPlane = async (
       map: groundTextures.base,
       emissiveMap: groundTextures.emissive,
       emissive: new THREE.Color(colors.lightBlue), // Add some emissive color
-      emissiveIntensity: 0.3, // Default emissive intensity
+      emissiveIntensity: 0.12, // Default emissive intensity
       transparent: false,
       opacity: 1.0,
       roughness: 1.0,

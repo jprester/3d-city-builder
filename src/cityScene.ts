@@ -34,6 +34,8 @@ import {
   commercialBlockCollection2,
   industrialBlockCollection,
   mixedUseBlockCollection1,
+  mixedUseBlockCollection2,
+  residentialAndCommercialBlockCollection,
 } from "./models/collections/building-collections.js";
 import { AdSignPlacer } from "./models/index.js";
 
@@ -113,11 +115,11 @@ export const initCityScene = async (container: HTMLDivElement) => {
     assetManager,
     effectConfig,
     "/assets/sky_night.jpg",
-    { darkness: 0.2 }
+    { darkness: 0.12 }
   );
 
   // Slightly increase exposure for better base texture visibility
-  renderer.toneMappingExposure *= 1.4;
+  renderer.toneMappingExposure *= 1.1;
 
   // Boost environment lighting influence on PBR materials (mode-driven)
   setEnvMapIntensityUtil(scene, effectConfig.materials.envMapIntensity);
@@ -127,16 +129,39 @@ export const initCityScene = async (container: HTMLDivElement) => {
   await createGroundPlane(scene, assetManager);
 
   // --- Neon sign test via AdSignPlacer/definitions ---
-  try {
-    const adPlacer = new AdSignPlacer(assetManager);
-    await adPlacer.placeAd(AD_TYPES.NEON_SIGN_TEST, scene, {
-      position: { x: 72, y: 244, z: -30 },
-      emissiveIntensity: 1.0,
-      name: "neon-sign-test",
-    });
-  } catch (e) {
-    console.warn("Failed to create neon sign plane", e);
-  }
+  // try {
+  //   const adPlacer = new AdSignPlacer(assetManager);
+  //   await adPlacer.placeAd(AD_TYPES.NEON_SIGN_TEST, scene, {
+  //     position: { x: 42, y: 244, z: -20 },
+  //     emissiveIntensity: 2,
+  //     name: "neon-sign-test",
+  //   });
+  // } catch (e) {
+  //   console.warn("Failed to create neon sign plane", e);
+  // }
+
+  // --- Neon sign test via AdSignPlacer/definitions ---
+  // try {
+  //   const adPlacer = new AdSignPlacer(assetManager);
+  //   await adPlacer.placeAd(
+  //     {
+  //       diffusePath: "/assets/textures/test-neon-sign_text_diffuse.png",
+  //       emissivePath: "/assets/textures/test-neon-sign_text_emissive.png",
+  //       id: "test-neon-sign",
+  //       name: "my-simple-ad",
+  //       emissiveColor: colors.neonGreen,
+  //       emissiveIntensity: 1,
+  //     },
+  //     scene,
+  //     {
+  //       position: { x: 92, y: 242, z: -20 },
+  //       width: 18,
+  //       height: 4,
+  //     }
+  //   );
+  // } catch (e) {
+  //   console.warn("Failed to create neon sign plane", e);
+  // }
 
   createGroundTiles(
     scene,
@@ -344,15 +369,15 @@ export const initCityScene = async (container: HTMLDivElement) => {
   addHumanReferenceModel(scene);
 
   try {
-    const tile1Placement = getGroundTileByName(scene, "tile-1");
-    if (tile1Placement) {
-      // Example: place a collection here if desired
-      await modelPlacer.placeModelCollectionAsGroup(
-        industrialBlockCollection,
-        scene,
-        tile1Placement.position
-      );
-    }
+    // const tile1Placement = getGroundTileByName(scene, "tile-1");
+    // if (tile1Placement) {
+    //   // Example: place a collection here if desired
+    //   await modelPlacer.placeModelCollectionAsGroup(
+    //     industrialBlockCollection,
+    //     scene,
+    //     tile1Placement.position
+    //   );
+    // }
     // Test both regular and instanced collections
     console.log("=== Testing Grouped Models ===");
     // const tile2Placement = getGroundTileByName(scene, "tile-2");
@@ -364,41 +389,41 @@ export const initCityScene = async (container: HTMLDivElement) => {
     //   );
     // }
 
-    const tile6Placement = getGroundTileByName(scene, "tile-6");
-    if (tile6Placement) {
-      await modelPlacer.placeModelCollectionAsGroup(
-        commercialBlockCollection1,
-        scene,
-        tile6Placement.position // Position the entire block on tile-8
-      );
-    }
+    // const tile6Placement = getGroundTileByName(scene, "tile-6");
+    // if (tile6Placement) {
+    //   await modelPlacer.placeModelCollectionAsGroup(
+    //     commercialBlockCollection1,
+    //     scene,
+    //     tile6Placement.position // Position the entire block on tile-8
+    //   );
+    // }
 
-    const tile4Placement = getGroundTileByName(scene, "tile-4");
-    if (tile4Placement) {
-      await modelPlacer.placeModelCollectionAsGroup(
-        commercialBlockCollection2,
-        scene,
-        tile4Placement.position // Position the entire block on tile-4
-      );
-    }
+    // const tile4Placement = getGroundTileByName(scene, "tile-4");
+    // if (tile4Placement) {
+    //   await modelPlacer.placeModelCollectionAsGroup(
+    //     commercialBlockCollection2,
+    //     scene,
+    //     tile4Placement.position // Position the entire block on tile-4
+    //   );
+    // }
 
-    const tile5Placement = getGroundTileByName(scene, "tile-5");
-    if (tile5Placement) {
-      await modelPlacer.placeModelCollectionAsGroup(
-        commercialBlockCollection2,
-        scene,
-        tile5Placement.position // Position the entire block on tile-5
-      );
-    }
+    // const tile5Placement = getGroundTileByName(scene, "tile-5");
+    // if (tile5Placement) {
+    //   await modelPlacer.placeModelCollectionAsGroup(
+    //     commercialBlockCollection2,
+    //     scene,
+    //     tile5Placement.position // Position the entire block on tile-5
+    //   );
+    // }
 
-    const tile12Placement = getGroundTileByName(scene, "tile-12");
-    if (tile12Placement) {
-      await modelPlacer.placeModelCollectionAsGroup(
-        mixedUseBlockCollection1,
-        scene,
-        tile12Placement.position // Position the entire block on tile-10
-      );
-    }
+    // const tile12Placement = getGroundTileByName(scene, "tile-12");
+    // if (tile12Placement) {
+    //   await modelPlacer.placeModelCollectionAsGroup(
+    //     mixedUseBlockCollection1,
+    //     scene,
+    //     tile12Placement.position // Position the entire block on tile-10
+    //   );
+    // }
 
     // const tile9Placement = getGroundTileByName(scene, "tile-9");
     // if (tile9Placement) {
@@ -512,31 +537,309 @@ export const initCityScene = async (container: HTMLDivElement) => {
     //   scene
     // );
 
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper2",
+    //     name: "ny-office-building",
+    //     filePath: "/assets/models/ny-office-building.glb",
+    //     position: { x: 70, y: -4, z: -240 },
+    //     scale: { x: 4, y: 4, z: 4 },
+    //     emissiveConfig: {
+    //       intensity: 20,
+    //       color: colors.neonGreen,
+    //     },
+    //   },
+    //   scene
+    // );
+
     await modelPlacer.placeModel(
       {
-        id: "new-skyscraper5",
-        name: "cylinder-skyscraper",
-        filePath: "/assets/models/cylinder-skyscraper.glb",
-        position: { x: 200, y: 0, z: -170 },
-        scale: { x: 3, y: 3, z: 3 },
-        // emissiveConfig: {
-        //   intensity: 2,
-        //   color: colors.lightPeach,
-        // },
+        id: "skyscraper2",
+        name: "ny-office-building",
+        filePath: "/assets/models/ny-office-building2.glb",
+        position: { x: -70, y: 0, z: -100 },
+        scale: { x: 1, y: 1, z: 1 },
+        emissiveConfig: {
+          intensity: 1.2,
+          color: colors.offWhite,
+        },
       },
       scene
     );
 
     await modelPlacer.placeModel(
       {
-        id: "new-skyscraper6",
-        name: "ny-office-building",
-        filePath: "/assets/models/ny-office-building-optimized.glb",
-        position: { x: 100, y: 0, z: -50 },
-        scale: { x: 4, y: 4, z: 4 },
+        id: "skyscraper4",
+        name: "ny-office-building2",
+        filePath: "/assets/models/ny-office-building2.glb",
+        position: { x: 70, y: 0, z: -40 },
+        scale: { x: 1, y: 1, z: 1 },
+        emissiveConfig: {
+          intensity: 1.2,
+          color: colors.offWhite,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "skyscraper5",
+        name: "ny-office-building2",
+        filePath: "/assets/models/ny-office-building2.glb",
+        position: { x: 170, y: 0, z: -140 },
+        scale: { x: 1, y: 1, z: 1 },
+        emissiveConfig: {
+          intensity: 1.2,
+          color: colors.offWhite,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "skyscraper6",
+        name: "ny-office-building2",
+        filePath: "/assets/models/ny-office-building2.glb",
+        position: { x: -200, y: 0, z: -230 },
+        scale: { x: 1, y: 1, z: 1 },
+        emissiveConfig: {
+          intensity: 1.2,
+          color: colors.offWhite,
+        },
+      },
+      scene
+    );
+
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper10",
+    //     name: "synth-remixed-cyberpunk-skyscraper",
+    //     filePath: "/assets/models/synth-remixed-cyberpunk-skyscraper.glb",
+    //     position: { x: 170, y: 0, z: -50 },
+    //     scale: { x: 3.5, y: 3.5, z: 3.5 },
+    //     emissiveConfig: {
+    //       intensity: 1,
+    //       color: colors.softYellow,
+    //     },
+    //   },
+    //   scene
+    // );
+
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper14",
+    //     name: "synth-remixed-next-skyscraper",
+    //     filePath: "/assets/models/synth-remixed-next-skyscraper2.glb",
+    //     position: { x: 170, y: 0, z: -50 },
+    //     scale: { x: 3, y: 3, z: 3 },
+    //     emissiveConfig: {
+    //       intensity: 1,
+    //       color: colors.softYellow,
+    //     },
+    //   },
+    //   scene
+    // );
+
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper12",
+    //     name: "synth-remixed-cyberpunk-skyscraper",
+    //     filePath: "/assets/models/synth-remixed-skyscraper.glb",
+    //     position: { x: 50, y: 0, z: -100 },
+    //     scale: { x: 4.4, y: 4.4, z: 4.4 },
+    //     emissiveConfig: {
+    //       intensity: 1,
+    //       color: colors.softYellow,
+    //     },
+    //   },
+    //   scene
+    // );
+
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper13",
+    //     name: "blue-skyscraper2",
+    //     filePath: "/assets/models/blue-skyscraper.glb",
+    //     position: { x: 150, y: 0, z: -100 },
+    //     scale: { x: 3.9, y: 3.9, z: 3.9 },
+    //     emissiveConfig: {
+    //       intensity: 1,
+    //       color: colors.softYellow,
+    //     },
+    //   },
+    //   scene
+    // );
+
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper11",
+    //     name: "ny-office-building",
+    //     filePath: "/assets/models/synth-remixed-cyberpunk-skyscraper.glb",
+    //     position: { x: 190, y: 0, z: -70 },
+    //     scale: { x: 6, y: 6, z: 6 },
+    //     emissiveConfig: {
+    //       intensity: 1,
+    //       color: colors.softYellow,
+    //     },
+    //   },
+    //   scene
+    // );
+
+    await modelPlacer.placeModel(
+      {
+        id: "skyscraper1",
+        name: "cylinder-skyscraper",
+        filePath: "/assets/models/cylinder-skyscraper.glb",
+        position: { x: 60, y: 0, z: -130 },
+        scale: { x: 1.15, y: 1.15, z: 1.15 },
+        emissiveConfig: {
+          intensity: 2,
+          color: colors.lightPeach,
+          roughness: 0.4,
+          metalness: 0,
+          opacity: 0.7,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "skyscraper13",
+        name: "massive-skyscraper",
+        filePath: "/assets/models/massive-complex3.glb",
+        position: { x: 60, y: 0, z: -650 },
+        scale: { x: 1.3, y: 1.3, z: 1.3 },
+        rotation: { x: 0, y: 3, z: 0 },
         emissiveConfig: {
           intensity: 1,
-          color: colors.softYellow,
+          color: colors.warmWhite,
+          roughness: 1,
+          metalness: 1,
+          opacity: 1,
+        },
+      },
+      scene
+    );
+
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper3",
+    //     name: "blue-skyscraper",
+    //     filePath: "/assets/models/blue-skyscraper.glb",
+    //     position: { x: -100, y: 0, z: -100 },
+    //     scale: { x: 4, y: 4, z: 4 },
+    //     emissiveConfig: {
+    //       intensity: 1,
+    //       color: colors.neonGreen,
+    //     },
+    //   },
+    //   scene
+    // );
+
+    await modelPlacer.placeModel(
+      {
+        id: "skyscraper4",
+        name: "dark-skyscraper",
+        filePath: "/assets/models/dark_skyscraper_new2.glb",
+        position: { x: -50, y: 0, z: -200 },
+        scale: { x: 1.2, y: 1.2, z: 1.2 },
+        emissiveConfig: {
+          intensity: 2,
+          color: colors.warmWhite,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "skyscraper10",
+        name: "dark-skyscraper",
+        filePath: "/assets/models/dark_skyscraper_new2.glb",
+        position: { x: -150, y: 0, z: -100 },
+        scale: { x: 1, y: 1, z: 1 },
+        emissiveConfig: {
+          intensity: 2,
+          color: colors.warmWhite,
+        },
+      },
+      scene
+    );
+
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper5",
+    //     name: "dark-skyscraper2",
+    //     filePath: "/assets/models/dark-skyscraper.glb",
+    //     position: { x: 100, y: 0, z: -200 },
+    //     scale: { x: 4, y: 5, z: 4 },
+    //     emissiveConfig: {
+    //       intensity: 1,
+    //       color: colors.softYellow,
+    //     },
+    //   },
+    //   scene
+    // );
+
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper6",
+    //     name: "ny-office-building2",
+    //     filePath: "/assets/models/ny-office-building.glb",
+    //     position: { x: -200, y: 0, z: -200 },
+    //     scale: { x: 4, y: 4, z: 4 },
+    //     emissiveConfig: {
+    //       intensity: 1,
+    //       color: colors.softYellow,
+    //     },
+    //   },
+    //   scene
+    // );
+
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper15",
+    //     name: "elegant-skyscraper",
+    //     filePath: "/assets/models/elegant-skyscraper2.glb",
+    //     position: { x: -270, y: 0, z: -400 },
+    //     scale: { x: 2, y: 2, z: 2 },
+    //     emissiveConfig: {
+    //       intensity: 1,
+    //       color: colors.softYellow,
+    //     },
+    //   },
+    //   scene
+    // );
+
+    await modelPlacer.placeModel(
+      {
+        id: "skyscraper8",
+        name: "new-skyscraper",
+        filePath: "/assets/models/new-skyscraper2.glb",
+        position: { x: -140, y: 0, z: -190 },
+        scale: { x: 1, y: 1, z: 1 },
+        emissiveConfig: {
+          intensity: 0.3,
+          color: colors.warmWhite,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "ad-building",
+        name: "advertisment-building",
+        filePath: "/assets/models/advertisment-building.glb",
+        position: { x: -60, y: 0, z: -60 },
+        scale: { x: 1, y: 1, z: 1 },
+        emissiveConfig: {
+          intensity: 1.4,
+          color: colors.lightPeach,
+          roughness: 1,
         },
       },
       scene

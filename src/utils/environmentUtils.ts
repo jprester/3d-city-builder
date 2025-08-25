@@ -11,12 +11,12 @@ export const setupNightLighting = (
   config: EffectConfiguration
 ): void => {
   // Ambient lighting based on configuration
-  const ambientLight = new THREE.AmbientLight(colors.cornflowerBlue, 0.5);
+  const ambientLight = new THREE.AmbientLight(colors.white, 0.2);
   scene.add(ambientLight);
 
   // // Moon-like directional light
-  const directionalLight = new THREE.DirectionalLight(colors.limeGreen, 0.1);
-  directionalLight.position.set(0, 50, 0);
+  const directionalLight = new THREE.DirectionalLight(colors.goldenYellow, 0.2);
+  directionalLight.position.set(0, 30, 0);
   directionalLight.castShadow = true;
   scene.add(directionalLight);
 
@@ -26,19 +26,19 @@ export const setupNightLighting = (
       // Bright cyan light
       {
         color: colors.cyan,
-        position: { x: 100, y: 30, z: -50 },
+        position: { x: -200, y: 30, z: -50 },
         sphereColor: colors.cyan,
       },
       // Hot pink/magenta light
       {
         color: colors.hotPink,
-        position: { x: 220, y: 50, z: -70 },
+        position: { x: 20, y: 100, z: -170 },
         sphereColor: colors.hotPink,
       },
       // Electric purple light
       {
         color: colors.lightPurple, // lighter purple
-        position: { x: 180, y: 40, z: -60 },
+        position: { x: 180, y: 40, z: -360 },
         sphereColor: colors.lightPurple,
       },
       // Bright white light
@@ -50,7 +50,7 @@ export const setupNightLighting = (
       // // Orange/amber light
       {
         color: colors.orange,
-        position: { x: 220, y: 60, z: -70 },
+        position: { x: -120, y: 60, z: -170 },
         sphereColor: colors.orange,
       },
     ];

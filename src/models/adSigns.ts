@@ -19,6 +19,15 @@ export interface NeonSignOptions {
   name?: string;
   excludeFromEffects?: boolean; // default true
   renderer?: THREE.WebGLRenderer; // for max anisotropy
+  /** Cutout threshold; set >0 to discard near‑transparent pixels and remove fringe */
+  alphaTest?: number;
+  /** Force additive blending for stronger neon look */
+  additiveBlend?: boolean;
+  /** Disable depth write so transparent areas don't occlude bloom/background */
+  disableDepthWrite?: boolean;
+
+  /** Override blending mode directly (takes precedence over additiveBlend) */
+  blending?: THREE.Blending;
 }
 
 /**
@@ -42,10 +51,16 @@ export const createNeonSignPlane = async (
     name = "neon-sign",
     excludeFromEffects = true,
     renderer,
+    alphaTest = 0.02,
+    additiveBlend = false,
+    disableDepthWrite = true,
+    blending,
   } = options;
 
   const baseTex = await assetManager.loadTexture(diffusePath);
   baseTex.colorSpace = THREE.SRGBColorSpace;
+  // Ensure PNG alpha respected (if artist exported premultiplied you may set premultiplyAlpha=true)
+  baseTex.premultiplyAlpha = false;
 
   let emissiveTex: THREE.Texture | undefined;
   if (emissivePath) {
@@ -75,7 +90,19 @@ export const createNeonSignPlane = async (
     roughness: 0.8,
     metalness: 0.0,
     side: doubleSided ? THREE.DoubleSide : THREE.FrontSide,
+    transparent: true, // allow holes via alpha
+    alphaTest: alphaTest, // cut out near-transparent pixels
+    depthWrite: !disableDepthWrite,
+    blending:
+      blending ??
+      (additiveBlend ? THREE.AdditiveBlending : THREE.NormalBlending),
   });
+
+  // Hint for crisp emissive edges with bloom (optional tweak)
+  if (additiveBlend) {
+    // When additive we often want dark (fully transparent) pixels to contribute nothing.
+    mat.colorWrite = true;
+  }
 
   const geo = new THREE.PlaneGeometry(width, height);
   const mesh = new THREE.Mesh(geo, mat);
