@@ -191,7 +191,9 @@ export const applyEmissiveToObject = (
               meshMaterial.transparent = true;
             }
             meshMaterial.opacity = config.opacity;
-            meshMaterial.roughness = config.roughness;
+            if (!meshMaterial.roughnessMap) {
+              meshMaterial.roughness = config.roughness;
+            }
             meshMaterial.metalness = config.metalness;
 
             // Add variation if randomization is enabled
@@ -265,7 +267,10 @@ export const enhanceWindowMaterials = (
             meshMaterial.transparent = true;
           }
           meshMaterial.opacity = config.opacity;
-          meshMaterial.roughness = config.roughness;
+          // Only overwrite roughness if there is no roughness map
+          if (!meshMaterial.roughnessMap) {
+            meshMaterial.roughness = config.roughness;
+          }
           meshMaterial.metalness = config.metalness;
 
           // Add slight variation to prevent uniform look

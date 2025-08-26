@@ -118,6 +118,27 @@ export const initCityScene = async (container: HTMLDivElement) => {
     { darkness: 0.12 }
   );
 
+  // Load a separate env map for reflections and prefilter it with PMREM
+  try {
+    const envEquirect = await assetManager.loadSkyTexture(
+      "/assets/environment_night.jpg"
+    );
+    // LDR JPG should be treated as sRGB before PMREM
+    envEquirect.colorSpace = THREE.SRGBColorSpace;
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const envPMREM = pmrem.fromEquirectangular(envEquirect).texture;
+    scene.environment = envPMREM; // keep background from sky_night.jpg
+    pmrem.dispose();
+    console.log(
+      "Reflection environment applied with PMREM: /assets/environment_night.jpg"
+    );
+  } catch (e) {
+    console.warn(
+      "Failed to load reflection env map; using sky as environment",
+      e
+    );
+  }
+
   // Slightly increase exposure for better base texture visibility
   renderer.toneMappingExposure *= 1.1;
 
@@ -697,9 +718,9 @@ export const initCityScene = async (container: HTMLDivElement) => {
         emissiveConfig: {
           intensity: 2,
           color: colors.lightPeach,
-          roughness: 0.4,
-          metalness: 0,
-          opacity: 0.7,
+          roughness: 0.5,
+          metalness: 0.3,
+          opacity: 1,
         },
       },
       scene
@@ -822,7 +843,7 @@ export const initCityScene = async (container: HTMLDivElement) => {
         position: { x: -140, y: 0, z: -190 },
         scale: { x: 1, y: 1, z: 1 },
         emissiveConfig: {
-          intensity: 0.3,
+          intensity: 0.6,
           color: colors.warmWhite,
         },
       },
@@ -844,6 +865,37 @@ export const initCityScene = async (container: HTMLDivElement) => {
       },
       scene
     );
+
+    await modelPlacer.placeModel(
+      {
+        id: "light-skyscraper",
+        name: "light-skyscraper",
+        filePath: "/assets/models/lightshow-skyscraper.glb",
+        position: { x: 60, y: 0, z: -360 },
+        scale: { x: 1.5, y: 1.5, z: 1.5 },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.skyBlue,
+          roughness: 1,
+        },
+      },
+      scene
+    );
+
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "glass-test",
+    //     name: "glass-test",
+    //     filePath: "/assets/models/glass-export-test.glb",
+    //     position: { x: 0, y: 0, z: -60 },
+    //     scale: { x: 5, y: 5, z: 5 },
+    //     emissiveConfig: {
+    //       intensity: 0,
+    //       color: colors.warmWhite,
+    //     },
+    //   },
+    //   scene
+    // );
 
     // await modelPlacer.placeModelCollectionAsGroup(
     //   cityBuildingsCollection,

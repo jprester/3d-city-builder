@@ -236,6 +236,35 @@ export class ModelPlacer {
         instance.excludeFromEffects ?? config.excludeFromEffects ?? false;
       (model as any).excludeFromEffects = excludeFromEffects;
 
+      // this is for modfying materials based on model name
+
+      // model.traverse((child) => {
+      //   if (child instanceof THREE.Mesh) {
+      //     if (child instanceof THREE.Mesh && child.material) {
+      //       const mat = child.material as THREE.MeshPhysicalMaterial;
+      //       const name = (mat.name || "").toLowerCase();
+
+      //       if (name === "wall-glass") {
+      //         // Kill physical transmission-based transparency from glTF
+      //         if ("transmission" in mat) mat.transmission = 0;
+      //         if ("thickness" in mat) mat.thickness = 0;
+      //         mat.transparent = false;
+      //         mat.opacity = 1.0;
+      //         mat.depthWrite = true;
+      //         mat.alphaTest = 0;
+
+      //         // Opaque reflective facade (dielectric, not a metal mirror)
+      //         mat.metalness = 0.0; // keep dielectric
+      //         mat.roughness = 0.06; // sharp reflections
+      //         mat.clearcoat = 1.0; // strong grazing reflections
+      //         mat.clearcoatRoughness = 0.04;
+      //         mat.envMapIntensity = 1.5; // depends on your env map
+      //         mat.needsUpdate = true;
+      //       }
+      //     }
+      //   }
+      // });
+
       // Apply emissive configuration (instance override takes precedence)
       const emissiveConfig = instance.emissiveConfig || config.emissiveConfig;
       if (emissiveConfig && !excludeFromEffects) {
