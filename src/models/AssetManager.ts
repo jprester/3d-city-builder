@@ -9,6 +9,7 @@ export interface ModelTextures {
   specular?: string;
   roughness?: string;
   emissive?: string;
+  normal?: string;
 }
 
 export interface LoadedModel {
@@ -78,12 +79,14 @@ export class AssetManager {
     specular?: THREE.Texture;
     roughness?: THREE.Texture;
     emissive?: THREE.Texture;
+    normal?: THREE.Texture;
   }> {
     const loadedTextures: {
       base?: THREE.Texture;
       specular?: THREE.Texture;
       roughness?: THREE.Texture;
       emissive?: THREE.Texture;
+      normal?: THREE.Texture;
     } = {};
 
     const promises = Object.entries(textures).map(async ([key, path]) => {
@@ -139,6 +142,9 @@ export class AssetManager {
                   }
                   if (loadedTextures.roughness) {
                     newMaterial.roughnessMap = loadedTextures.roughness;
+                  }
+                  if (loadedTextures.normal) {
+                    newMaterial.normalMap = loadedTextures.normal;
                   }
                   if (loadedTextures.emissive) {
                     newMaterial.emissiveMap = loadedTextures.emissive;

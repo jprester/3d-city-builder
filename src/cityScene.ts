@@ -573,26 +573,26 @@ export const initCityScene = async (container: HTMLDivElement) => {
     //   scene
     // );
 
-    await modelPlacer.placeModel(
-      {
-        id: "skyscraper2",
-        name: "ny-office-building",
-        filePath: "/assets/models/ny-office-building2.glb",
-        position: { x: -70, y: 0, z: -100 },
-        scale: { x: 1, y: 1, z: 1 },
-        emissiveConfig: {
-          intensity: 1.2,
-          color: colors.offWhite,
-        },
-      },
-      scene
-    );
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper2",
+    //     name: "ny-office-building",
+    //     filePath: "/assets/models/ny-office-building2.glb",
+    //     position: { x: -70, y: 0, z: -100 },
+    //     scale: { x: 1, y: 1, z: 1 },
+    //     emissiveConfig: {
+    //       intensity: 1.2,
+    //       color: colors.offWhite,
+    //     },
+    //   },
+    //   scene
+    // );
 
     await modelPlacer.placeModel(
       {
         id: "skyscraper4",
         name: "ny-office-building2",
-        filePath: "/assets/models/ny-office-building2.glb",
+        filePath: "/assets/models/ny-office-building-optimized2.glb",
         position: { x: 70, y: 0, z: -40 },
         scale: { x: 1, y: 1, z: 1 },
         emissiveConfig: {
@@ -607,7 +607,7 @@ export const initCityScene = async (container: HTMLDivElement) => {
       {
         id: "skyscraper5",
         name: "ny-office-building2",
-        filePath: "/assets/models/ny-office-building2.glb",
+        filePath: "/assets/models/ny-office-building-optimized2.glb",
         position: { x: 170, y: 0, z: -140 },
         scale: { x: 1, y: 1, z: 1 },
         emissiveConfig: {
@@ -622,7 +622,7 @@ export const initCityScene = async (container: HTMLDivElement) => {
       {
         id: "skyscraper6",
         name: "ny-office-building2",
-        filePath: "/assets/models/ny-office-building2.glb",
+        filePath: "/assets/models/ny-office-building-optimized2.glb",
         position: { x: -200, y: 0, z: -230 },
         scale: { x: 1, y: 1, z: 1 },
         emissiveConfig: {
@@ -708,42 +708,43 @@ export const initCityScene = async (container: HTMLDivElement) => {
     //   scene
     // );
 
-    await modelPlacer.placeModel(
-      {
-        id: "skyscraper1",
-        name: "cylinder-skyscraper",
-        filePath: "/assets/models/cylinder-skyscraper.glb",
-        position: { x: 60, y: 0, z: -130 },
-        scale: { x: 1.15, y: 1.15, z: 1.15 },
-        emissiveConfig: {
-          intensity: 2,
-          color: colors.lightPeach,
-          roughness: 0.5,
-          metalness: 0.3,
-          opacity: 1,
-        },
-      },
-      scene
-    );
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper1",
+    //     name: "cylinder-skyscraper",
+    //     filePath: "/assets/models/cylinder-skyscraper.glb",
+    //     position: { x: 60, y: 0, z: -130 },
+    //     scale: { x: 1.15, y: 1.15, z: 1.15 },
+    //     emissiveConfig: {
+    //       intensity: 2,
+    //       color: colors.lightPeach,
+    //       roughness: 0.5,
+    //       metalness: 0.3,
+    //       opacity: 1,
+    //     },
+    //   },
+    //   scene
+    // );
 
-    await modelPlacer.placeModel(
-      {
-        id: "skyscraper13",
-        name: "massive-skyscraper",
-        filePath: "/assets/models/massive-complex3.glb",
-        position: { x: 60, y: 0, z: -650 },
-        scale: { x: 1.3, y: 1.3, z: 1.3 },
-        rotation: { x: 0, y: 3, z: 0 },
-        emissiveConfig: {
-          intensity: 1,
-          color: colors.warmWhite,
-          roughness: 1,
-          metalness: 1,
-          opacity: 1,
-        },
-      },
-      scene
-    );
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper13",
+    //     name: "massive-skyscraper",
+    //     filePath: "/assets/models/massive-complex3.glb",
+    //     position: { x: 60, y: 0, z: -650 },
+    //     scale: { x: 1.3, y: 1.3, z: 1.3 },
+    //     rotation: { x: 0, y: 3, z: 0 },
+    //     emissiveConfig: {
+    //       intensity: 1,
+    //       color: colors.warmWhite,
+    //       roughness: 1,
+    //       metalness: 1,
+    //       opacity: 1,
+    //     },
+    //     // excludeFromEffects: true,
+    //   },
+    //   scene
+    // );
 
     // await modelPlacer.placeModel(
     //   {
@@ -760,35 +761,35 @@ export const initCityScene = async (container: HTMLDivElement) => {
     //   scene
     // );
 
-    await modelPlacer.placeModel(
-      {
-        id: "skyscraper4",
-        name: "dark-skyscraper",
-        filePath: "/assets/models/dark_skyscraper_new2.glb",
-        position: { x: -50, y: 0, z: -200 },
-        scale: { x: 1.2, y: 1.2, z: 1.2 },
-        emissiveConfig: {
-          intensity: 2,
-          color: colors.warmWhite,
-        },
-      },
-      scene
-    );
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper4",
+    //     name: "dark-skyscraper",
+    //     filePath: "/assets/models/dark_skyscraper_new2.glb",
+    //     position: { x: -50, y: 0, z: -200 },
+    //     scale: { x: 1.2, y: 1.2, z: 1.2 },
+    //     emissiveConfig: {
+    //       intensity: 2,
+    //       color: colors.warmWhite,
+    //     },
+    //   },
+    //   scene
+    // );
 
-    await modelPlacer.placeModel(
-      {
-        id: "skyscraper10",
-        name: "dark-skyscraper",
-        filePath: "/assets/models/dark_skyscraper_new2.glb",
-        position: { x: -150, y: 0, z: -100 },
-        scale: { x: 1, y: 1, z: 1 },
-        emissiveConfig: {
-          intensity: 2,
-          color: colors.warmWhite,
-        },
-      },
-      scene
-    );
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper10",
+    //     name: "dark-skyscraper",
+    //     filePath: "/assets/models/dark_skyscraper_new2.glb",
+    //     position: { x: -150, y: 0, z: -100 },
+    //     scale: { x: 1, y: 1, z: 1 },
+    //     emissiveConfig: {
+    //       intensity: 2,
+    //       color: colors.warmWhite,
+    //     },
+    //   },
+    //   scene
+    // );
 
     // await modelPlacer.placeModel(
     //   {
@@ -835,27 +836,27 @@ export const initCityScene = async (container: HTMLDivElement) => {
     //   scene
     // );
 
-    await modelPlacer.placeModel(
-      {
-        id: "skyscraper8",
-        name: "new-skyscraper",
-        filePath: "/assets/models/new-skyscraper2.glb",
-        position: { x: -140, y: 0, z: -190 },
-        scale: { x: 1, y: 1, z: 1 },
-        emissiveConfig: {
-          intensity: 0.6,
-          color: colors.warmWhite,
-        },
-      },
-      scene
-    );
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "skyscraper8",
+    //     name: "new-skyscraper",
+    //     filePath: "/assets/models/new-skyscraper2.glb",
+    //     position: { x: -140, y: 0, z: -190 },
+    //     scale: { x: 1, y: 1, z: 1 },
+    //     emissiveConfig: {
+    //       intensity: 0.6,
+    //       color: colors.warmWhite,
+    //     },
+    //   },
+    //   scene
+    // );
 
     await modelPlacer.placeModel(
       {
         id: "ad-building",
         name: "advertisment-building",
         filePath: "/assets/models/advertisment-building.glb",
-        position: { x: -60, y: 0, z: -60 },
+        position: { x: -50, y: 0, z: -48 },
         scale: { x: 1, y: 1, z: 1 },
         emissiveConfig: {
           intensity: 1.4,
@@ -868,19 +869,98 @@ export const initCityScene = async (container: HTMLDivElement) => {
 
     await modelPlacer.placeModel(
       {
-        id: "light-skyscraper",
-        name: "light-skyscraper",
-        filePath: "/assets/models/lightshow-skyscraper.glb",
-        position: { x: 60, y: 0, z: -360 },
-        scale: { x: 1.5, y: 1.5, z: 1.5 },
+        id: "apartment-building",
+        name: "apartment-building",
+        filePath: "/assets/models/cyberpunk-apartment-building.glb",
+        position: { x: -86, y: 0, z: -34 },
+        scale: { x: 1, y: 1, z: 1 },
+        rotation: { x: 0, y: 0, z: 0 },
         emissiveConfig: {
-          intensity: 1,
-          color: colors.skyBlue,
-          roughness: 1,
+          intensity: 1.4,
+          color: colors.lightPeach,
         },
       },
       scene
     );
+
+    await modelPlacer.placeModel(
+      {
+        id: "apartment-building",
+        name: "apartment-building",
+        filePath: "/assets/models/cyberpunk-apartment-building.glb",
+        position: { x: -120, y: 0, z: -34 },
+        scale: { x: 1.2, y: 1, z: 1 },
+        rotation: { x: 0, y: 0, z: 0 },
+        emissiveConfig: {
+          intensity: 1.4,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "anime-residential",
+        name: "anime-residential",
+        filePath: "/assets/models/anime-residential-building.glb",
+        position: { x: -33, y: -2, z: -74 },
+        scale: { x: 1.2, y: 1, z: 1 },
+        rotation: { x: 0, y: 0, z: 0 },
+        emissiveConfig: {
+          intensity: 1.4,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+    await modelPlacer.placeModel(
+      {
+        id: "anime-residential",
+        name: "anime-residential",
+        filePath: "/assets/models/anime-residential-building.glb",
+        position: { x: -33, y: -2, z: -94 },
+        scale: { x: 1.3, y: 1.3, z: 1.3 },
+        rotation: { x: 0, y: 0, z: 0 },
+        emissiveConfig: {
+          intensity: 1.4,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "low-poly-skyscraper",
+        name: "low-poly-skyscraper",
+        filePath:
+          "/assets/models/low-poly-city-buildings/low-poly-city-building-emissive1.glb",
+        position: { x: -100, y: 0, z: -100 },
+        scale: { x: 5, y: 5, z: 5 },
+        emissiveConfig: {
+          intensity: 0.5,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    // await modelPlacer.placeModel(
+    //   {
+    //     id: "light-skyscraper",
+    //     name: "light-skyscraper",
+    //     filePath: "/assets/models/lightshow-skyscraper.glb",
+    //     position: { x: 60, y: 0, z: -360 },
+    //     scale: { x: 1.5, y: 1.5, z: 1.5 },
+    //     emissiveConfig: {
+    //       intensity: 1,
+    //       color: colors.skyBlue,
+    //       roughness: 1,
+    //     },
+    //   },
+    //   scene
+    // );
 
     // await modelPlacer.placeModel(
     //   {
