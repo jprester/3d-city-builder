@@ -125,35 +125,264 @@ export class AssetManager {
           const model = gltf.scene;
           const materials: THREE.Material[] = [];
 
+          console.log("Loaded GLTF model:", model);
+
+          console.log("textures:", textures);
+
           if (textures) {
             const loadedTextures = await this.loadTextures(textures);
+            // Helper: invert a grayscale texture (used for alpha maps if needed)
+            const invertAlphaTexture = (
+              src: THREE.Texture
+            ): THREE.Texture => {
+              const img = src.image as unknown;
+              const hasWH = (o: unknown): o is { width: number; height: number } =>
+                typeof (o as { width: unknown }).width === "number" &&
+                typeof (o as { height: unknown }).height === "number";
+              if (!img || !hasWH(img)) return src;
+              const { width, height } = img;
+              const canvas = document.createElement("canvas");
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext("2d");
+              if (!ctx) return src;
+              // Draw source
+              (ctx as CanvasRenderingContext2D).drawImage(
+                img as unknown as CanvasImageSource,
+                0,
+                0,
+                width,
+                height
+              );
+              const imageData = ctx.getImageData(0, 0, width, height);
+              const data = imageData.data;
+              // Invert luminance
+              for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                // Perceived luminance
+                const y = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                const inv = 255 - y;
+                data[i] = inv;
+                data[i + 1] = inv;
+                data[i + 2] = inv;
+                data[i + 3] = 255;
+              }
+              ctx.putImageData(imageData, 0, 0);
+              const tex = new THREE.CanvasTexture(canvas);
+              tex.flipY = false;
+              tex.generateMipmaps = false;
+              tex.minFilter = THREE.LinearFilter;
+              tex.magFilter = THREE.LinearFilter;
+              return tex;
+            };
+
+            // Default fallback textures for logo materials (optional)
+            let defaultLogosAlpha: THREE.Texture | undefined;
+            let defaultLogosBase: THREE.Texture | undefined;
+            try {
+              defaultLogosAlpha = await this.loadTexture(
+                "/assets/textures/low-poly-city-buildings/logosalpha.png"
+              );
+            } catch {
+              // optional fallback missing; ignore
+            }
+            try {
+              defaultLogosBase = await this.loadTexture(
+                "/assets/textures/low-poly-city-buildings/logos.jpeg"
+              );
+            } catch {
+              // optional fallback missing; ignore
+            }
+
+            const shouldSkipOverride = (name: string) => {
+              const n = (name || "").toLowerCase();
+              return (
+                // logos handled separately to enforce transparency
+                n.includes("light") ||
+                n.includes("roof") ||
+                n.includes("led") ||
+                n.includes("neon") ||
+                n.includes("screen") ||
+                n.includes("sign") ||
+                n.includes("emissive")
+              );
+            };
+
+            const isLogo = (name: string) => {
+              const n = (name || "").toLowerCase();
+              return n.includes("logo") || n.includes("logos");
+            };
+
+            const applyBaseMaps = (
+              src: THREE.MeshStandardMaterial
+            ): THREE.MeshStandardMaterial => {
+              const newMat = src.clone();
+              const pickTex = (
+                shared: THREE.Texture,
+                srcTex?: THREE.Texture | null
+              ): THREE.Texture => {
+                if (!srcTex) return shared;
+                const sameTransform =
+                  srcTex.offset.equals(new THREE.Vector2(0, 0)) &&
+                  srcTex.repeat.equals(new THREE.Vector2(1, 1)) &&
+                  srcTex.rotation === 0 &&
+                  srcTex.wrapS === shared.wrapS &&
+                  srcTex.wrapT === shared.wrapT;
+                if (sameTransform) {
+                  return shared; // reuse cached texture instance
+                }
+                const clone = shared.clone();
+                clone.offset.copy(srcTex.offset);
+                clone.repeat.copy(srcTex.repeat);
+                const c1 = (clone as unknown as { center?: THREE.Vector2 }).center;
+                const c2 = (srcTex as unknown as { center?: THREE.Vector2 }).center;
+                if (c1 && c2) c1.copy(c2);
+                clone.rotation = srcTex.rotation;
+                clone.wrapS = srcTex.wrapS;
+                clone.wrapT = srcTex.wrapT;
+                clone.needsUpdate = true;
+                return clone;
+              };
+              if (loadedTextures.base) {
+                const tex = loadedTextures.base;
+                tex.flipY = false;
+                tex.colorSpace = THREE.SRGBColorSpace;
+                tex.anisotropy = this.materialQuality.anisotropy;
+                newMat.map = pickTex(tex, src.map as THREE.Texture | null);
+              }
+              if (loadedTextures.specular) {
+                const tex = loadedTextures.specular;
+                tex.flipY = false;
+                tex.anisotropy = this.materialQuality.anisotropy;
+                newMat.metalnessMap = pickTex(
+                  tex,
+                  src.metalnessMap as THREE.Texture | null
+                );
+              }
+              if (loadedTextures.roughness) {
+                const tex = loadedTextures.roughness;
+                tex.flipY = false;
+                tex.anisotropy = this.materialQuality.anisotropy;
+                newMat.roughnessMap = pickTex(
+                  tex,
+                  src.roughnessMap as THREE.Texture | null
+                );
+              }
+              if (loadedTextures.normal) {
+                const tex = loadedTextures.normal;
+                tex.flipY = false;
+                newMat.normalMap = pickTex(
+                  tex,
+                  src.normalMap as THREE.Texture | null
+                ); // linear space
+              }
+              if (loadedTextures.emissive) {
+                const tex = loadedTextures.emissive;
+                tex.flipY = false;
+                tex.colorSpace = THREE.SRGBColorSpace;
+                newMat.emissiveMap = pickTex(
+                  tex,
+                  src.emissiveMap as THREE.Texture | null
+                );
+                newMat.emissive = new THREE.Color(colors.darkGrey);
+              }
+              newMat.needsUpdate = true;
+              return newMat;
+            };
+
+            const prepareLogoMaterial = (
+              src: THREE.MeshStandardMaterial
+            ): THREE.MeshStandardMaterial => {
+              const m = src.clone();
+              // Use embedded texture but ensure alpha is respected
+              const map = m.map as THREE.Texture | undefined;
+              if (map) {
+                map.flipY = false;
+                map.colorSpace = THREE.SRGBColorSpace;
+                map.generateMipmaps = false;
+                map.minFilter = THREE.LinearFilter;
+                map.magFilter = THREE.LinearFilter;
+                map.needsUpdate = true;
+              }
+              // If no map present, fall back to default logos base
+              if (!map && defaultLogosBase) {
+                defaultLogosBase.flipY = false;
+                defaultLogosBase.colorSpace = THREE.SRGBColorSpace;
+                defaultLogosBase.generateMipmaps = false;
+                defaultLogosBase.minFilter = THREE.LinearFilter;
+                defaultLogosBase.magFilter = THREE.LinearFilter;
+                m.map = defaultLogosBase;
+              }
+              if (m.alphaMap) {
+                m.alphaMap.flipY = false;
+                m.alphaMap.generateMipmaps = false;
+                m.alphaMap.minFilter = THREE.LinearFilter;
+                m.alphaMap.magFilter = THREE.LinearFilter;
+                m.alphaMap.needsUpdate = true;
+              }
+              // If exporter didn't include alpha map, try default
+              if (!m.alphaMap && defaultLogosAlpha) {
+                // In many atlases the provided alpha is inverted (white background)
+                // Create an inverted copy to ensure background is transparent.
+                const inverted = invertAlphaTexture(defaultLogosAlpha);
+                m.alphaMap = inverted;
+                console.info("Applied inverted alpha for logo material:", src.name);
+              }
+              // If still no alpha (no default available or not yet loaded), fall back to additive blending
+              if (!m.alphaMap) {
+                m.blending = THREE.AdditiveBlending;
+                m.transparent = true;
+                m.depthWrite = false;
+                m.alphaTest = 0.0;
+                // Ensure base color doesn't dim the map
+                m.color = new THREE.Color(0xffffff);
+              }
+              m.transparent = true;
+              m.depthWrite = false;
+              m.alphaTest = 0.02;
+              m.side = THREE.DoubleSide;
+              // Reduce z-fighting if logo is near facade
+              m.polygonOffset = true;
+              m.polygonOffsetFactor = -1;
+              m.polygonOffsetUnits = -1;
+              m.needsUpdate = true;
+              return m;
+            };
 
             model.traverse((child) => {
-              if (child instanceof THREE.Mesh) {
-                const material = child.material as THREE.MeshStandardMaterial;
-                if (material) {
-                  const newMaterial = material.clone();
-
-                  if (loadedTextures.base) {
-                    newMaterial.map = loadedTextures.base;
+              if (child instanceof THREE.Mesh && child.material) {
+                if (Array.isArray(child.material)) {
+                  const updated = child.material.map((m) => {
+                    const srcMat = m as THREE.MeshStandardMaterial;
+                    const name = srcMat?.name || "";
+                    if (isLogo(name)) {
+                      return prepareLogoMaterial(srcMat);
+                    }
+                    if (shouldSkipOverride(name)) {
+                      return srcMat; // keep embedded special material
+                    }
+                    return applyBaseMaps(srcMat);
+                  });
+                  child.material = updated as unknown as THREE.Material[];
+                  materials.push(...(updated as THREE.Material[]));
+                } else {
+                  const srcMat = child.material as THREE.MeshStandardMaterial;
+                  const name = srcMat?.name || "";
+                  if (isLogo(name)) {
+                    const newM = prepareLogoMaterial(srcMat);
+                    child.material = newM;
+                    materials.push(newM);
+                    return;
                   }
-                  if (loadedTextures.specular) {
-                    newMaterial.metalnessMap = loadedTextures.specular;
+                  if (shouldSkipOverride(name)) {
+                    // Leave as-is
+                    return;
                   }
-                  if (loadedTextures.roughness) {
-                    newMaterial.roughnessMap = loadedTextures.roughness;
-                  }
-                  if (loadedTextures.normal) {
-                    newMaterial.normalMap = loadedTextures.normal;
-                  }
-                  if (loadedTextures.emissive) {
-                    newMaterial.emissiveMap = loadedTextures.emissive;
-                    newMaterial.emissive = new THREE.Color(colors.darkGrey);
-                  }
-
-                  newMaterial.needsUpdate = true;
-                  child.material = newMaterial;
-                  materials.push(newMaterial);
+                  const newMat = applyBaseMaps(srcMat);
+                  child.material = newMat;
+                  materials.push(newMat);
                 }
               }
             });
