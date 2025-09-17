@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useRef, useState } from "react";
 import ThreeScene, { ThreeSceneRef } from "./components/ThreeScene";
 import Stats from "./components/UI/Stats";
@@ -9,27 +10,47 @@ function App() {
   const rendererRef = useRef<any>(null);
   const setCityMapViewRef = useRef<(() => void) | null>(null);
   const resetCameraViewRef = useRef<(() => void) | null>(null);
+  const toggleFpsRef = useRef<(() => void) | null>(null);
+  const isFpsEnabledRef = useRef<(() => boolean) | null>(null);
   const threeSceneRef = useRef<ThreeSceneRef>(null);
+  const [isFPS, setIsFPS] = useState(false);
 
-  const handleSceneReady = useCallback(({
-    setCityMapView,
-    resetCameraView,
-    renderer,
-    cameraRestored,
-  }: {
-    setCityMapView: () => void;
-    resetCameraView: () => void;
-    renderer: any;
-    cameraRestored?: boolean;
-  }) => {
-    rendererRef.current = renderer;
-    setCityMapViewRef.current = setCityMapView;
-    resetCameraViewRef.current = resetCameraView;
-    
-    if (cameraRestored) {
-      console.log("✅ Camera position restored from previous session");
-    }
-  }, []);
+  const handleSceneReady = useCallback(
+    ({
+      setCityMapView,
+      resetCameraView,
+      renderer,
+      toggleFirstPerson,
+      cameraRestored,
+    }: {
+      setCityMapView: () => void;
+      resetCameraView: () => void;
+      renderer: any;
+      toggleFirstPerson: () => void;
+      cameraRestored?: boolean;
+    }) => {
+      rendererRef.current = renderer;
+      setCityMapViewRef.current = setCityMapView;
+      resetCameraViewRef.current = resetCameraView;
+      toggleFpsRef.current = () => {
+        toggleFirstPerson();
+        // Update UI state after toggle
+        // We'll ask the ThreeScene ref (if present) for current state
+        setTimeout(
+          () =>
+            setIsFPS(threeSceneRef.current?.isFirstPersonEnabled() ?? false),
+          0
+        );
+      };
+      isFpsEnabledRef.current = () =>
+        threeSceneRef.current?.isFirstPersonEnabled() ?? false;
+
+      if (cameraRestored) {
+        console.log("✅ Camera position restored from previous session");
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     // Keyboard shortcut handler
@@ -46,6 +67,8 @@ function App() {
         } else {
           console.log("resetCameraViewRef.current is null!");
         }
+      } else if (event.key === "f" || event.key === "F") {
+        toggleFpsRef.current?.();
       }
     };
 
@@ -57,7 +80,6 @@ function App() {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
-
 
   const handleMapView = () => {
     if (setCityMapViewRef.current) {
@@ -75,6 +97,10 @@ function App() {
     }
   };
 
+  const handleToggleFPS = () => {
+    toggleFpsRef.current?.();
+  };
+
   return (
     <div>
       <ThreeScene
@@ -82,16 +108,18 @@ function App() {
         onSceneReady={handleSceneReady}
         className=""
       />
-      
+
       <Stats
         renderer={rendererRef.current}
         logging={logging}
         onToggleLogging={() => setLogging((v) => !v)}
       />
-      
+
       <CameraControls
         onMapView={handleMapView}
         onResetView={handleResetView}
+        onToggleFPS={handleToggleFPS}
+        isFPS={isFPS}
       />
     </div>
   );

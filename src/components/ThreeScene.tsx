@@ -1,20 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useEffect, useImperativeHandle, forwardRef } from "react";
 import { initCityScene } from "../cityScene";
 
 interface ThreeSceneProps {
   className?: string;
-  onSceneReady?: (controls: {
-    setCityMapView: () => void;
-    resetCameraView: () => void;
-    renderer: any;
-    cameraRestored?: boolean;
-  }) => void;
+  onSceneReady?: any;
 }
 
 export interface ThreeSceneRef {
   setCityMapView: () => void;
   resetCameraView: () => void;
   renderer: any;
+  toggleFirstPerson: () => void;
+  isFirstPersonEnabled: () => boolean;
 }
 
 const ThreeScene = forwardRef<ThreeSceneRef, ThreeSceneProps>(
@@ -25,12 +23,17 @@ const ThreeScene = forwardRef<ThreeSceneRef, ThreeSceneProps>(
       renderer: any;
       setCityMapView: () => void;
       resetCameraView: () => void;
+      toggleFirstPerson: () => void;
+      isFirstPersonEnabled: () => boolean;
     } | null>(null);
 
     useImperativeHandle(ref, () => ({
       setCityMapView: () => sceneControlsRef.current?.setCityMapView(),
       resetCameraView: () => sceneControlsRef.current?.resetCameraView(),
-      renderer: sceneControlsRef.current?.renderer,
+      renderer: sceneControlsRef.current?.renderer ?? null,
+      toggleFirstPerson: () => sceneControlsRef.current?.toggleFirstPerson(),
+      isFirstPersonEnabled: () =>
+        sceneControlsRef.current?.isFirstPersonEnabled() ?? false,
     }));
 
     useEffect(() => {
@@ -56,6 +59,8 @@ const ThreeScene = forwardRef<ThreeSceneRef, ThreeSceneProps>(
               setCityMapView: controls.setCityMapView,
               resetCameraView: controls.resetCameraView,
               renderer: controls.renderer,
+              toggleFirstPerson: controls.toggleFirstPerson,
+              isFirstPersonEnabled: controls.isFirstPersonEnabled,
               cameraRestored: controls.cameraWasRestored,
             });
           }

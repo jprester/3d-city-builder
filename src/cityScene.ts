@@ -1,11 +1,11 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { AD_TYPES, AssetManager, ModelPlacer } from "./models/index.js";
+import { createFpsControls, type FpsControls } from "./utils/fpsControls.js";
+import { AssetManager, ModelPlacer } from "./models/index.js";
 import {
   addHumanReferenceModel,
   createGroundPlane,
   createGroundTiles,
-  getGroundTileByName,
 } from "./utils/helperFunctions.js";
 import { setupEnvironment } from "./utils/environmentUtils.js";
 import { setEnvMapIntensity as setEnvMapIntensityUtil } from "./utils/materialUtils.js";
@@ -28,17 +28,18 @@ import {
   saveCameraState,
   loadCameraState,
   applyCameraState,
+  saveCameraStateWithTarget,
+  applyCameraStateToCamera,
 } from "./utils/cameraState.js";
-import {
-  commercialBlockCollection1,
-  commercialBlockCollection2,
-  industrialBlockCollection,
-  mixedUseBlockCollection1,
-  mixedUseBlockCollection2,
-  residentialAndCommercialBlockCollection,
-} from "./models/collections/building-collections.js";
-import { AdSignPlacer } from "./models/index.js";
-import { emissive, roughness } from "three/tsl";
+// import {
+//   commercialBlockCollection1,
+//   commercialBlockCollection2,
+//   industrialBlockCollection,
+//   mixedUseBlockCollection1,
+//   mixedUseBlockCollection2,
+//   residentialAndCommercialBlockCollection,
+// } from "./models/collections/building-collections.js";
+// import { AdSignPlacer } from "./models/index.js";
 
 export const initCityScene = async (container: HTMLDivElement) => {
   const scene = new THREE.Scene();
@@ -75,6 +76,8 @@ export const initCityScene = async (container: HTMLDivElement) => {
   // We'll initialize post-processing after scene setup
 
   const controls = new OrbitControls(camera, renderer.domElement);
+  let fpsControls: FpsControls | null = null;
+  let isFirstPerson = false;
 
   // Configure controls
   controls.enableDamping = true;
@@ -92,6 +95,7 @@ export const initCityScene = async (container: HTMLDivElement) => {
   const savedCameraState = loadCameraState();
   const cameraWasRestored = !!savedCameraState;
   if (savedCameraState) {
+    // Start in Orbit mode by default; apply with Orbit controls
     applyCameraState(camera, controls, savedCameraState);
     console.log("Restored camera position from previous session");
   } else {
@@ -1074,10 +1078,10 @@ export const initCityScene = async (container: HTMLDivElement) => {
         //   emissive:
         //     "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
         // },
-        // emissiveConfig: {
-        //   intensity: 1,
-        //   color: colors.lightPeach,
-        // },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
       },
       scene
     );
@@ -1197,8 +1201,68 @@ export const initCityScene = async (container: HTMLDivElement) => {
   controls.addEventListener("change", saveCameraStateDebounced);
   controls.addEventListener("end", () => saveCameraState(camera, controls));
 
+  // First-person setup and toggling
+  const ensureFpsControls = () => {
+    if (!fpsControls) {
+      fpsControls = createFpsControls(camera, renderer.domElement, {
+        // Human-scale feel: ~6 m/s walk, ~10.8 m/s sprint, ~1.7 m eye height
+        moveSpeed: 6,
+        sprintMultiplier: 1.8,
+        gravity: 30,
+        jumpVelocity: 7,
+        minY: 1.65,
+      });
+    }
+  };
+
+  const setFirstPersonEnabled = (enabled: boolean) => {
+    if (enabled === isFirstPerson) return;
+    ensureFpsControls();
+    if (!fpsControls) return;
+
+    isFirstPerson = enabled;
+    if (enabled) {
+      // Switch from Orbit -> FPS
+      controls.enabled = false;
+      fpsControls.enable();
+      // Ensure the eye height matches our human reference
+      camera.position.y = 1.65;
+      // Narrow FOV slightly for human-like perspective
+      camera.fov = 60;
+      camera.updateProjectionMatrix();
+      // If we had a saved state, also orient the camera towards the saved target
+      if (savedCameraState) {
+        applyCameraStateToCamera(camera, savedCameraState);
+      }
+    } else {
+      // Switch from FPS -> Orbit
+      fpsControls.disable();
+      controls.enabled = true;
+      controls.update();
+      // Restore broader FOV used for orbiting
+      camera.fov = 75;
+      camera.updateProjectionMatrix();
+    }
+  };
+
+  const toggleFirstPerson = () => setFirstPersonEnabled(!isFirstPerson);
+
   function animate() {
-    controls.update(); // Update controls
+    // Orbit or FPS update
+    if (isFirstPerson && fpsControls) {
+      fpsControls.update();
+      // Persist camera in FPS mode (compute a forward-look target)
+      const now = Date.now();
+      if (now - lastSaveTime > SAVE_INTERVAL) {
+        const forward = new THREE.Vector3();
+        camera.getWorldDirection(forward);
+        const target = new THREE.Vector3().copy(camera.position).add(forward);
+        saveCameraStateWithTarget(camera, target);
+        lastSaveTime = now;
+      }
+    } else {
+      controls.update(); // Update Orbit controls
+    }
 
     // Animate roof lights with pulsing effect
     animateRoofLights(scene, Date.now());
@@ -1212,18 +1276,17 @@ export const initCityScene = async (container: HTMLDivElement) => {
   // Function to position camera for top-down city map view
   const setCityMapView = () => {
     // Directly set camera position and controls target
+    // Ensure we are in orbit mode for a map view
+    setFirstPersonEnabled(false);
     camera.position.set(0, 800, 0);
     controls.target.set(0, 0, 0);
-
-    // Force controls to update immediately
     controls.update();
   };
 
   // Function to reset camera to initial position
   const resetCameraView = () => {
     console.log("resetCameraView called!");
-
-    // Reset to initial camera position
+    setFirstPersonEnabled(false);
     camera.position.set(
       initialCameraPosition.x,
       initialCameraPosition.y,
@@ -1234,8 +1297,6 @@ export const initCityScene = async (container: HTMLDivElement) => {
       initialControlsTarget.y,
       initialControlsTarget.z
     );
-
-    // Force controls to update immediately
     controls.update();
   };
 
@@ -1253,12 +1314,18 @@ export const initCityScene = async (container: HTMLDivElement) => {
       assetManager.dispose();
       renderer.dispose();
       controls.dispose();
+      if (fpsControls) {
+        fpsControls.dispose();
+      }
     },
     renderer,
     camera,
     controls,
     setCityMapView,
     resetCameraView,
+    setFirstPersonEnabled,
+    toggleFirstPerson,
+    isFirstPersonEnabled: () => isFirstPerson,
     assetManager,
     modelPlacer,
     postProcessing,

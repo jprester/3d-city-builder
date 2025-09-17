@@ -39,7 +39,8 @@ export const addHumanReferenceModel = async (
     emissiveIntensity: options?.emissiveIntensity || 10,
   });
   const humanReference = new THREE.Mesh(humanGeometry, humanMaterial);
-  humanReference.position.set(0, 0.2, 0); // Position at center, half height above ground
+  // Place the human so its base sits on y=0; since height=1.7, center should be at y=0.85
+  humanReference.position.set(0, 0.85, 0);
   humanReference.name = "HumanReference";
   scene.add(humanReference);
 };
@@ -106,7 +107,7 @@ export const createGroundPlane = async (
     ground.name = groundDef.name;
 
     // Set exclusion flag for post-processing effects
-    (ground as any).excludeFromEffects = groundDef.excludeFromEffects ?? false;
+    ground.userData.excludeFromEffects = groundDef.excludeFromEffects ?? false;
 
     scene.add(ground);
 
@@ -129,7 +130,7 @@ export const createGroundPlane = async (
     ground.name = groundDef.name;
 
     // Set exclusion flag for post-processing effects
-    (ground as any).excludeFromEffects = groundDef.excludeFromEffects ?? false;
+    ground.userData.excludeFromEffects = groundDef.excludeFromEffects ?? false;
 
     scene.add(ground);
 
