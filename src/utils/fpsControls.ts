@@ -105,7 +105,14 @@ export function createFpsControls(
   };
 
   const onClickToLock = () => {
-    if (!controls.isLocked) controls.lock();
+    if (!controls.isLocked) {
+      // Add error handling for pointer lock
+      try {
+        controls.lock();
+      } catch (error) {
+        console.warn("Failed to request pointer lock:", error);
+      }
+    }
   };
 
   const addListeners = () => {
@@ -123,19 +130,34 @@ export function createFpsControls(
   const api: FpsControls = {
     enable: () => {
       addListeners();
-      // Snap to eye height when entering FPS mode
-      const obj = controls.getObject();
-      obj.position.y = minY;
+      // Snap to eye height when entering FPS mode and reset physics state
+      controls.object.position.y = minY;
       velocity.set(0, 0, 0);
       onGround = true;
+      
+      console.log(`FPS controls enabled. Camera positioned at ground level: Y=${minY}`);
     },
     disable: () => {
       removeListeners();
-      if (controls.isLocked) controls.unlock();
+      // Safely unlock pointer with error handling
+      try {
+        if (controls.isLocked) {
+          controls.unlock();
+        }
+      } catch (error) {
+        console.warn("Failed to unlock pointer:", error);
+      }
       // reset velocity to prevent drift when re-enabling
       velocity.set(0, 0, 0);
     },
-    isEnabled: () => controls.isLocked,
+    isEnabled: () => {
+      try {
+        return controls.isLocked;
+      } catch (error) {
+        console.warn("Error checking pointer lock state:", error);
+        return false;
+      }
+    },
     update: () => {
       // compute an approximate delta using a simple timer
       const now = performance.now();
@@ -174,7 +196,6 @@ export function createFpsControls(
       }
 
       // jump
-      const object = controls.getObject();
       if (move.jumpRequested && onGround) {
         velocity.y = jumpVelocity;
         onGround = false;
@@ -184,12 +205,12 @@ export function createFpsControls(
       // Move horizontally with PointerLockControls helpers (ignore camera pitch)
       controls.moveRight(velocity.x * delta);
       controls.moveForward(velocity.z * delta);
-      object.position.y += velocity.y * delta;
+      controls.object.position.y += velocity.y * delta;
 
-      // simple ground collision
-      if (object.position.y < minY) {
+      // Enhanced ground collision - ensure we never go below ground level
+      if (controls.object.position.y <= minY) {
         velocity.y = 0;
-        object.position.y = minY;
+        controls.object.position.y = minY;
         onGround = true;
       }
     },

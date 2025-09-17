@@ -908,14 +908,25 @@ export const initCityScene = async (container: HTMLDivElement) => {
       // Switch from Orbit -> FPS
       controls.enabled = false;
       fpsControls.enable();
-      // Ensure the eye height matches our human reference
-      camera.position.y = 1.65;
+      
+      // Always ensure camera is at ground level (eye height) when entering FPS mode
+      // Keep the current X and Z position but reset Y to ground level
+      const currentPosition = camera.position.clone();
+      camera.position.set(currentPosition.x, 1.65, currentPosition.z);
+      
       // Narrow FOV slightly for human-like perspective
       camera.fov = 60;
       camera.updateProjectionMatrix();
-      // If we had a saved state, also orient the camera towards the saved target
+      
+      // If we had a saved state, apply the orientation but keep ground-level Y position
       if (savedCameraState) {
-        applyCameraStateToCamera(camera, savedCameraState);
+        // Apply the saved camera orientation but override the Y position
+        const tempCamera = camera.clone();
+        applyCameraStateToCamera(tempCamera, savedCameraState);
+        
+        // Keep ground level Y but apply the rotation/orientation
+        camera.position.set(camera.position.x, 1.65, camera.position.z);
+        camera.quaternion.copy(tempCamera.quaternion);
       }
     } else {
       // Switch from FPS -> Orbit
