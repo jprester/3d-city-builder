@@ -501,121 +501,6 @@ export const initCityScene = async (container: HTMLDivElement) => {
     //   scene
     // );
 
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "new-skyscraper1",
-    //     name: "newSkyscraper1",
-    //     filePath: "/assets/models/synth-remixed-skyscraper.glb",
-    //     position: { x: 0, y: 0, z: 60 },
-    //     scale: { x: 4.2, y: 4.2, z: 4.2 },
-    //     emissiveConfig: {
-    //       intensity: 1,
-    //       color: colors.orangeYellow,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "new-skyscraper2",
-    //     name: "newSkyscraper2",
-    //     filePath: "/assets/models/synth-remixed-next-skyscraper2.glb",
-    //     position: { x: -230, y: 0, z: 130 },
-    //     scale: { x: 3.2, y: 3.2, z: 3.2 },
-    //     emissiveConfig: {
-    //       intensity: 1,
-    //       color: colors.softYellow,
-
-    //       roughness: 0.05,
-    //       metalness: 0.3,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "new-skyscraper3",
-    //     name: "newSkyscraper3",
-    //     filePath: "/assets/models/synth-remixed-cyberpunk-skyscraper.glb",
-    //     position: { x: 290, y: 0, z: -70 },
-    //     scale: { x: 6.2, y: 6.2, z: 6.2 },
-    //     emissiveConfig: {
-    //       intensity: 4,
-    //       color: colors.skyBlue,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "new-skyscraper4",
-    //     name: "newSkyscraper4",
-    //     filePath:
-    //       "/assets/models/synth-remixed-cyberpunk-skyscraper-object2.obj",
-    //     position: { x: -100, y: 0, z: -70 },
-    //     scale: { x: 6.2, y: 6.2, z: 6.2 },
-    //     emissiveConfig: {
-    //       intensity: 4,
-    //       color: colors.skyBlue,
-    //     },
-    //     textures: {
-    //       base: "/assets/textures/synthcity/building_05.jpg",
-    //       specular: "/assets/textures/synthcity/building_05_spec.jpg",
-    //       roughness: "/assets/textures/synthcity/building_05_rough.jpg",
-    //       emissive: "/assets/textures/synthcity/building_05_em.jpg",
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper2",
-    //     name: "ny-office-building",
-    //     filePath: "/assets/models/ny-office-building.glb",
-    //     position: { x: 70, y: -4, z: -240 },
-    //     scale: { x: 4, y: 4, z: 4 },
-    //     emissiveConfig: {
-    //       intensity: 20,
-    //       color: colors.neonGreen,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper2",
-    //     name: "ny-office-building",
-    //     filePath: "/assets/models/ny-office-building2.glb",
-    //     position: { x: -70, y: 0, z: -100 },
-    //     scale: { x: 1, y: 1, z: 1 },
-    //     emissiveConfig: {
-    //       intensity: 1.2,
-    //       color: colors.offWhite,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper4",
-    //     name: "ny-office-building2",
-    //     filePath: "/assets/models/ny-office-building-optimized2.glb",
-    //     position: { x: 70, y: 0, z: -40 },
-    //     scale: { x: 1, y: 1, z: 1 },
-    //     emissiveConfig: {
-    //       intensity: 1.2,
-    //       color: colors.offWhite,
-    //     },
-    //   },
-    //   scene
-    // );
-
     await modelPlacer.placeModel(
       {
         id: "skyscraper5",
@@ -645,224 +530,6 @@ export const initCityScene = async (container: HTMLDivElement) => {
       },
       scene
     );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper10",
-    //     name: "synth-remixed-cyberpunk-skyscraper",
-    //     filePath: "/assets/models/synth-remixed-cyberpunk-skyscraper.glb",
-    //     position: { x: 170, y: 0, z: -50 },
-    //     scale: { x: 3.5, y: 3.5, z: 3.5 },
-    //     emissiveConfig: {
-    //       intensity: 1,
-    //       color: colors.softYellow,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper14",
-    //     name: "synth-remixed-next-skyscraper",
-    //     filePath: "/assets/models/synth-remixed-next-skyscraper2.glb",
-    //     position: { x: 170, y: 0, z: -50 },
-    //     scale: { x: 3, y: 3, z: 3 },
-    //     emissiveConfig: {
-    //       intensity: 1,
-    //       color: colors.softYellow,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper12",
-    //     name: "synth-remixed-cyberpunk-skyscraper",
-    //     filePath: "/assets/models/synth-remixed-skyscraper.glb",
-    //     position: { x: 50, y: 0, z: -100 },
-    //     scale: { x: 4.4, y: 4.4, z: 4.4 },
-    //     emissiveConfig: {
-    //       intensity: 1,
-    //       color: colors.softYellow,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper13",
-    //     name: "blue-skyscraper2",
-    //     filePath: "/assets/models/blue-skyscraper.glb",
-    //     position: { x: 150, y: 0, z: -100 },
-    //     scale: { x: 3.9, y: 3.9, z: 3.9 },
-    //     emissiveConfig: {
-    //       intensity: 1,
-    //       color: colors.softYellow,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper11",
-    //     name: "ny-office-building",
-    //     filePath: "/assets/models/synth-remixed-cyberpunk-skyscraper.glb",
-    //     position: { x: 190, y: 0, z: -70 },
-    //     scale: { x: 6, y: 6, z: 6 },
-    //     emissiveConfig: {
-    //       intensity: 1,
-    //       color: colors.softYellow,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper1",
-    //     name: "cylinder-skyscraper",
-    //     filePath: "/assets/models/cylinder-skyscraper.glb",
-    //     position: { x: 60, y: 0, z: -130 },
-    //     scale: { x: 1.15, y: 1.15, z: 1.15 },
-    //     emissiveConfig: {
-    //       intensity: 2,
-    //       color: colors.lightPeach,
-    //       roughness: 0.5,
-    //       metalness: 0.3,
-    //       opacity: 1,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper13",
-    //     name: "massive-skyscraper",
-    //     filePath: "/assets/models/massive-complex3.glb",
-    //     position: { x: 60, y: 0, z: -650 },
-    //     scale: { x: 1.3, y: 1.3, z: 1.3 },
-    //     rotation: { x: 0, y: 3, z: 0 },
-    //     emissiveConfig: {
-    //       intensity: 1,
-    //       color: colors.warmWhite,
-    //       roughness: 1,
-    //       metalness: 1,
-    //       opacity: 1,
-    //     },
-    //     // excludeFromEffects: true,
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper3",
-    //     name: "blue-skyscraper",
-    //     filePath: "/assets/models/blue-skyscraper.glb",
-    //     position: { x: -100, y: 0, z: -100 },
-    //     scale: { x: 4, y: 4, z: 4 },
-    //     emissiveConfig: {
-    //       intensity: 1,
-    //       color: colors.neonGreen,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper4",
-    //     name: "dark-skyscraper",
-    //     filePath: "/assets/models/dark_skyscraper_new2.glb",
-    //     position: { x: -50, y: 0, z: -200 },
-    //     scale: { x: 1.2, y: 1.2, z: 1.2 },
-    //     emissiveConfig: {
-    //       intensity: 2,
-    //       color: colors.warmWhite,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper10",
-    //     name: "dark-skyscraper",
-    //     filePath: "/assets/models/dark_skyscraper_new2.glb",
-    //     position: { x: -150, y: 0, z: -100 },
-    //     scale: { x: 1, y: 1, z: 1 },
-    //     emissiveConfig: {
-    //       intensity: 2,
-    //       color: colors.warmWhite,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper5",
-    //     name: "dark-skyscraper2",
-    //     filePath: "/assets/models/dark-skyscraper.glb",
-    //     position: { x: 100, y: 0, z: -200 },
-    //     scale: { x: 4, y: 5, z: 4 },
-    //     emissiveConfig: {
-    //       intensity: 1,
-    //       color: colors.softYellow,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper6",
-    //     name: "ny-office-building2",
-    //     filePath: "/assets/models/ny-office-building.glb",
-    //     position: { x: -200, y: 0, z: -200 },
-    //     scale: { x: 4, y: 4, z: 4 },
-    //     emissiveConfig: {
-    //       intensity: 1,
-    //       color: colors.softYellow,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper15",
-    //     name: "elegant-skyscraper",
-    //     filePath: "/assets/models/elegant-skyscraper2.glb",
-    //     position: { x: -270, y: 0, z: -400 },
-    //     scale: { x: 2, y: 2, z: 2 },
-    //     emissiveConfig: {
-    //       intensity: 1,
-    //       color: colors.softYellow,
-    //     },
-    //   },
-    //   scene
-    // );
-
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "skyscraper8",
-    //     name: "new-skyscraper",
-    //     filePath: "/assets/models/new-skyscraper2.glb",
-    //     position: { x: -140, y: 0, z: -190 },
-    //     scale: { x: 1, y: 1, z: 1 },
-    //     emissiveConfig: {
-    //       intensity: 0.6,
-    //       color: colors.warmWhite,
-    //     },
-    //   },
-    //   scene
-    // );
 
     await modelPlacer.placeModel(
       {
@@ -965,9 +632,9 @@ export const initCityScene = async (container: HTMLDivElement) => {
         id: "lp-curved-02",
         name: "lp-curved-02",
         filePath:
-          "/assets/models/low-poly-city-buildings/no-textures/curved-building_nt3.glb",
+          "/assets/models/low-poly-city-buildings/no-textures/curved-skyscraper.glb",
         position: { x: -60, y: 0, z: -200 },
-        scale: { x: 4.5, y: 4.5, z: 4.5 },
+        scale: { x: 1, y: 1, z: 1 },
         textures: {
           base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
           roughness:
@@ -990,9 +657,9 @@ export const initCityScene = async (container: HTMLDivElement) => {
         id: "lp-curved-03",
         name: "lp-curved-03",
         filePath:
-          "/assets/models/low-poly-city-buildings/no-textures/curved-building_nt3.glb",
+          "/assets/models/low-poly-city-buildings/no-textures/curved-skyscraper.glb",
         position: { x: -240, y: 0, z: -160 },
-        scale: { x: 5.2, y: 5.2, z: 5.2 },
+        scale: { x: 1, y: 1, z: 1 },
         textures: {
           base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
           roughness:
@@ -1018,7 +685,7 @@ export const initCityScene = async (container: HTMLDivElement) => {
         filePath:
           "/assets/models/low-poly-city-buildings/no-textures/blocky-building_nt_alpha_logo.glb",
         position: { x: 60, y: 0, z: -220 },
-        scale: { x: 5, y: 5, z: 5 },
+        scale: { x: 1, y: 1, z: 1 },
         textures: {
           base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
           roughness:
@@ -1042,9 +709,9 @@ export const initCityScene = async (container: HTMLDivElement) => {
         id: "brutalist-office",
         name: "brutalist-office",
         filePath:
-          "/assets/models/low-poly-city-buildings/no-textures/brutalist-office-building_nt.glb",
-        position: { x: -220, y: 0, z: -40 },
-        scale: { x: 5, y: 5, z: 5 },
+          "/assets/models/low-poly-city-buildings/no-textures/brutalist-office-building.glb",
+        position: { x: -170, y: 0, z: -40 },
+        scale: { x: 1, y: 1, z: 1 },
         textures: {
           base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
           roughness:
@@ -1066,18 +733,34 @@ export const initCityScene = async (container: HTMLDivElement) => {
       {
         id: "hotel-office2",
         name: "hotel-office2",
-        filePath: "/assets/models/low-poly-city-buildings/hotel-building2.glb",
+        filePath: "/assets/models/low-poly-city-buildings/hotel-building.glb",
         position: { x: 100, y: 0, z: -100 },
-        scale: { x: 5, y: 5, z: 5 },
-        // textures: {
-        //   base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
-        //   roughness:
-        //     "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
-        //   normal:
-        //     "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
-        //   emissive:
-        //     "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
-        // },
+        scale: { x: 1, y: 1, z: 1 },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "rounded-corner-building",
+        name: "rounded-corner-building",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/rounded-corners-building.glb",
+        position: { x: 50, y: 0, z: -50 },
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
         emissiveConfig: {
           intensity: 1,
           color: colors.lightPeach,
