@@ -134,8 +134,10 @@ export function createFpsControls(
       controls.object.position.y = minY;
       velocity.set(0, 0, 0);
       onGround = true;
-      
-      console.log(`FPS controls enabled. Camera positioned at ground level: Y=${minY}`);
+
+      console.log(
+        `FPS controls enabled. Camera positioned at ground level: Y=${minY}`
+      );
     },
     disable: () => {
       removeListeners();
