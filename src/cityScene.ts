@@ -769,51 +769,356 @@ export const initCityScene = async (container: HTMLDivElement) => {
       scene
     );
 
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "light-skyscraper",
-    //     name: "light-skyscraper",
-    //     filePath: "/assets/models/lightshow-skyscraper.glb",
-    //     position: { x: 60, y: 0, z: -360 },
-    //     scale: { x: 1.5, y: 1.5, z: 1.5 },
-    //     emissiveConfig: {
-    //       intensity: 1,
-    //       color: colors.skyBlue,
-    //       roughness: 1,
-    //     },
-    //   },
-    //   scene
-    // );
+    // Additional no-texture buildings distributed across tiles 1 and 4
+    await modelPlacer.placeModel(
+      {
+        id: "box-like-building",
+        name: "box-like-building",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/box-like-building.glb",
+        position: { x: -200, y: 0, z: -100 }, // tile-1
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
 
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "glass-test",
-    //     name: "glass-test",
-    //     filePath: "/assets/models/glass-export-test.glb",
-    //     position: { x: 0, y: 0, z: -60 },
-    //     scale: { x: 5, y: 5, z: 5 },
-    //     emissiveConfig: {
-    //       intensity: 0,
-    //       color: colors.warmWhite,
-    //     },
-    //   },
-    //   scene
-    // );
+    await modelPlacer.placeModel(
+      {
+        id: "blocky-building-nt",
+        name: "blocky-building-nt",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/blocky-building_nt.glb",
+        position: { x: -100, y: 0, z: -200 }, // tile-1
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
 
-    // await modelPlacer.placeModelCollectionAsGroup(
-    //   cityBuildingsCollection,
-    //   scene,
-    //   { x: 0, y: 0, z: 0 }
-    // );
+    await modelPlacer.placeModel(
+      {
+        id: "glassy-office-building",
+        name: "glassy-office-building",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/glassy-office-building.glb",
+        position: { x: -80, y: 0, z: -100 }, // tile-1
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
 
-    // console.log("=== Testing Instanced Models ===");
-    // const instancedModels = await modelPlacer.placeInstancedCollection(
-    //   massResidentialCollection,
-    //   scene
-    // );
-    // console.log(
-    //   `Successfully created ${instancedModels.length} instanced model groups`
-    // );
+    await modelPlacer.placeModel(
+      {
+        id: "multi-level-skyscraper",
+        name: "multi-level-skyscraper",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/multi-level-skyscraper.glb",
+        position: { x: -220, y: 0, z: -180 }, // tile-1
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "ny-skyscraper",
+        name: "ny-skyscraper",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/ny-skyscraper.glb",
+        position: { x: 100, y: 0, z: -350 }, // tile-1
+        scale: { x: 1.3, y: 1.3, z: 1.3 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "public-building",
+        name: "public-building",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/public-building.glb",
+        position: { x: -60, y: 0, z: -140 }, // tile-1
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "rectangular-skyscraper",
+        name: "rectangular-skyscraper",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/rectangular-skyscraper.glb",
+        position: { x: 80, y: 0, z: -200 }, // tile-4
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "residential-complex-building",
+        name: "residential-complex-building",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/residential-complex-building.glb",
+        position: { x: 200, y: 0, z: -80 }, // tile-4
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "standard-office-building",
+        name: "standard-office-building",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/standard-office-building.glb",
+        position: { x: 120, y: 0, z: -100 }, // tile-4
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "brutalist-office-building-2",
+        name: "brutalist-office-building-2",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/brutalist-office-building.glb",
+        position: { x: 220, y: 0, z: -120 }, // tile-4
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "curved-skyscraper-2",
+        name: "curved-skyscraper-2",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/curved-skyscraper.glb",
+        position: { x: 180, y: 0, z: -220 }, // tile-4
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "blocky-building-nt-alpha",
+        name: "blocky-building-nt-alpha",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/blocky-building_nt_alpha_logo.glb",
+        position: { x: 100, y: 0, z: -220 }, // tile-4
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "rounded-corners-building-2",
+        name: "rounded-corners-building-2",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/rounded-corners-building.glb",
+        position: { x: 220, y: 0, z: -180 }, // tile-4
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "multi-level-skyscraper-2",
+        name: "multi-level-skyscraper-2",
+        filePath:
+          "/assets/models/low-poly-city-buildings/no-textures/multi-level-skyscraper.glb",
+        position: { x: 120, y: 0, z: -180 }, // tile-4
+        scale: { x: 1, y: 1, z: 1 },
+        textures: {
+          base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+          roughness:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+          normal:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+          emissive:
+            "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+        },
+        emissiveConfig: {
+          intensity: 1,
+          color: colors.lightPeach,
+        },
+      },
+      scene
+    );
 
     // Log comprehensive stats
     const regularStats = modelPlacer.getModelStats();
