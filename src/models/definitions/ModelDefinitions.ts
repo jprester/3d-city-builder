@@ -442,6 +442,358 @@ export const MODEL_DEFINITIONS: ModelRegistry = {
     category: "environment",
     description: "Ground plane with texture mapping for scene base",
   },
+
+  // ============================================
+  // LOW-POLY CITY BUILDINGS (Atlas-Textured)
+  // ============================================
+  LP_MODULAR_SKYSCRAPER: {
+    id: "LP_MODULAR_SKYSCRAPER",
+    name: "Low-Poly Modular Skyscraper",
+    filePath: "/assets/models/low-poly-city-buildings/modular-skyscraper.glb",
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "skyscraper",
+    description: "Modular low-poly skyscraper with built-in textures",
+    hasRoofLights: true,
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 0.8,
+    },
+  },
+
+  LP_CURVED_SKYSCRAPER: {
+    id: "LP_CURVED_SKYSCRAPER",
+    name: "Curved Skyscraper",
+    filePath: "/assets/models/low-poly-city-buildings/no-textures/curved-skyscraper.glb",
+    textures: {
+      base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+      roughness: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+      normal: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+      emissive: "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+    },
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "skyscraper",
+    description: "Modern curved facade skyscraper",
+    hasRoofLights: true,
+    emissiveConfig: {
+      color: colors.offWhite,
+      intensity: 1.2,
+    },
+  },
+
+  LP_BLOCKY_BUILDING_LOGO: {
+    id: "LP_BLOCKY_BUILDING_LOGO",
+    name: "Blocky Building with Logo",
+    filePath: "/assets/models/low-poly-city-buildings/no-textures/blocky-building_nt_alpha_logo.glb",
+    textures: {
+      base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+      roughness: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+      normal: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+      emissive: "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+    },
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "commercial",
+    description: "Blocky commercial building with logo area",
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.0,
+    },
+  },
+
+  LP_BLOCKY_BUILDING: {
+    id: "LP_BLOCKY_BUILDING",
+    name: "Blocky Building",
+    filePath: "/assets/models/low-poly-city-buildings/no-textures/blocky-building_nt.glb",
+    textures: {
+      base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+      roughness: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+      normal: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+      emissive: "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+    },
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "commercial",
+    description: "Blocky commercial building",
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.0,
+    },
+  },
+
+  LP_BRUTALIST_OFFICE: {
+    id: "LP_BRUTALIST_OFFICE",
+    name: "Brutalist Office Building",
+    filePath: "/assets/models/low-poly-city-buildings/no-textures/brutalist-office-building.glb",
+    textures: {
+      base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+      roughness: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+      normal: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+      emissive: "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+    },
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "commercial",
+    description: "Brutalist architecture office building",
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.0,
+    },
+  },
+
+  LP_HOTEL_BUILDING: {
+    id: "LP_HOTEL_BUILDING",
+    name: "Hotel Building",
+    filePath: "/assets/models/low-poly-city-buildings/hotel-building.glb",
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "commercial",
+    description: "Mid-rise hotel with built-in textures",
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.0,
+    },
+  },
+
+  LP_ROUNDED_CORNER: {
+    id: "LP_ROUNDED_CORNER",
+    name: "Rounded Corner Building",
+    filePath: "/assets/models/low-poly-city-buildings/no-textures/rounded-corners-building.glb",
+    textures: {
+      base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+      roughness: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+      normal: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+      emissive: "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+    },
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "commercial",
+    description: "Modern building with rounded corners",
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.0,
+    },
+  },
+
+  LP_BOX_BUILDING: {
+    id: "LP_BOX_BUILDING",
+    name: "Box-Like Building",
+    filePath: "/assets/models/low-poly-city-buildings/no-textures/box-like-building.glb",
+    textures: {
+      base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+      roughness: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+      normal: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+      emissive: "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+    },
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "commercial",
+    description: "Simple rectangular commercial building",
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.0,
+    },
+  },
+
+  LP_GLASSY_OFFICE: {
+    id: "LP_GLASSY_OFFICE",
+    name: "Glassy Office Building",
+    filePath: "/assets/models/low-poly-city-buildings/no-textures/glassy-office-building.glb",
+    textures: {
+      base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+      roughness: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+      normal: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+      emissive: "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+    },
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "commercial",
+    description: "Modern glass facade office building",
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.0,
+    },
+  },
+
+  LP_MULTI_LEVEL_SKYSCRAPER: {
+    id: "LP_MULTI_LEVEL_SKYSCRAPER",
+    name: "Multi-Level Skyscraper",
+    filePath: "/assets/models/low-poly-city-buildings/no-textures/multi-level-skyscraper.glb",
+    textures: {
+      base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+      roughness: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+      normal: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+      emissive: "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+    },
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "skyscraper",
+    description: "Tall skyscraper with stepped levels",
+    hasRoofLights: true,
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.0,
+    },
+  },
+
+  LP_NY_SKYSCRAPER: {
+    id: "LP_NY_SKYSCRAPER",
+    name: "NY-Style Skyscraper",
+    filePath: "/assets/models/low-poly-city-buildings/no-textures/ny-skyscraper.glb",
+    textures: {
+      base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+      roughness: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+      normal: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+      emissive: "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+    },
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "skyscraper",
+    description: "Art deco New York-style skyscraper",
+    hasRoofLights: true,
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.0,
+    },
+  },
+
+  LP_PUBLIC_BUILDING: {
+    id: "LP_PUBLIC_BUILDING",
+    name: "Public Building",
+    filePath: "/assets/models/low-poly-city-buildings/no-textures/public-building.glb",
+    textures: {
+      base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+      roughness: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+      normal: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+      emissive: "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+    },
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "public",
+    description: "Public/government building",
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.0,
+    },
+  },
+
+  LP_RECTANGULAR_SKYSCRAPER: {
+    id: "LP_RECTANGULAR_SKYSCRAPER",
+    name: "Rectangular Skyscraper",
+    filePath: "/assets/models/low-poly-city-buildings/no-textures/rectangular-skyscraper.glb",
+    textures: {
+      base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+      roughness: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+      normal: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+      emissive: "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+    },
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "skyscraper",
+    description: "Classic rectangular tower",
+    hasRoofLights: true,
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.0,
+    },
+  },
+
+  LP_RESIDENTIAL_COMPLEX: {
+    id: "LP_RESIDENTIAL_COMPLEX",
+    name: "Residential Complex",
+    filePath: "/assets/models/low-poly-city-buildings/no-textures/residential-complex-building.glb",
+    textures: {
+      base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+      roughness: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+      normal: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+      emissive: "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+    },
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "residential",
+    description: "Multi-unit residential complex",
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.0,
+    },
+  },
+
+  LP_STANDARD_OFFICE: {
+    id: "LP_STANDARD_OFFICE",
+    name: "Standard Office Building",
+    filePath: "/assets/models/low-poly-city-buildings/no-textures/standard-office-building.glb",
+    textures: {
+      base: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-diffuse.jpeg",
+      roughness: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-roughness.jpg",
+      normal: "/assets/textures/low-poly-city-buildings/lp-buildings-textures-normal.jpeg",
+      emissive: "/assets/textures/low-poly-city-buildings/lp-buildings-emissive-updated.jpg",
+    },
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "commercial",
+    description: "Standard office building",
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.0,
+    },
+  },
+
+  // ============================================
+  // PREMIUM BUILDINGS (Root Models Folder)
+  // ============================================
+  PREMIUM_NY_OFFICE: {
+    id: "PREMIUM_NY_OFFICE",
+    name: "NY Office Building",
+    filePath: "/assets/models/ny-office-building-optimized2.glb",
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "skyscraper",
+    description: "Premium NY office building with detailed facade",
+    hasRoofLights: true,
+    emissiveConfig: {
+      color: colors.offWhite,
+      intensity: 1.2,
+    },
+  },
+
+  PREMIUM_AD_BUILDING: {
+    id: "PREMIUM_AD_BUILDING",
+    name: "Advertisement Building",
+    filePath: "/assets/models/advertisment-building.glb",
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "commercial",
+    description: "Building with large advertisement display areas",
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.4,
+      roughness: 1,
+    },
+  },
+
+  PREMIUM_CYBERPUNK_APARTMENT: {
+    id: "PREMIUM_CYBERPUNK_APARTMENT",
+    name: "Cyberpunk Apartment",
+    filePath: "/assets/models/cyberpunk-apartment-building.glb",
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "residential",
+    description: "Futuristic cyberpunk apartment complex",
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.4,
+    },
+  },
+
+  PREMIUM_ANIME_RESIDENTIAL: {
+    id: "PREMIUM_ANIME_RESIDENTIAL",
+    name: "Anime Residential Building",
+    filePath: "/assets/models/anime-residential-building.glb",
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "residential",
+    description: "Anime-style residential building",
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 1.4,
+    },
+  },
+
+  PREMIUM_DARK_SKYSCRAPER: {
+    id: "PREMIUM_DARK_SKYSCRAPER",
+    name: "Dark Skyscraper",
+    filePath: "/assets/models/dark_skyscraper_new2.glb",
+    defaultScale: { x: 1, y: 1, z: 1 },
+    category: "skyscraper",
+    description: "Dramatic dark-themed skyscraper",
+    hasRoofLights: true,
+    emissiveConfig: {
+      color: colors.lightPeach,
+      intensity: 3.0,
+    },
+  },
 };
 
 // Ad definitions registry
@@ -546,7 +898,7 @@ export const MODEL_TYPES = {
   SKYSCRAPER_01: "SKYSCRAPER_01" as const,
   SKYSCRAPER_02: "SKYSCRAPER_02" as const,
 
-  // Residential buildings
+  // Residential buildings (Synthcity - legacy)
   RESIDENTIAL_01_A: "RESIDENTIAL_01_A" as const,
   RESIDENTIAL_01_B: "RESIDENTIAL_01_B" as const,
   RESIDENTIAL_01_C: "RESIDENTIAL_01_C" as const,
@@ -554,28 +906,52 @@ export const MODEL_TYPES = {
   RESIDENTIAL_02_B: "RESIDENTIAL_02_B" as const,
   RESIDENTIAL_02_C: "RESIDENTIAL_02_C" as const,
 
-  // Commercial buildings
+  // Commercial buildings (Synthcity - legacy)
   COMMERCIAL_03_A: "COMMERCIAL_03_A" as const,
   COMMERCIAL_03_B: "COMMERCIAL_03_B" as const,
   COMMERCIAL_03_C: "COMMERCIAL_03_C" as const,
 
-  // Industrial buildings
+  // Industrial buildings (Synthcity - legacy)
   INDUSTRIAL_04_A: "INDUSTRIAL_04_A" as const,
   INDUSTRIAL_04_B: "INDUSTRIAL_04_B" as const,
   INDUSTRIAL_04_C: "INDUSTRIAL_04_C" as const,
 
-  // Mixed-use buildings
+  // Mixed-use buildings (Synthcity - legacy)
   MIXED_USE_05_A: "MIXED_USE_05_A" as const,
   MIXED_USE_05_B: "MIXED_USE_05_B" as const,
   MIXED_USE_05_C: "MIXED_USE_05_C" as const,
 
-  // Mega towers
+  // Mega towers (Synthcity - legacy)
   MEGA_TOWER_01: "MEGA_TOWER_01" as const,
   MEGA_TOWER_02: "MEGA_TOWER_02" as const,
   MEGA_TOWER_03: "MEGA_TOWER_03" as const,
   MEGA_TOWER_04: "MEGA_TOWER_04" as const,
   MEGA_TOWER_05: "MEGA_TOWER_05" as const,
   MEGA_TOWER_06: "MEGA_TOWER_06" as const,
+
+  // Low-poly city buildings
+  LP_MODULAR_SKYSCRAPER: "LP_MODULAR_SKYSCRAPER" as const,
+  LP_CURVED_SKYSCRAPER: "LP_CURVED_SKYSCRAPER" as const,
+  LP_BLOCKY_BUILDING_LOGO: "LP_BLOCKY_BUILDING_LOGO" as const,
+  LP_BLOCKY_BUILDING: "LP_BLOCKY_BUILDING" as const,
+  LP_BRUTALIST_OFFICE: "LP_BRUTALIST_OFFICE" as const,
+  LP_HOTEL_BUILDING: "LP_HOTEL_BUILDING" as const,
+  LP_ROUNDED_CORNER: "LP_ROUNDED_CORNER" as const,
+  LP_BOX_BUILDING: "LP_BOX_BUILDING" as const,
+  LP_GLASSY_OFFICE: "LP_GLASSY_OFFICE" as const,
+  LP_MULTI_LEVEL_SKYSCRAPER: "LP_MULTI_LEVEL_SKYSCRAPER" as const,
+  LP_NY_SKYSCRAPER: "LP_NY_SKYSCRAPER" as const,
+  LP_PUBLIC_BUILDING: "LP_PUBLIC_BUILDING" as const,
+  LP_RECTANGULAR_SKYSCRAPER: "LP_RECTANGULAR_SKYSCRAPER" as const,
+  LP_RESIDENTIAL_COMPLEX: "LP_RESIDENTIAL_COMPLEX" as const,
+  LP_STANDARD_OFFICE: "LP_STANDARD_OFFICE" as const,
+
+  // Premium buildings
+  PREMIUM_NY_OFFICE: "PREMIUM_NY_OFFICE" as const,
+  PREMIUM_AD_BUILDING: "PREMIUM_AD_BUILDING" as const,
+  PREMIUM_CYBERPUNK_APARTMENT: "PREMIUM_CYBERPUNK_APARTMENT" as const,
+  PREMIUM_ANIME_RESIDENTIAL: "PREMIUM_ANIME_RESIDENTIAL" as const,
+  PREMIUM_DARK_SKYSCRAPER: "PREMIUM_DARK_SKYSCRAPER" as const,
 
   // Environment elements
   GROUND_PLANE: "GROUND_PLANE" as const,

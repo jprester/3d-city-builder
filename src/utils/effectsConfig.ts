@@ -176,4 +176,4 @@ export const getEffectConfiguration = (
   return EFFECT_CONFIGURATIONS[mode];
 };
 
-export const DEFAULT_EFFECT_MODE: EffectMode = "none"; // Default effect mode
+export const DEFAULT_EFFECT_MODE: EffectMode = "light"; // Default effect mode
