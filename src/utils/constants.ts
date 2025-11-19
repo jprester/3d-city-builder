@@ -28,6 +28,7 @@ export const colors = {
   veryDarkBlue: 0x0a0a2a,
   cornflowerBlue: 0x4d79ff,
   almostBlackBlue: 0x000814,
+  fogTeal: 0x021018,
   darkIndigo: 0x222244,
   dodgerBlue: 0x0088ff,
   skyBlue: 0x44aaff,

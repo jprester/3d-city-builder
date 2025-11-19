@@ -156,10 +156,14 @@ export const setupEnvironment = async (
   await setupSkyTexture(scene, assetManager, texturePath, skyOptions);
 
   if (config.fog.enabled) {
-    scene.fog = new THREE.Fog(
-      config.fog.color,
-      config.fog.near,
-      config.fog.far
-    );
+    if (config.fog.density && config.fog.density > 0) {
+      scene.fog = new THREE.FogExp2(config.fog.color, config.fog.density);
+    } else {
+      scene.fog = new THREE.Fog(
+        config.fog.color,
+        config.fog.near,
+        config.fog.far
+      );
+    }
   }
 };

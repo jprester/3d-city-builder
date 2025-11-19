@@ -36,6 +36,7 @@ export interface EffectConfiguration {
     color: number;
     near: number;
     far: number;
+    density?: number;
   };
   materials: {
     anisotropy: number;
@@ -117,9 +118,10 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
     },
     fog: {
       enabled: true,
-      color: colors.veryDarkBlue,
+      color: colors.fogTeal,
       near: 150,
       far: 800,
+      density: 0.003,
     },
     materials: {
       anisotropy: 8,
@@ -158,9 +160,10 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
     },
     fog: {
       enabled: true,
-      color: colors.almostBlackBlue,
+      color: colors.fogTeal,
       near: 100,
       far: 650,
+      density: 0.005,
     },
     materials: {
       anisotropy: 16,

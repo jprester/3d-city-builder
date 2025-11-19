@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+
 import { createFpsControls, type FpsControls } from "./utils/fpsControls.js";
 import { AssetManager, ModelPlacer } from "./models/index.js";
 import {
@@ -486,20 +487,33 @@ export const initCityScene = async (container: HTMLDivElement) => {
     // console.log(`Successfully placed ${placedModels.length} models in group`);
     // residentialGroup1.position.set(0, 0, 0); // Move group to a new position
 
-    // await modelPlacer.placeModel(
-    //   {
-    //     id: "dark-skyscraper2",
-    //     name: "darkSkyscraper",
-    //     filePath: "/assets/models/blue-skyscrapper-building_darker.glb",
-    //     position: { x: 120, y: 0, z: -20 },
-    //     scale: { x: 3, y: 3, z: 3 },
-    //     emissiveConfig: {
-    //       intensity: 2,
-    //       color: colors.skyBlue,
-    //     },
-    //   },
-    //   scene
-    // );
+    await modelPlacer.placeModel(
+      {
+        id: "dark-skyscraper2",
+        name: "darkSkyscraper",
+        filePath: "/assets/models/blue-skyscraper.glb",
+        position: { x: 150, y: 0, z: -260 },
+        scale: { x: 3, y: 3, z: 3 },
+        emissiveConfig: {
+          intensity: 2,
+        },
+      },
+      scene
+    );
+
+    await modelPlacer.placeModel(
+      {
+        id: "dark-skyscraper3",
+        name: "darkSkyscraper",
+        filePath: "/assets/models/dark-skyscraper.glb",
+        position: { x: 80, y: 0, z: -450 },
+        scale: { x: 3, y: 3, z: 3 },
+        emissiveConfig: {
+          intensity: 5,
+        },
+      },
+      scene
+    );
 
     await modelPlacer.placeModel(
       {
@@ -734,7 +748,7 @@ export const initCityScene = async (container: HTMLDivElement) => {
         id: "hotel-office2",
         name: "hotel-office2",
         filePath: "/assets/models/low-poly-city-buildings/hotel-building.glb",
-        position: { x: 100, y: 0, z: -100 },
+        position: { x: 50, y: 0, z: -100 },
         scale: { x: 1, y: 1, z: 1 },
         emissiveConfig: {
           intensity: 1,
