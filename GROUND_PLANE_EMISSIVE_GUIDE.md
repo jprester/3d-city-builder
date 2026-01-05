@@ -28,18 +28,19 @@ Update the `createGroundPlane` call in `threeScene.ts:66-74`:
 ```typescript
 await createGroundPlane(scene, assetManager, {
   emissiveConfig: {
-    color: 0x221100,      // Custom color
-    intensity: 0.1,       // Custom intensity
-    opacity: 1.0,         // Opacity
-    roughness: 0.8,       // Surface properties
-    metalness: 0.0,       // Surface properties
-  }
+    color: 0x221100, // Custom color
+    intensity: 0.1, // Custom intensity
+    opacity: 1.0, // Opacity
+    roughness: 0.8, // Surface properties
+    metalness: 0.0, // Surface properties
+  },
 });
 ```
 
 ## 🎨 **Ground Plane Emissive Examples**
 
 ### **Subtle Street Lighting Effect**
+
 ```typescript
 emissiveConfig: {
   color: 0x442200,      // Warm amber street light
@@ -49,6 +50,7 @@ emissiveConfig: {
 ```
 
 ### **Cyberpunk Neon Ground**
+
 ```typescript
 emissiveConfig: {
   color: 0x00ff88,      // Bright cyan-green
@@ -60,6 +62,7 @@ emissiveConfig: {
 ```
 
 ### **Volcanic/Lava Ground**
+
 ```typescript
 emissiveConfig: {
   color: 0xff2200,      // Hot orange-red
@@ -70,6 +73,7 @@ emissiveConfig: {
 ```
 
 ### **Disable Ground Emissive**
+
 ```typescript
 emissiveConfig: {
   color: 0x000000,      // No color
@@ -80,17 +84,20 @@ emissiveConfig: {
 ## 🔧 **Technical Details**
 
 ### **Color Handling**
+
 - Ground plane uses **first color** from array (if array provided)
 - Single colors are used directly: `color: 0xff0000`
 - Arrays use first element: `color: [0xff0000, 0x00ff00]` → uses red
 
 ### **Intensity Guidelines**
+
 - `0` = No emissive effect
 - `0.05-0.1` = Very subtle atmospheric glow
 - `0.2-0.3` = Noticeable lighting effect
 - `0.4+` = Strong dramatic effect
 
 ### **Surface Properties**
+
 - `roughness: 0.0-1.0` (0 = mirror smooth, 1 = very rough)
 - `metalness: 0.0-1.0` (0 = non-metallic, 1 = fully metallic)
 - `opacity: 0.0-1.0` (0 = transparent, 1 = opaque)
@@ -101,17 +108,17 @@ Here's the updated ground plane creation with all options:
 
 ```typescript
 await createGroundPlane(scene, assetManager, {
-  size: 100,                      // Ground plane size
+  size: 100, // Ground plane size
   position: { x: 0, y: -0.5, z: 0 }, // Position
-  textureRepeat: 10,              // Texture tiling
-  fallbackColor: 0x333333,       // Fallback if textures fail
+  textureRepeat: 10, // Texture tiling
+  fallbackColor: 0x333333, // Fallback if textures fail
   emissiveConfig: {
-    color: 0x221100,              // Emissive color
-    intensity: 0.1,               // Emissive intensity
-    opacity: 1.0,                 // Material opacity
-    roughness: 0.8,               // Surface roughness
-    metalness: 0.0,               // Metallic property
-  }
+    color: 0x221100, // Emissive color
+    intensity: 0.1, // Emissive intensity
+    opacity: 1.0, // Material opacity
+    roughness: 0.8, // Surface roughness
+    metalness: 0.0, // Metallic property
+  },
 });
 ```
 
@@ -121,11 +128,12 @@ await createGroundPlane(scene, assetManager, {
 2. **Match scene atmosphere** - warm colors for cozy scenes, cool for futuristic
 3. **Use with bloom effects** - emissive ground works great with post-processing
 4. **Consider texture interaction** - emissive works with existing ground textures
-5. **Test different effect modes** - ground emissive looks different in none/light/heavy modes
+5. **Test different effect modes** - ground emissive looks different in none/medium/high modes
 
 ## 🔍 **Debugging**
 
 The console will show ground plane creation with emissive values:
+
 ```
 Ground Plane added to scene with emissive: 221100, intensity: 0.1
 ```

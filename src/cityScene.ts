@@ -47,9 +47,9 @@ export const initCityScene = async (container: HTMLDivElement) => {
 
   // Get effect configuration - Change this line to switch modes:
   // 'none' = No effects, standard lighting
-  // 'light' = Subtle bloom and colorful lights (DEFAULT)
-  // 'heavy' = Full cyberpunk effects with animation
-  const effectMode: EffectMode = DEFAULT_EFFECT_MODE; // Change to 'none', 'light' or 'heavy' for different effects
+  // 'medium' = Subtle bloom and colorful lights (DEFAULT)
+  // 'high' = Full cyberpunk effects with animation
+  const effectMode: EffectMode = DEFAULT_EFFECT_MODE; // Change to 'none', 'medium' or 'high' for different effects
   const effectConfig = getEffectConfiguration(effectMode);
 
   if (effectMode === "none") {

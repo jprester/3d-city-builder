@@ -179,19 +179,19 @@ export const myCustomCollection: ModelCollection = {
 3. **Keep intensity under 2.0** to avoid overwhelming bloom
 4. **Use material filters** when you know specific material names
 5. **Test different opacity values** for realistic glass effects
-6. **Combine with effect modes** (none/light/heavy) for different scenes
+6. **Combine with effect modes** (none/medium/high) for different scenes
 
 ## 🔧 **Integration with Effect Modes**
 
 The per-model emissive system works with the existing effect modes:
 
 - **'none' mode**: Emissive still works, just no post-processing bloom
-- **'light' mode**: Moderate bloom enhancement 
-- **'heavy' mode**: Strong bloom effects amplify the emissive lighting
+- **'medium' mode**: Moderate bloom enhancement 
+- **'high' mode**: Strong bloom effects amplify the emissive lighting
 
 Change the effect mode in `threeScene.ts:36`:
 ```typescript
-const effectMode: EffectMode = 'light'; // or 'none' or 'heavy'
+const effectMode: EffectMode = 'medium'; // or 'none' or 'high'
 ```
 
 ---

@@ -1,6 +1,6 @@
 import { colors } from "./constants.js";
 
-export type EffectMode = "none" | "light" | "heavy";
+export type EffectMode = "none" | "medium" | "high";
 
 export interface EffectConfiguration {
   mode: EffectMode;
@@ -87,8 +87,8 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
       envMapIntensity: 2.0,
     },
   },
-  light: {
-    mode: "light",
+  medium: {
+    mode: "medium",
     postProcessing: {
       enabled: true,
       bloom: {
@@ -129,8 +129,8 @@ export const EFFECT_CONFIGURATIONS: Record<EffectMode, EffectConfiguration> = {
       envMapIntensity: 4.0,
     },
   },
-  heavy: {
-    mode: "heavy",
+  high: {
+    mode: "high",
     postProcessing: {
       enabled: true,
       bloom: {
@@ -179,4 +179,4 @@ export const getEffectConfiguration = (
   return EFFECT_CONFIGURATIONS[mode];
 };
 
-export const DEFAULT_EFFECT_MODE: EffectMode = "light"; // Default effect mode
+export const DEFAULT_EFFECT_MODE: EffectMode = "none"; // Default effect mode
